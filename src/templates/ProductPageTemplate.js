@@ -20,12 +20,14 @@ import { SRLWrapper } from "simple-react-lightbox"
 import withWidth from "@material-ui/core/withWidth"
 import Hidden from "@material-ui/core/Hidden"
 import PropTypes from "prop-types"
-import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
+// import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
 import { MainSwiper, ThumbsSwiper } from "../components/Swipers"
 import Button from "@material-ui/core/Button"
 import { DrawerCartContext } from "../context/DrawerCartContext"
 import { CurrencyContext } from "../components/layout"
 import { LanguageContext } from "../components/layout"
+import { CartContext } from "../context/CartContext"
+
 import ShareIcon from "@material-ui/icons/Share"
 import Typography from "@material-ui/core/Typography"
 import BreadCrumbs from "../components/BreadCrumbs"
@@ -134,17 +136,26 @@ function ProductPageTemplate(props) {
   const classes = useStyles()
   const { actCurrency } = useContext(CurrencyContext)
   const { actLanguage } = useContext(LanguageContext)
+  // const {
+  //   addItem,
+  //   incrementItem,
+  //   decrementItem,
+  //   removeItem,
+  //   cartCount,
+  //   cartDetails,
+  //   // totalPrice,
+  //   formattedTotalPrice,
+  //   redirectToCheckout,
+  // } = useShoppingCart()
   const {
-    addItem,
-    incrementItem,
-    decrementItem,
-    removeItem,
-    cartCount,
-    cartDetails,
-    // totalPrice,
-    formattedTotalPrice,
-    redirectToCheckout,
-  } = useShoppingCart()
+    cart,
+    addToCart,
+    removeFromCart,
+    clearCart,
+    incrCartItem,
+    decrCartItem,
+  } = useContext(CartContext)
+
   const { handleDrawerCartOpen } = useContext(DrawerCartContext)
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
   const [quantityOfItem, setQuantityOfItem] = useState(1)
@@ -152,7 +163,7 @@ function ProductPageTemplate(props) {
   const [itemInView, setItemInView] = useState(null)
 
   function handleSetItemInView() {
-    setItemInView(itemInfo.productId)
+    setItemInView(props.item.productId)
   }
 
   useEffect(() => {
@@ -161,7 +172,7 @@ function ProductPageTemplate(props) {
       console.log("PAGE IS LOADED")
     }
     handleSetItemInView()
-    console.log("ITEM", itemInfo.productId, "is BROWSING")
+    console.log("ITEM", props.item.productId, "is BROWSING")
   })
 
   function increment() {
@@ -170,91 +181,23 @@ function ProductPageTemplate(props) {
   function decrement() {
     setQuantityOfItem(quantityOfItem - 1)
   }
-  const itemInfo = {
-    name:
-      actLanguage === "ENG"
-        ? props.item.nameEng
-        : actLanguage === "DEU"
-        ? props.item.nameDeu
-        : actLanguage === "RUS"
-        ? props.item.nameRus
-        : null,
-    description:
-      actLanguage === "ENG"
-        ? props.item.descriptionEng
-        : actLanguage === "DEU"
-        ? props.item.descriptionDeu
-        : actLanguage === "RUS"
-        ? props.item.descriptionRus
-        : null,
-    productId: props.item.productId,
-    videoId: props.item.videoId,
-    linkId: props.item.linkId,
-    // reviews: props.item.reviews,
-
-    sku:
-      actCurrency === "USD"
-        ? props.item.skuUsd
-        : actCurrency === "EUR"
-        ? props.item.skuEur
-        : actCurrency === "RUB"
-        ? props.item.skuRub
-        : null,
-    price:
-      actCurrency === "USD"
-        ? props.item.priceUsd
-        : actCurrency === "EUR"
-        ? props.item.priceEur
-        : actCurrency === "RUB"
-        ? props.item.priceRub
-        : null,
-    currency:
-      actCurrency === "USD"
-        ? props.item.currencyUsd
-        : actCurrency === "EUR"
-        ? props.item.currencyEur
-        : actCurrency === "RUB"
-        ? props.item.currencyRub
-        : null,
-    currencySign:
-      actCurrency === "USD"
-        ? props.item.currencySignUsd
-        : actCurrency === "EUR"
-        ? props.item.currencySignEur
-        : actCurrency === "RUB"
-        ? props.item.currencySignRub
-        : null,
-    image: props.item.firstImg,
-    firstImg: props.item.firstImg,
-    scndImg: props.item.scndImg,
-    hovered: props.item.hovered,
-  }
-
-  const reviews = props.item.reviews
 
   //////////////////////////////////////////////////////
-  const newArr = reviews.map(el => Number(el.rating))
+  const newArr = props.item.reviews.map(el => Number(el.rating))
   const sum = newArr.reduce((a, b) => a + b, 0)
   const quantity = newArr.length
   const averageRatingValue = sum / quantity
   // console.log("->!!!!->", newArr, sum, quantity, averageRatingValue)
   //////////////////////////////////////////////////////
 
-  // console.log("DATA:", `/products/${itemInfo.linkId}#reviews`)
+  function formatPrice(price) {
+    const priceF = price.toString()
+    const beforeDot = priceF.slice(0, -2)
+    const afterDot = priceF.slice(-2)
+    const corrPrice = `${beforeDot}.${afterDot}`
+    const formPrice = Number(corrPrice)
 
-  async function handleDirectPayment() {
-    const stripe = await getStripe()
-    const { error } = await stripe.redirectToCheckout({
-      mode: "payment",
-      lineItems: [{ price: itemInfo.sku, quantity: 1 }],
-      successUrl: `http://localhost:8000/success/`,
-      cancelUrl: `http://localhost:8000/`,
-      billingAddressCollection: "required",
-    })
-
-    if (error) {
-      console.warn("Error:", error)
-    }
+    return formPrice
   }
 
   return (
@@ -268,31 +211,51 @@ function ProductPageTemplate(props) {
           <div id="content" className="clearfix">
             <div className={classes.boxLeft}>
               <SRLWrapper options={lightboxOptions}>
-                <img src={itemInfo.firstImg} className={classes.imgBoxLeft} />
-                <img src={itemInfo.scndImg} className={classes.imgBoxLeft} />
-                <img src={itemInfo.firstImg} className={classes.imgBoxLeft} />
-                <img src={itemInfo.scndImg} className={classes.imgBoxLeft} />
-                <img src={itemInfo.firstImg} className={classes.imgBoxLeft} />
-                <img src={itemInfo.scndImg} className={classes.imgBoxLeft} />
+                <img src={props.item.firstImg} className={classes.imgBoxLeft} />
+                <img src={props.item.scndImg} className={classes.imgBoxLeft} />
+                <img src={props.item.firstImg} className={classes.imgBoxLeft} />
+                <img src={props.item.scndImg} className={classes.imgBoxLeft} />
+                <img src={props.item.firstImg} className={classes.imgBoxLeft} />
+                <img src={props.item.scndImg} className={classes.imgBoxLeft} />
               </SRLWrapper>
             </div>
 
             <div className="boxRight">
-              <BreadCrumbs data={itemInfo} />
+              <BreadCrumbs data={props.item} />
               <br />
               <Typography variant="h4">
-                <b>{itemInfo.name}</b>
+                <b>
+                  {actLanguage === "DEU"
+                    ? props.item.nameDeu
+                    : actLanguage === "RUS"
+                    ? props.item.nameRus
+                    : actLanguage === "ENG"
+                    ? props.item.nameEng
+                    : null}
+                </b>
               </Typography>
               <br />
               <Typography variant="h5">
-                {formatCurrencyString({
-                  currency: itemInfo.currency,
-                  value: parseInt(itemInfo.price),
-                })}
+                {actCurrency === "EUR"
+                  ? props.item.currencySignEur
+                  : actCurrency === "RUB"
+                  ? props.item.currencySignRub
+                  : actCurrency === "USD"
+                  ? props.item.currencySignUsd
+                  : null}{" "}
+                {formatPrice(
+                  actCurrency === "EUR"
+                    ? props.item.priceEur
+                    : actCurrency === "RUB"
+                    ? props.item.priceRub
+                    : actCurrency === "USD"
+                    ? props.item.priceUsd
+                    : null
+                )}
               </Typography>
               <br />
               <Link
-                to={`/products/${itemInfo.linkId}#reviews`}
+                to={`/products/${props.item.linkId}#reviews`}
                 style={{
                   cursor: "pointer",
                   textDecoration: "none",
@@ -306,21 +269,26 @@ function ProductPageTemplate(props) {
                     starsColor="black"
                   />
                   <span>
-                    {reviews.length > 0 ? reviews.length : null}{" "}
+                    {props.item.reviews.length > 0
+                      ? props.item.reviews.length
+                      : null}{" "}
                     {actLanguage === "DEU"
-                      ? reviews.length === 1
+                      ? props.item.reviews.length === 1
                         ? "Bewertung"
                         : "Bewertungen"
                       : actLanguage === "ENG"
-                      ? reviews.length === 1
+                      ? props.item.reviews.length === 1
                         ? "Review"
                         : "Reviews"
                       : actLanguage === "RUS"
-                      ? reviews.length === 1 || reviews.length === 21
+                      ? props.item.reviews.length === 1 ||
+                        props.item.reviews.length === 21
                         ? "Отзыв"
-                        : reviews.length > 1 && reviews.length < 5
+                        : props.item.reviews.length > 1 &&
+                          props.item.reviews.length < 5
                         ? "Отзывa"
-                        : reviews.length >= 5 && reviews.length <= 20
+                        : props.item.reviews.length >= 5 &&
+                          props.item.reviews.length <= 20
                         ? "Отзывов"
                         : null
                       : null}
@@ -332,7 +300,7 @@ function ProductPageTemplate(props) {
                 incrementItem={increment}
                 decrementItem={decrement}
                 quantity={quantityOfItem}
-                sku={itemInfo}
+                sku={props.item}
               />
               <br />
               <div
@@ -347,7 +315,7 @@ function ProductPageTemplate(props) {
                   variant="contained"
                   color="secondary"
                   onClick={() => {
-                    addItem(itemInfo, quantityOfItem)
+                    addToCart(props.item, quantityOfItem)
                     handleDrawerCartOpen()
                   }}
                 >
@@ -367,7 +335,9 @@ function ProductPageTemplate(props) {
                   disabled={loading}
                   onClick={() => {
                     setLoading(true)
-                    handleDirectPayment()
+                    addToCart(props.item, quantityOfItem)
+                    navigate("/checkout")
+                    // handleDirectPayment()
                   }}
                 >
                   {loading
@@ -390,16 +360,16 @@ function ProductPageTemplate(props) {
               <br />
               <br />
               <br />
-              <Tabs data={itemInfo} />
+              <Tabs data={props.item} />
               <br />
             </div>
           </div>
-          <VideoYT itemInView={itemInView} itemInfo={itemInfo} />
+          <VideoYT itemInView={itemInView} itemInfo={props.item} />
           <br />
           <div id="reviews">
             <Reviews
-              reviews={reviews}
-              itemInfo={itemInfo}
+              reviews={props.item.reviews}
+              itemInfo={props.item}
               averageRatingValue={averageRatingValue}
             />
           </div>
@@ -410,7 +380,7 @@ function ProductPageTemplate(props) {
           <MainSwiper
             thumbsSwiper={thumbsSwiper}
             setThumbsSwiper={setThumbsSwiper}
-            data={itemInfo}
+            data={props.item}
           />
           {/* </SRLWrapper> */}
           <div
@@ -422,21 +392,41 @@ function ProductPageTemplate(props) {
               alignItems: "center",
             }}
           >
-            <BreadCrumbs data={itemInfo} />
+            <BreadCrumbs data={props.item} />
             <br />
             <Typography variant="h4" align="center">
-              <b>{itemInfo.name}</b>
+              <b>
+                {actLanguage === "DEU"
+                  ? props.item.nameDeu
+                  : actLanguage === "RUS"
+                  ? props.item.nameRus
+                  : actLanguage === "ENG"
+                  ? props.item.nameEng
+                  : null}
+              </b>
             </Typography>
             <br />
             <Typography variant="h5">
-              {formatCurrencyString({
-                currency: itemInfo.currency,
-                value: parseInt(itemInfo.price),
-              })}
+              {actCurrency === "EUR"
+                ? props.item.currencySignEur
+                : actCurrency === "RUB"
+                ? props.item.currencySignRub
+                : actCurrency === "USD"
+                ? props.item.currencySignUsd
+                : null}{" "}
+              {formatPrice(
+                actCurrency === "EUR"
+                  ? props.item.priceEur
+                  : actCurrency === "RUB"
+                  ? props.item.priceRub
+                  : actCurrency === "USD"
+                  ? props.item.priceUsd
+                  : null
+              )}
             </Typography>
             <br />
             <Link
-              to={`/products/${itemInfo.linkId}#reviews`}
+              to={`/products/${props.item.linkId}#reviews`}
               style={{
                 cursor: "pointer",
                 textDecoration: "none",
@@ -450,21 +440,26 @@ function ProductPageTemplate(props) {
                   starsColor="black"
                 />
                 <span>
-                  {reviews.length > 0 ? reviews.length : null}{" "}
+                  {props.item.reviews.length > 0
+                    ? props.item.reviews.length
+                    : null}{" "}
                   {actLanguage === "DEU"
-                    ? reviews.length === 1
+                    ? props.item.reviews.length === 1
                       ? "Bewertung"
                       : "Bewertungen"
                     : actLanguage === "ENG"
-                    ? reviews.length === 1
+                    ? props.item.reviews.length === 1
                       ? "Review"
                       : "Reviews"
                     : actLanguage === "RUS"
-                    ? reviews.length === 1 || reviews.length === 21
+                    ? props.item.reviews.length === 1 ||
+                      props.item.reviews.length === 21
                       ? "Отзыв"
-                      : reviews.length > 1 && reviews.length < 5
+                      : props.item.reviews.length > 1 &&
+                        props.item.reviews.length < 5
                       ? "Отзывa"
-                      : reviews.length >= 5 && reviews.length <= 20
+                      : props.item.reviews.length >= 5 &&
+                        props.item.reviews.length <= 20
                       ? "Отзывов"
                       : null
                     : null}
@@ -476,7 +471,7 @@ function ProductPageTemplate(props) {
               incrementItem={increment}
               decrementItem={decrement}
               quantity={quantityOfItem}
-              sku={itemInfo}
+              sku={props.item}
             />
             <br />
             <Button
@@ -484,7 +479,8 @@ function ProductPageTemplate(props) {
               variant="contained"
               color="secondary"
               onClick={() => {
-                addItem(itemInfo, quantityOfItem)
+                addToCart(props.item, quantityOfItem)
+                // addItem(itemInfo, quantityOfItem)
                 handleDrawerCartOpen()
               }}
             >
@@ -503,7 +499,8 @@ function ProductPageTemplate(props) {
               disabled={loading}
               onClick={() => {
                 setLoading(true)
-                handleDirectPayment()
+                addToCart(props.item, quantityOfItem)
+                navigate("/checkout")
               }}
             >
               {loading
@@ -523,12 +520,12 @@ function ProductPageTemplate(props) {
                 : null}
             </Button>
             <br /> <br />
-            <Accordion data={itemInfo} />
+            <Accordion data={props.item} />
           </div>
           <br /> <br />
           <br /> <br /> <br />
           {/* {isMobile && ( */}
-          <VideoYTmob itemInView={itemInView} itemInfo={itemInfo} />
+          <VideoYTmob itemInView={itemInView} itemInfo={props.item} />
           {/* )}
           {isBrowser && <VideoYT itemInView={itemInView} itemInfo={itemInfo} />} */}
           <br />
@@ -551,8 +548,8 @@ function ProductPageTemplate(props) {
               }}
             >
               <Reviews
-                reviews={reviews}
-                itemInfo={itemInfo}
+                reviews={props.item.reviews}
+                itemInfo={props.item}
                 averageRatingValue={averageRatingValue}
               />
             </div>

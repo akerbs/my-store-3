@@ -13,6 +13,7 @@ import SimpleReactLightbox from "simple-react-lightbox"
 import { DrawerCartContextProvider } from "../context/DrawerCartContext"
 import { DrawerMenuContextProvider } from "../context/DrawerMenuContext"
 import { ItemsContextProvider } from "../context/ItemsContext"
+import { CartContextProvider } from "../context/CartContext"
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3"
 
 const window = require("global/window")
@@ -29,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const stripePromise = loadStripe(
+  // process.env.GATSBY_STRIPE_PUBLISHABLE_KEY
   "pk_test_51HGUuRHwITO0GSJr0YK6FwbE17LUTst9UCvm2uH0RdjBtAnQJqgPmDn0BSunRc8FIEXRW3HatsFd1uDHkfaGJtUm00IA2780Iw"
 )
 export const CurrencyContext = createContext()
@@ -161,16 +163,18 @@ function Layout({ children }) {
               }}
             >
               <ItemsContextProvider>
-                <CssBaseline />
-                <ThemeProvider theme={theme}>
-                  <SimpleReactLightbox>
-                    <DrawerMenuContextProvider>
-                      <DrawerCartContextProvider>
-                        {children}
-                      </DrawerCartContextProvider>
-                    </DrawerMenuContextProvider>
-                  </SimpleReactLightbox>
-                </ThemeProvider>
+                <CartContextProvider>
+                  <CssBaseline />
+                  <ThemeProvider theme={theme}>
+                    <SimpleReactLightbox>
+                      <DrawerMenuContextProvider>
+                        <DrawerCartContextProvider>
+                          {children}
+                        </DrawerCartContextProvider>
+                      </DrawerMenuContextProvider>
+                    </SimpleReactLightbox>
+                  </ThemeProvider>
+                </CartContextProvider>
               </ItemsContextProvider>
             </LanguageContext.Provider>
           </CartProvider>

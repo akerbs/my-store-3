@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import IconButton from "@material-ui/core/IconButton"
 import CloseIcon from "@material-ui/icons/Close"
@@ -12,6 +12,8 @@ import Divider from "@material-ui/core/Divider"
 import { navigate } from "gatsby"
 import Slide from "@material-ui/core/Slide"
 import Fade from "@material-ui/core/Fade"
+import { LanguageContext } from "../../components/layout"
+import { CurrencyContext } from "../../components/layout"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,15 +45,27 @@ const useStyles = makeStyles(theme => ({
 
 export default function CartItem(props) {
   const classes = useStyles()
+  const { actLanguage } = useContext(LanguageContext)
+  const { actCurrency } = useContext(CurrencyContext)
 
   const LinkToProductPage =
-    props.sku.productId === "prod_HqQT1Nni7ovIFj"
+    props.cartItem.productId === "prod_HqQT1Nni7ovIFj"
       ? "funny-bunny"
-      : props.sku.productId === "prod_HqorCSiih5dZWu"
+      : props.cartItem.productId === "prod_HqorCSiih5dZWu"
       ? "cat-clock"
-      : props.sku.productId === "prod_HrDKbPKHBo6qPK"
+      : props.cartItem.productId === "prod_HrDKbPKHBo6qPK"
       ? "magic-hat"
       : null
+
+  function formatPrice(price) {
+    const priceF = price.toString()
+    const beforeDot = priceF.slice(0, -2)
+    const afterDot = priceF.slice(-2)
+    const corrPrice = `${beforeDot}.${afterDot}`
+    const formPrice = Number(corrPrice)
+
+    return formPrice
+  }
 
   return (
     <>
@@ -71,8 +85,17 @@ export default function CartItem(props) {
                   >
                     <img
                       className={classes.img}
-                      src={props.sku.firstImg}
-                      alt={props.sku.name}
+                      src={props.cartItem.firstImg}
+                      alt={
+                        // props.cartItem.name
+                        actLanguage === "DEU"
+                          ? props.cartItem.nameDeu
+                          : actLanguage === "RUS"
+                          ? props.cartItem.nameRus
+                          : actLanguage === "ENG"
+                          ? props.cartItem.nameEng
+                          : null
+                      }
                     />
                   </ButtonBase>
                 </Grid>
@@ -86,21 +109,68 @@ export default function CartItem(props) {
                   <Grid item xs container direction="column" spacing={1}>
                     <Grid item xs>
                       <Typography gutterBottom variant="subtitle1">
-                        {props.sku.name}
+                        {
+                          // props.cartItem.name
+
+                          actLanguage === "DEU"
+                            ? props.cartItem.nameDeu
+                            : actLanguage === "RUS"
+                            ? props.cartItem.nameRus
+                            : actLanguage === "ENG"
+                            ? props.cartItem.nameEng
+                            : null
+                        }
                       </Typography>
                       <Typography variant="body2" gutterBottom>
-                        {props.sku.description}
+                        {
+                          // props.cartItem.description
+                          actLanguage === "DEU"
+                            ? props.cartItem.descriptionDeu
+                            : actLanguage === "RUS"
+                            ? props.cartItem.descriptionRus
+                            : actLanguage === "ENG"
+                            ? props.cartItem.descriptionEng
+                            : null
+                        }
                       </Typography>
                       <Typography variant="body2" color="textPrimary">
                         <Counter
                           incrementItem={props.incrementItem}
                           decrementItem={props.decrementItem}
                           removeItem={props.removeItem}
-                          quantity={props.sku.quantity}
-                          sku={props.sku.sku}
+                          quantity={props.cartItem.quantity}
+                          sku={
+                            // props.cartItem.sku
+                            actCurrency === "EUR"
+                              ? props.cartItem.skuEur
+                              : actCurrency === "RUB"
+                              ? props.cartItem.skuRub
+                              : actCurrency === "USD"
+                              ? props.cartItem.skuUsd
+                              : null
+                          }
                         />{" "}
                         {/* {(props.item.currency = "eur" ? "€" : props.item.currency)}{" "} */}
-                        {/* {corrPrice} */} {props.sku.formattedValue}
+                        {/* {corrPrice} */}
+                        {
+                          // props.cartItem.price
+                          formatPrice(
+                            actCurrency === "EUR"
+                              ? props.cartItem.priceEur
+                              : actCurrency === "RUB"
+                              ? props.cartItem.priceRub
+                              : actCurrency === "USD"
+                              ? props.cartItem.priceUsd
+                              : null
+                          ) * props.cartItem.quantity
+                        }{" "}
+                        {actCurrency === "EUR"
+                          ? props.cartItem.currencySignEur
+                          : actCurrency === "RUB"
+                          ? props.cartItem.currencySignRub
+                          : actCurrency === "USD"
+                          ? props.cartItem.currencySignUsd
+                          : null}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -108,7 +178,18 @@ export default function CartItem(props) {
                     <Typography variant="subtitle1">
                       <IconButton
                         size="small"
-                        onClick={() => props.removeItem(props.sku.sku)}
+                        onClick={() =>
+                          props.removeItem(
+                            // props.cartItem.sku
+                            actCurrency === "EUR"
+                              ? props.cartItem.skuEur
+                              : actCurrency === "RUB"
+                              ? props.cartItem.skuRub
+                              : actCurrency === "USD"
+                              ? props.cartItem.skuUsd
+                              : null
+                          )
+                        }
                         style={{ padding: 0 }}
                       >
                         <CloseIcon fontSize="small" />

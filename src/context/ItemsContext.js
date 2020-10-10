@@ -54,6 +54,7 @@ const ItemsContextProvider = props => {
           linkId: "funny-bunny",
         },
       ],
+      quantity: 1,
     },
     {
       linkId: "cat-clock",
@@ -82,6 +83,7 @@ const ItemsContextProvider = props => {
       currencySignRub: "₽",
       timeoutShow: 900,
       reviews: [],
+      quantity: 1,
     },
     {
       linkId: "magic-hat",
@@ -110,6 +112,7 @@ const ItemsContextProvider = props => {
       currencySignRub: "₽",
       timeoutShow: 1000,
       reviews: [],
+      quantity: 1,
     },
   ])
 
@@ -121,8 +124,8 @@ const ItemsContextProvider = props => {
       item.id === id
         ? {
             ...item,
-            priceEur: item.priceUsd * usdEurRate,
-            priceRub: item.priceUsd * usdRubRate,
+            priceEur: Number((item.priceUsd * usdEurRate).toFixed(2)),
+            priceRub: Number((item.priceUsd * usdRubRate).toFixed(2)),
           }
         : item
     )
@@ -154,8 +157,8 @@ const ItemsContextProvider = props => {
           .then(data => {
             // console.log("data.rates.EUR:", data.rates.EUR)
             // console.log("data.rates.RUB:", data.rates.RUB)
-            setUsdRubRate(data.rates.RUB)
-            setUsdEurRate(data.rates.EUR)
+            setUsdRubRate(data.rates.RUB.toFixed(2))
+            setUsdEurRate(data.rates.EUR.toFixed(2))
           })
       } catch (error) {
         console.log(error)
@@ -174,6 +177,10 @@ const ItemsContextProvider = props => {
       )
     )
   }
+
+  // setTimeout(() => {
+  //   handlePricesUpdate()
+  // }, 5000)
 
   return (
     <ItemsContext.Provider
