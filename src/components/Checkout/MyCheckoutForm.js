@@ -25,22 +25,20 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
   },
   boxLeft: {
+    boxShadow: " 1px 0 3px -1px rgba(0, 0, 0, 0.1)",
     minHeight: "100vh",
-    width: "49.48vw",
+    width: "50%",
     margin: 0,
     padding: "5%",
     float: "left",
-
-    backgroundColor: "#fff ",
   },
   boxRight: {
+    boxShadow: " -1px 0 3px -1px rgba(0, 0, 0, 0.1)",
     minHeight: "100vh",
-    width: "49.48vw",
+    width: "50%",
     margin: 0,
     padding: "5%",
     float: "right",
-
-    backgroundColor: "white",
   },
 }))
 

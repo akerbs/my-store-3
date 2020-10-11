@@ -6,11 +6,13 @@ html {
   -webkit-text-size-adjust: 100%; */
   -ms-text-size-adjust: none;
   -webkit-text-size-adjust: none;
+  background-color: rgb(255, 255, 255);
 }
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(255, 255, 255);
 }
 article,
 aside,
