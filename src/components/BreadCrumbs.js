@@ -70,7 +70,13 @@ export default function (props) {
           : null}
       </Link>
       <Typography color="textSecondary" variant="body2">
-        {props.data.name}
+        {actLanguage === "DEU"
+          ? props.item.nameDeu
+          : actLanguage === "RUS"
+          ? props.item.nameRus
+          : actLanguage === "ENG"
+          ? props.item.nameEng
+          : null}
       </Typography>
     </Breadcrumbs>
   )

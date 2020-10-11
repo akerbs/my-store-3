@@ -53,8 +53,8 @@ const useStyles = makeStyles(theme => ({
     maxWidth: "100vw",
     margin: 0,
     padding: 0,
-    display: "flex",
-    flexDirection: "column",
+    // display: "flex",
+    // flexDirection: "column",
     // minHeight: "100vh",
     // flex: "0 0 auto",
 
@@ -225,7 +225,7 @@ function ProductPageTemplate(props) {
             </div>
 
             <div className="boxRight">
-              <BreadCrumbs data={props.item} />
+              <BreadCrumbs item={props.item} />
               <br />
               <Typography variant="h4">
                 <b>
@@ -397,7 +397,7 @@ function ProductPageTemplate(props) {
               alignItems: "center",
             }}
           >
-            <BreadCrumbs data={props.item} />
+            <BreadCrumbs item={props.item} />
             <br />
             <Typography variant="h4" align="center">
               <b>
