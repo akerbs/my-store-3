@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import IconButton from "@material-ui/core/IconButton"
 import CloseIcon from "@material-ui/icons/Close"
@@ -57,15 +57,28 @@ export default function CartItem(props) {
       ? "magic-hat"
       : null
 
-  function formatPrice(price) {
-    const priceF = price.toString()
-    const beforeDot = priceF.slice(0, -2)
-    const afterDot = priceF.slice(-2)
-    const corrPrice = `${beforeDot}.${afterDot}`
-    const formPrice = Number(corrPrice)
+  function getItemFormTotalPrice() {
+    let itemTtlPrice =
+      actCurrency === "EUR"
+        ? props.cartItem.priceEur * props.cartItem.quantity
+        : actCurrency === "RUB"
+        ? props.cartItem.priceRub * props.cartItem.quantity
+        : actCurrency === "USD"
+        ? props.cartItem.priceUsd * props.cartItem.quantity
+        : null
 
-    return formPrice
+    let priceF = itemTtlPrice.toString()
+    let beforeDot = priceF.slice(0, -2)
+    let afterDot = priceF.slice(-2)
+    let corrPrice = `${beforeDot}.${afterDot}`
+    let formPrice = Number(corrPrice)
+    let formPriceCorr = formPrice.toFixed(2)
+    return formPriceCorr
   }
+
+  useEffect(() => {
+    getItemFormTotalPrice()
+  }, [props.cartItem.quantity])
 
   return (
     <>
@@ -137,32 +150,14 @@ export default function CartItem(props) {
                         <Counter
                           incrementItem={props.incrementItem}
                           decrementItem={props.decrementItem}
-                          removeItem={props.removeItem}
                           quantity={props.cartItem.quantity}
-                          sku={
-                            // props.cartItem.sku
-                            actCurrency === "EUR"
-                              ? props.cartItem.skuEur
-                              : actCurrency === "RUB"
-                              ? props.cartItem.skuRub
-                              : actCurrency === "USD"
-                              ? props.cartItem.skuUsd
-                              : null
-                          }
+                          cartItem={props.cartItem}
                         />{" "}
                         {/* {(props.item.currency = "eur" ? "€" : props.item.currency)}{" "} */}
                         {/* {corrPrice} */}
                         {
                           // props.cartItem.price
-                          formatPrice(
-                            actCurrency === "EUR"
-                              ? props.cartItem.priceEur
-                              : actCurrency === "RUB"
-                              ? props.cartItem.priceRub
-                              : actCurrency === "USD"
-                              ? props.cartItem.priceUsd
-                              : null
-                          ) * props.cartItem.quantity
+                          getItemFormTotalPrice()
                         }{" "}
                         {actCurrency === "EUR"
                           ? props.cartItem.currencySignEur
@@ -178,18 +173,7 @@ export default function CartItem(props) {
                     <Typography variant="subtitle1">
                       <IconButton
                         size="small"
-                        onClick={() =>
-                          props.removeItem(
-                            // props.cartItem.sku
-                            actCurrency === "EUR"
-                              ? props.cartItem.skuEur
-                              : actCurrency === "RUB"
-                              ? props.cartItem.skuRub
-                              : actCurrency === "USD"
-                              ? props.cartItem.skuUsd
-                              : null
-                          )
-                        }
+                        onClick={() => props.removeItem(props.cartItem)}
                         style={{ padding: 0 }}
                       >
                         <CloseIcon fontSize="small" />

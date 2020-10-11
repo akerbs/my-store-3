@@ -182,11 +182,15 @@ function ProductPageTemplate(props) {
     setQuantityOfItem(quantityOfItem - 1)
   }
 
+  function resetCounter() {
+    setQuantityOfItem(1)
+  }
+
   //////////////////////////////////////////////////////
   const newArr = props.item.reviews.map(el => Number(el.rating))
   const sum = newArr.reduce((a, b) => a + b, 0)
-  const quantity = newArr.length
-  const averageRatingValue = sum / quantity
+  const quantityOfReviews = newArr.length
+  const averageRatingValue = sum / quantityOfReviews
   // console.log("->!!!!->", newArr, sum, quantity, averageRatingValue)
   //////////////////////////////////////////////////////
 
@@ -317,6 +321,7 @@ function ProductPageTemplate(props) {
                   onClick={() => {
                     addToCart(props.item, quantityOfItem)
                     handleDrawerCartOpen()
+                    resetCounter()
                   }}
                 >
                   {actLanguage === "DEU"
@@ -482,6 +487,7 @@ function ProductPageTemplate(props) {
                 addToCart(props.item, quantityOfItem)
                 // addItem(itemInfo, quantityOfItem)
                 handleDrawerCartOpen()
+                resetCounter()
               }}
             >
               {actLanguage === "DEU"

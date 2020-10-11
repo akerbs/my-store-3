@@ -23,18 +23,14 @@ const CartContextProvider = props => {
   }
 
   function incrCartItem(el) {
-    if (cart.find(x => x.productId === el.productId)) {
-      let hardCopy = [...cart]
-      for (let i in hardCopy) {
-        if (hardCopy[i].productId === el.productId) {
-          hardCopy[i].quantity = hardCopy[i].quantity + 1
-          break
-        }
+    let hardCopy = [...cart]
+    for (let i in hardCopy) {
+      if (hardCopy[i].productId === el.productId) {
+        hardCopy[i].quantity = hardCopy[i].quantity + 1
+        break
       }
-      setCart(hardCopy)
-    } else {
-      alert("which element to increment???")
     }
+    setCart(hardCopy)
   }
 
   function decrCartItem(el) {
@@ -50,7 +46,7 @@ const CartContextProvider = props => {
 
   function removeFromCart(el) {
     let hardCopy = [...cart]
-    hardCopy = hardCopy.filter(cartItem => cartItem.id !== el.id)
+    hardCopy = hardCopy.filter(cartItem => cartItem.productId !== el.productId)
     setCart(hardCopy)
   }
 
@@ -69,27 +65,43 @@ const CartContextProvider = props => {
       ? "usd"
       : null
 
-  const newArr = cart.map(el =>
-    actCurrency === "EUR"
-      ? el.priceEur
-      : actCurrency === "RUB"
-      ? el.priceRub
-      : actCurrency === "USD"
-      ? el.priceUsd
-      : null * el.quantity
-  )
-  const ttlPrice = newArr.reduce((a, b) => a + b, 0)
+  const [ttlPrice, setTtlPrice] = useState(0)
+  const [ttlPriceFormatted, setTtlPriceFormatted] = useState(0)
 
-  const priceF = ttlPrice.toString()
-  const beforeDot = priceF.slice(0, -2)
-  const afterDot = priceF.slice(-2)
-  const corrPrice = `${beforeDot}.${afterDot}`
-  const ttlPriceFormatted = Number(corrPrice)
+  function updateTtlPrice() {
+    const newArr = cart.map(el =>
+      actCurrency === "EUR"
+        ? el.priceEur * el.quantity
+        : actCurrency === "RUB"
+        ? el.priceRub * el.quantity
+        : actCurrency === "USD"
+        ? el.priceUsd * el.quantity
+        : null
+    )
+    let ttlPr = newArr.reduce((a, b) => a + b, 0)
+    setTtlPrice(ttlPr)
+  }
 
   useEffect(() => {
     console.log("CART CONTAINS:", cart)
+    updateTtlPrice()
+    console.log("->TTL PRICE!: ->", ttlPrice)
+  }, [cart, actCurrency])
+
+  function updateTtlPriceFormatted() {
+    let priceF = ttlPrice.toString()
+    let beforeDot = priceF.slice(0, -2)
+    let afterDot = priceF.slice(-2)
+    let corrPrice = `${beforeDot}.${afterDot}`
+    let ttlPrForm = Number(corrPrice)
+    let ttlPrFormCorr = ttlPrForm.toFixed(2)
+    setTtlPriceFormatted(ttlPrFormCorr)
+  }
+
+  useEffect(() => {
+    updateTtlPriceFormatted()
     console.log("TTL PRICE OF ITEMS IN CART (formatted):", ttlPriceFormatted)
-  }, [cart])
+  }, [ttlPrice])
 
   return (
     <CartContext.Provider

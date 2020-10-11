@@ -35,7 +35,7 @@ export default function Counter(props) {
     <div className={classes.root}>
       <Button
         className={classes.btnLeft}
-        onClick={() => props.decrementItem(props.sku)}
+        onClick={() => props.decrementItem(props.cartItem)}
         disabled={props.quantity <= 1 ? true : false}
       >
         <Typography
@@ -51,7 +51,7 @@ export default function Counter(props) {
 
       <Button
         className={classes.btnRight}
-        onClick={() => props.incrementItem(props.sku)}
+        onClick={() => props.incrementItem(props.cartItem)}
         disabled={props.quantity >= 99 ? true : false}
       >
         <Typography
