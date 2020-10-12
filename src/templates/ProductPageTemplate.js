@@ -4,45 +4,28 @@ import { makeStyles } from "@material-ui/core/styles"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import Container from "@material-ui/core/Container"
-import "swiper/swiper-bundle.css"
-import "./swiper.css"
 import "./clearfix.css"
-import SwiperCore, {
-  Thumbs,
-  Zoom,
-  Navigation,
-  EffectFade,
-  Pagination,
-} from "swiper"
-import Grid from "@material-ui/core/Grid"
-import Box from "@material-ui/core/Box"
 import { SRLWrapper } from "simple-react-lightbox"
 import withWidth from "@material-ui/core/withWidth"
 import Hidden from "@material-ui/core/Hidden"
 import PropTypes from "prop-types"
-// import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
-import { MainSwiper, ThumbsSwiper } from "../components/Swipers"
-import Button from "@material-ui/core/Button"
+import { MainSwiper } from "../components/Swipers"
 import { DrawerCartContext } from "../context/DrawerCartContext"
 import { CurrencyContext } from "../components/layout"
 import { LanguageContext } from "../components/layout"
 import { CartContext } from "../context/CartContext"
-
-import ShareIcon from "@material-ui/icons/Share"
 import Typography from "@material-ui/core/Typography"
 import BreadCrumbs from "../components/BreadCrumbs"
 import { Link, navigate } from "gatsby"
 import Counter from "../components/CounterBig"
-import RatingEl from "../components/Reviews/RatingEl"
-import ReviewForm from "../components/Reviews/ReviewForm"
+import RatingElBlack from "../components/Reviews/RatingElBlack"
 import Reviews from "../components/Reviews/Reviews"
 import Accordion from "../components/Accordion"
 import Tabs from "../components/Tabs"
-import inView from "in-view"
 import VideoYT from "../components/VideoYT"
 import VideoYTmob from "../components/VideoYTmob"
 import Scroll from "../components/ScrollToTopBtn"
-import getStripe from "../utils/stripejs"
+import { AddToCartBtn, BuyNowBtn } from "../components/Buttons"
 
 const document = require("global/document")
 const window = require("global/window")
@@ -53,23 +36,11 @@ const useStyles = makeStyles(theme => ({
     maxWidth: "100vw",
     margin: 0,
     padding: 0,
-    // display: "flex",
-    // flexDirection: "column",
-    // minHeight: "100vh",
-    // flex: "0 0 auto",
-
     marginTop: "3%",
     [theme.breakpoints.down("md")]: {
       marginTop: "15%",
     },
   },
-  // clearfix: {
-  //   "&::after": {
-  //     content: "",
-  //     display: "block",
-  //     clear: "both",
-  //   },
-
   boxLeft: {
     // border: "1px solid rgba(0, 0, 0, 0.05)",
     float: "left",
@@ -83,34 +54,8 @@ const useStyles = makeStyles(theme => ({
     display: "block",
     cursor: "pointer ",
   },
-  // boxRight: {
-  //   // b  order: "1px solid rgba(0, 0, 0, 0.05)",
-  //   padding: "8%",
-  //   margin: 0,
-  //   marginBottom: "2rem",
-  //   position: "sticky",
-  //   position: "-webkit-sticky",
-  //   top: " 5rem",
-  //   float: "right",
-
-  //   width: "49.48%",
-  // },
-  btn: {
-    width: 225,
-    minWidth: 225,
-    maxWidth: 225,
-    fontSize: 15,
-    fontWeight: "bold",
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-      minWidth: "100%",
-      maxWidth: "100%",
-      marginBottom: "8%",
-    },
-  },
 }))
 
-SwiperCore.use([Thumbs, Zoom, Navigation, EffectFade, Pagination])
 const lightboxOptions = {
   settings: {},
   caption: { showCaption: false },
@@ -136,31 +81,15 @@ function ProductPageTemplate(props) {
   const classes = useStyles()
   const { actCurrency } = useContext(CurrencyContext)
   const { actLanguage } = useContext(LanguageContext)
-  // const {
-  //   addItem,
-  //   incrementItem,
-  //   decrementItem,
-  //   removeItem,
-  //   cartCount,
-  //   cartDetails,
-  //   // totalPrice,
-  //   formattedTotalPrice,
-  //   redirectToCheckout,
-  // } = useShoppingCart()
-  const {
-    cart,
-    addToCart,
-    removeFromCart,
-    clearCart,
-    incrCartItem,
-    decrCartItem,
-  } = useContext(CartContext)
-
+  const { addToCart } = useContext(CartContext)
   const { handleDrawerCartOpen } = useContext(DrawerCartContext)
-  const [thumbsSwiper, setThumbsSwiper] = useState(null)
   const [quantityOfItem, setQuantityOfItem] = useState(1)
   const [loading, setLoading] = useState(false)
   const [itemInView, setItemInView] = useState(null)
+
+  function handleSetLoading() {
+    setLoading(true)
+  }
 
   function handleSetItemInView() {
     setItemInView(props.item.productId)
@@ -195,13 +124,13 @@ function ProductPageTemplate(props) {
   //////////////////////////////////////////////////////
 
   function formatPrice(price) {
-    const priceF = price.toString()
-    const beforeDot = priceF.slice(0, -2)
-    const afterDot = priceF.slice(-2)
-    const corrPrice = `${beforeDot}.${afterDot}`
-    const formPrice = Number(corrPrice)
-
-    return formPrice
+    let priceF = price.toString()
+    let beforeDot = priceF.slice(0, -2)
+    let afterDot = priceF.slice(-2)
+    let corrPrice = `${beforeDot}.${afterDot}`
+    let formPrice = Number(corrPrice)
+    let formPriceCorr = formPrice.toFixed(2)
+    return formPriceCorr
   }
 
   return (
@@ -266,38 +195,10 @@ function ProductPageTemplate(props) {
                   color: "black",
                 }}
               >
-                <div style={{ display: "flex" }}>
-                  <RatingEl
-                    ratingValue={averageRatingValue}
-                    starsSize="small"
-                    starsColor="black"
-                  />
-                  <span>
-                    {props.item.reviews.length > 0
-                      ? props.item.reviews.length
-                      : null}{" "}
-                    {actLanguage === "DEU"
-                      ? props.item.reviews.length === 1
-                        ? "Bewertung"
-                        : "Bewertungen"
-                      : actLanguage === "ENG"
-                      ? props.item.reviews.length === 1
-                        ? "Review"
-                        : "Reviews"
-                      : actLanguage === "RUS"
-                      ? props.item.reviews.length === 1 ||
-                        props.item.reviews.length === 21
-                        ? "Отзыв"
-                        : props.item.reviews.length > 1 &&
-                          props.item.reviews.length < 5
-                        ? "Отзывa"
-                        : props.item.reviews.length >= 5 &&
-                          props.item.reviews.length <= 20
-                        ? "Отзывов"
-                        : null
-                      : null}
-                  </span>
-                </div>
+                <RatingElBlack
+                  ratingValue={averageRatingValue}
+                  item={props.item}
+                />
               </Link>
               <br /> <br />
               <Counter
@@ -314,53 +215,21 @@ function ProductPageTemplate(props) {
                   borderRadius: "8px",
                 }}
               >
-                <Button
-                  className={classes.btn}
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => {
-                    addToCart(props.item, quantityOfItem)
-                    handleDrawerCartOpen()
-                    resetCounter()
-                  }}
-                >
-                  {actLanguage === "DEU"
-                    ? "in Warenkorb legen"
-                    : actLanguage === "RUS"
-                    ? "добавить в корзину"
-                    : actLanguage === "ENG"
-                    ? "add to cart"
-                    : null}
-                </Button>
-                <Button
-                  id="directPay"
-                  className={classes.btn}
-                  variant="contained"
-                  color="primary"
-                  disabled={loading}
-                  onClick={() => {
-                    setLoading(true)
-                    addToCart(props.item, quantityOfItem)
-                    navigate("/checkout")
-                    // handleDirectPayment()
-                  }}
-                >
-                  {loading
-                    ? actLanguage === "DEU"
-                      ? "Wird geladen..."
-                      : actLanguage === "RUS"
-                      ? "Загрузка ..."
-                      : actLanguage === "ENG"
-                      ? "Loading..."
-                      : null
-                    : actLanguage === "DEU"
-                    ? "Kaufen jetzt"
-                    : actLanguage === "RUS"
-                    ? "Купить сейчас"
-                    : actLanguage === "ENG"
-                    ? "Buy it now"
-                    : null}
-                </Button>
+                <AddToCartBtn
+                  addToCart={addToCart}
+                  item={props.item}
+                  quantityOfItem={quantityOfItem}
+                  handleDrawerCartOpen={handleDrawerCartOpen}
+                  resetCounter={resetCounter}
+                />
+
+                <BuyNowBtn
+                  loading={loading}
+                  handleSetLoading={handleSetLoading}
+                  addToCart={addToCart}
+                  item={props.item}
+                  quantityOfItem={quantityOfItem}
+                />
               </div>
               <br />
               <br />
@@ -382,12 +251,7 @@ function ProductPageTemplate(props) {
         </Hidden>
         {/* Middle up hide - but show for little viewport */}
         <Hidden mdUp>
-          <MainSwiper
-            thumbsSwiper={thumbsSwiper}
-            setThumbsSwiper={setThumbsSwiper}
-            data={props.item}
-          />
-          {/* </SRLWrapper> */}
+          <MainSwiper data={props.item} />
           <div
             style={{
               margin: "0% 5%",
@@ -438,38 +302,10 @@ function ProductPageTemplate(props) {
                 color: "black",
               }}
             >
-              <div style={{ display: "flex" }}>
-                <RatingEl
-                  ratingValue={averageRatingValue}
-                  starsSize="small"
-                  starsColor="black"
-                />
-                <span>
-                  {props.item.reviews.length > 0
-                    ? props.item.reviews.length
-                    : null}{" "}
-                  {actLanguage === "DEU"
-                    ? props.item.reviews.length === 1
-                      ? "Bewertung"
-                      : "Bewertungen"
-                    : actLanguage === "ENG"
-                    ? props.item.reviews.length === 1
-                      ? "Review"
-                      : "Reviews"
-                    : actLanguage === "RUS"
-                    ? props.item.reviews.length === 1 ||
-                      props.item.reviews.length === 21
-                      ? "Отзыв"
-                      : props.item.reviews.length > 1 &&
-                        props.item.reviews.length < 5
-                      ? "Отзывa"
-                      : props.item.reviews.length >= 5 &&
-                        props.item.reviews.length <= 20
-                      ? "Отзывов"
-                      : null
-                    : null}
-                </span>
-              </div>
+              <RatingElBlack
+                ratingValue={averageRatingValue}
+                item={props.item}
+              />
             </Link>
             <br /> <br />
             <Counter
@@ -479,61 +315,26 @@ function ProductPageTemplate(props) {
               sku={props.item}
             />
             <br />
-            <Button
-              className={classes.btn}
-              variant="contained"
-              color="secondary"
-              onClick={() => {
-                addToCart(props.item, quantityOfItem)
-                // addItem(itemInfo, quantityOfItem)
-                handleDrawerCartOpen()
-                resetCounter()
-              }}
-            >
-              {actLanguage === "DEU"
-                ? "in Warenkorb legen"
-                : actLanguage === "RUS"
-                ? "добавить в корзину"
-                : actLanguage === "ENG"
-                ? "add to cart"
-                : null}
-            </Button>
-            <Button
-              className={classes.btn}
-              variant="contained"
-              color="primary"
-              disabled={loading}
-              onClick={() => {
-                setLoading(true)
-                addToCart(props.item, quantityOfItem)
-                navigate("/checkout")
-              }}
-            >
-              {loading
-                ? actLanguage === "DEU"
-                  ? "Wird geladen..."
-                  : actLanguage === "RUS"
-                  ? "Загрузка ..."
-                  : actLanguage === "ENG"
-                  ? "Loading..."
-                  : null
-                : actLanguage === "DEU"
-                ? "Kaufen jetzt"
-                : actLanguage === "RUS"
-                ? "Купить сейчас"
-                : actLanguage === "ENG"
-                ? "Buy it now"
-                : null}
-            </Button>
+            <AddToCartBtn
+              addToCart={addToCart}
+              item={props.item}
+              quantityOfItem={quantityOfItem}
+              handleDrawerCartOpen={handleDrawerCartOpen}
+              resetCounter={resetCounter}
+            />
+            <BuyNowBtn
+              loading={loading}
+              handleSetLoading={handleSetLoading}
+              addToCart={addToCart}
+              item={props.item}
+              quantityOfItem={quantityOfItem}
+            />
             <br /> <br />
             <Accordion data={props.item} />
           </div>
           <br /> <br />
           <br /> <br /> <br />
-          {/* {isMobile && ( */}
           <VideoYTmob itemInView={itemInView} itemInfo={props.item} />
-          {/* )}
-          {isBrowser && <VideoYT itemInView={itemInView} itemInfo={itemInfo} />} */}
           <br />
           <div
             style={{

@@ -336,7 +336,7 @@ export default function MyCheckoutForm(props) {
           />
         </FormControl>
         <br /> <br />
-        <span style={{ fontSize: 14 }}>Payment Address</span>
+        <span style={{ fontSize: 14 }}>Shipping Address</span>
         <FormControl
           variant="outlined"
           className={clsx(

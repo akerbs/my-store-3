@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
   },
   accordion: {
-    backgroundColor: "#fafafa",
+    backgroundColor: "rgb(255,255,255)",
     border: "none",
     boxShadow: "none",
     "&:before": {

@@ -1,6 +1,16 @@
 import React from "react"
+import "swiper/swiper-bundle.css"
+import "./swiper.css"
 import { makeStyles } from "@material-ui/core/styles"
 import { Swiper, SwiperSlide } from "swiper/react"
+
+import SwiperCore, {
+  Thumbs,
+  Zoom,
+  Navigation,
+  EffectFade,
+  Pagination,
+} from "swiper"
 
 const useStyles = makeStyles(theme => ({
   mainSlider: {
@@ -25,6 +35,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }))
+SwiperCore.use([Thumbs, Zoom, Navigation, EffectFade, Pagination])
 
 export function MainSwiper(props) {
   const classes = useStyles()

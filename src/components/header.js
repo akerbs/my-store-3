@@ -13,12 +13,10 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger"
 import Slide from "@material-ui/core/Slide"
 import DrawerMenu from "./DrawerMenu"
 import DrawerCart from "./DrawerCart"
-import { useShoppingCart } from "use-shopping-cart"
-// import Link from "gatsby-plugin-transition-link"
+import { CartContext } from "../context/CartContext"
 import { Link } from "gatsby"
 import { DrawerCartContext } from "../context/DrawerCartContext"
 import { DrawerMenuContext } from "../context/DrawerMenuContext"
-
 import SelectCurrency from "./SelectCurrency"
 import SelectLanguage from "./SelectLanguage"
 
@@ -97,7 +95,8 @@ const useStyles = makeStyles(theme => ({
 export default function Header(props) {
   const classes = useStyles()
   const theme = useTheme()
-  const { cartCount } = useShoppingCart()
+  const { cart } = useContext(CartContext)
+  let cartCount = cart.length
 
   const {
     openDrawerCart,
