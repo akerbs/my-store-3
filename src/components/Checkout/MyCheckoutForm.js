@@ -161,7 +161,7 @@ const schema = yup.object().shape({
 
 export default function MyCheckoutForm(props) {
   const classes = useStyles()
-  const { actCurrency } = useContext(CurrencyContext)
+  const { actCurrency, countryName } = useContext(CurrencyContext)
   const { actLanguage } = useContext(LanguageContext)
   const { cart } = useContext(CartContext)
   const { register, handleSubmit, errors, control, reset } = useForm({
@@ -348,9 +348,11 @@ export default function MyCheckoutForm(props) {
           <Controller
             as={
               <Select>
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={"Germany"}>Germany</MenuItem>
+                <MenuItem value={"USA"}>USA</MenuItem>
+                <MenuItem value={"Russian Federation"}>
+                  Russian Federation
+                </MenuItem>
                 <MenuItem value={4}>4</MenuItem>
                 <MenuItem value={5}>5</MenuItem>
                 <MenuItem value={6}>6</MenuItem>
@@ -368,7 +370,7 @@ export default function MyCheckoutForm(props) {
             name="country"
             rules={{ required: "this is required" }}
             control={control}
-            defaultValue={10}
+            defaultValue={countryName}
             error={!!errorCountry}
             helperText={errorCountry}
             classes={{

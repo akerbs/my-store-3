@@ -39,8 +39,13 @@ export const LanguageContext = createContext()
 function Layout({ children }) {
   const classes = useStyles()
 
-  const [actCurrency, setActCurrency] = useState("EUR")
+  const [actCurrency, setActCurrency] = useState("USD")
   const [actLanguage, setActLanguage] = useState("ENG")
+
+  const [countryName, setCountryName] = useState("")
+  useEffect(() => {
+    console.log("COUNTRY", countryName)
+  }, [countryName])
 
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -101,6 +106,7 @@ function Layout({ children }) {
             .then(res => {
               return res.json()
             })
+
             .then(data => {
               data.countryCode == "US"
                 ? setActCurrency("USD")
@@ -110,11 +116,13 @@ function Layout({ children }) {
                 ? setActCurrency("RUB")
                 : setActCurrency("USD")
               // console.log("!!!!!ABC!!!!!", data)
+              // alert(data.countryName)
+              setCountryName(data.countryName)
             })
+
             .catch(err => {
               console.log(err)
             })
-          // console.log(latitude, longitude)
         },
         error => {
           console.log(error.code)
@@ -140,6 +148,7 @@ function Layout({ children }) {
           value={{
             actCurrency,
             handleCurrencyChange,
+            countryName,
           }}
         >
           <CartProvider
