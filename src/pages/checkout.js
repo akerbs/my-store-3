@@ -17,11 +17,11 @@ import withWidth from "@material-ui/core/withWidth"
 import Hidden from "@material-ui/core/Hidden"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import PropTypes from "prop-types"
-import getStripe from "../utils/stripejs"
+// import getStripe from "../utils/stripejs"
 
-// const PUBLIC_KEY =
-//   "pk_test_51HGUuRHwITO0GSJr0YK6FwbE17LUTst9UCvm2uH0RdjBtAnQJqgPmDn0BSunRc8FIEXRW3HatsFd1uDHkfaGJtUm00IA2780Iw"
-// const stripePromise = loadStripe(PUBLIC_KEY)
+const PUBLIC_KEY =
+  "pk_test_51HGUuRHwITO0GSJr0YK6FwbE17LUTst9UCvm2uH0RdjBtAnQJqgPmDn0BSunRc8FIEXRW3HatsFd1uDHkfaGJtUm00IA2780Iw"
+const stripePromise = loadStripe(PUBLIC_KEY)
 
 const useStyles = makeStyles(theme => ({
   contentWrapper: {
@@ -51,7 +51,7 @@ function Checkout() {
   const { cart } = useContext(CartContext)
 
   return (
-    <Elements stripe={getStripe()}>
+    <Elements stripe={stripePromise}>
       <CssBaseline />
       <>
         {/* <Container className={classes.contentWrapper} id="wrapper"> */}
@@ -201,6 +201,7 @@ function Checkout() {
             </div>
 
             <div className={classes.boxRight}>
+              {/* <SplitForm /> */}
               <MyCheckoutForm />
             </div>
           </div>

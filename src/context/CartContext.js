@@ -56,13 +56,22 @@ const CartContextProvider = props => {
     setCart(hardCopy)
   }
 
-  const currentCurrency =
+  let currentCurrency =
     actCurrency === "EUR"
       ? "eur"
       : actCurrency === "RUB"
       ? "rub"
       : actCurrency === "USD"
       ? "usd"
+      : null
+
+  let currentCurrencySign =
+    actCurrency === "EUR"
+      ? "€"
+      : actCurrency === "RUB"
+      ? "₽"
+      : actCurrency === "USD"
+      ? "$"
       : null
 
   const [ttlPrice, setTtlPrice] = useState(0)
@@ -115,6 +124,7 @@ const CartContextProvider = props => {
         ttlPrice,
         ttlPriceFormatted,
         currentCurrency,
+        currentCurrencySign,
       }}
     >
       {props.children}

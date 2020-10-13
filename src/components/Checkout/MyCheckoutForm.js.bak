@@ -30,8 +30,6 @@ import {
   CardCvcElement,
   CardExpiryElement,
 } from "@stripe/react-stripe-js"
-import StripeInput from "./StripeInput"
-import LockIcon from "@material-ui/icons/Lock"
 
 const window = require("global/window")
 
@@ -77,7 +75,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   textfieldFullWidthBetween: {
-    //  marginBottom: "-0.25%",
+    marginBottom: "-0.25%",
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderRadius: 0,
@@ -108,51 +106,90 @@ const useStyles = makeStyles(theme => ({
   select: {},
   selectMenu: {
     width: 348,
-    padding: "2.109% 0 2.109% 3%",
+    padding: "2.109% 0 2.109% 0",
     margin: 0,
     marginBottom: "-0.25%",
   },
-  selectX: {
-    "& li": {
-      fontSize: 16,
-    },
-  },
 }))
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .required("Email field can't be empty")
+    .matches(
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+      "Invalid email"
+    ),
+  cardNumber: yup.string().required("Field is required"),
+  // .matches(/^[0-9\-\+]{9,15}$/, "incorrect phone number"), // CHANGE!!!!
+  cardDuration: yup.string().required("Field is required"),
+  // .matches(/^[0-9\-\+]{9,15}$/, "incorrect phone number"), // CHANGE!!!!
+  cvvCvc: yup.string().required("Field is required"),
+  // .matches(/^[0-9\-\+]{9,15}$/, "incorrect phone number"), // CHANGE!!!!
+  name: yup
+    .string()
+    // .matches(/^[0-9\-\+]{9,15}$/, "incorrect phone number") // CHANGE!!!!
+    .required("Name field can't be empty")
+    .min(3, "Name must be at-least 3 characters")
+    .max(20, "Name must be 20 characters or less"),
+  country: yup.string().required("Field is required"),
+
+  address1: yup
+    .string()
+    // .matches(/^[0-9\-\+]{9,15}$/, "incorrect phone number") // CHANGE!!!!
+    .required("Name field can't be empty")
+    .min(3, "Name must be at-least 3 characters")
+    .max(20, "Name must be 20 characters or less"),
+  address2: yup.string(),
+  // .matches(/^[0-9\-\+]{9,15}$/, "incorrect phone number") // CHANGE!!!!
+  // .required("Name field can't be empty")
+  // .min(3, "Name must be at-least 3 characters")
+  // .max(20, "Name must be 20 characters or less"),
+  zipCode: yup
+    .string()
+    // .matches(/^[0-9\-\+]{9,15}$/, "incorrect phone number") // CHANGE!!!!
+    .required("Name field can't be empty")
+    .min(3, "Name must be at-least 3 characters")
+    .max(20, "Name must be 20 characters or less"),
+  city: yup
+    .string()
+    // .matches(/^[0-9\-\+]{9,15}$/, "incorrect phone number") // CHANGE!!!!
+    .required("Name field can't be empty")
+    .min(3, "Name must be at-least 3 characters")
+    .max(20, "Name must be 20 characters or less"),
+})
 
 export default function MyCheckoutForm(props) {
   const classes = useStyles()
   const { actCurrency, countryName } = useContext(CurrencyContext)
   const { actLanguage } = useContext(LanguageContext)
-  const {
-    cart,
-    ttlPrice,
-    currentCurrency,
-    ttlPriceFormatted,
-    currentCurrencySign,
-  } = useContext(CartContext)
+  const { cart, ttlPrice, currentCurrency } = useContext(CartContext)
   const stripe = useStripe()
   const elements = useElements()
-
-  const [form, setForm] = useState({
-    email: "",
-    name: "",
-    country: "",
-    address1: "",
-    address2: "",
-    zipCode: "",
-    city: "",
+  const { register, handleSubmit, errors, control, reset } = useForm({
+    resolver: yupResolver(schema),
   })
 
-  useEffect(() => {
-    console.log("F O R M", form)
-  }, [form])
+  const errorEmail = errors.hasOwnProperty("email") && errors["email"].message
+  const errorCardNumber =
+    errors.hasOwnProperty("cardNumber") && errors["cardNumber"].message
+  const errorCardDuration =
+    errors.hasOwnProperty("cardDuration") && errors["cardDuration"].message
+  const errorCvvCvc =
+    errors.hasOwnProperty("cvvCvc") && errors["cvvCvc"].message
+  const errorName = errors.hasOwnProperty("name") && errors["name"].message
+  const errorCountry =
+    errors.hasOwnProperty("country") && errors["country"].message
+  const errorAddress1 =
+    errors.hasOwnProperty("address1") && errors["address1"].message
+  const errorAddress2 =
+    errors.hasOwnProperty("address2") && errors["address2"].message
+  const errorZipCode =
+    errors.hasOwnProperty("zipCode") && errors["zipCode"].message
+  const errorCity = errors.hasOwnProperty("city") && errors["city"].message
 
-  const changeHandler = event => {
-    setForm({ ...form, [event.target.name]: event.target.value })
-  }
-
-  const onSubmit = async event => {
-    event.preventDefault()
+  async function onSubmit() {
+    // event.preventDefault()
 
     if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
@@ -179,7 +216,6 @@ export default function MyCheckoutForm(props) {
             amount: ttlPrice,
             currency: currentCurrency,
             id: id,
-            form,
           }),
         })
 
@@ -192,13 +228,19 @@ export default function MyCheckoutForm(props) {
     } else {
       console.log(error.message)
     }
+
+    // const payload = await stripe.createPaymentMethod({
+    //   type: "card",
+    //   card: elements.getElement(CardNumberElement),
+    // });
+    // console.log("[PaymentMethod]", payload);
   }
 
   return (
     <div className={classes.root}>
       <form
-        onSubmit={onSubmit}
-        // onSubmit={handleSubmit(onSubmit)}
+        // onSubmit={onSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
         <span style={{ fontSize: 14 }}>Email</span>
@@ -206,20 +248,23 @@ export default function MyCheckoutForm(props) {
           className={clsx(classes.textfield, classes.textfieldFullWidth)}
         >
           <TextField
+            // classes={{
+            //   root: classes.rootTextField,
+            // }}
             type="email"
             variant="outlined"
+            // margin="normal"
+            fullWidth
             size="small"
             name="email"
-            value={form.email}
-            onChange={changeHandler}
-            InputProps={{ style: { fontSize: 16 } }}
+            // autoFocus
+            inputRef={register}
+            error={!!errorEmail}
+            helperText={errorEmail}
           />
         </FormControl>
         <br /> <br />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 14 }}>Card Data</span>
-          <span style={{ fontSize: 14 }}>error.message</span>
-        </div>
+        <span style={{ fontSize: 14 }}>Card Data</span>
         <FormControl
           className={clsx(
             classes.textfield,
@@ -230,18 +275,21 @@ export default function MyCheckoutForm(props) {
           <TextField
             id="cardNumber"
             variant="outlined"
+            // margin="normal"
+            fullWidth
             size="small"
             name="cardNumber"
+            //autoFocus
+            inputRef={register}
+            error={!!errorCardNumber}
+            helperText={errorCardNumber}
             InputProps={{
-              inputComponent: StripeInput,
-              inputProps: {
-                component: CardNumberElement,
-              },
               endAdornment: (
                 //  <CreditCardIcon />
                 <div
                   style={{
                     display: "flex",
+
                     padding: 0,
                     margin: 0,
                     marginRight: "8%",
@@ -275,40 +323,61 @@ export default function MyCheckoutForm(props) {
                 adornedEnd: classes.adornedEnd,
               },
             }}
+            // endAdornment={
+            //   <InputAdornment position="end">
+            //     <VisibilityIcon />
+            //     {/* <payCard1 style={{ width: 10, height: 5 }} /> */}
+            //   </InputAdornment>
+            // }
           />
         </FormControl>
         <FormControl
           className={clsx(classes.textfield, classes.textfieldHalfLeft)}
         >
           <TextField
-            id="cardExpiry"
+            id="cardDuration"
             variant="outlined"
+            // margin="normal"
+            fullWidth
             size="small"
-            name="cardExpiry"
-            InputProps={{
-              inputComponent: StripeInput,
-              inputProps: {
-                component: CardExpiryElement,
-              },
-            }}
+            name="cardDuration"
+            //autoFocus
+
+            inputRef={register}
+            error={!!errorCardDuration}
+            helperText={errorCardDuration}
           />
         </FormControl>
         <FormControl
           className={clsx(classes.textfield, classes.textfieldHalfRight)}
         >
-          <TextField
+          <CardCvcElement
             className={clsx(classes.textfield, classes.textfieldHalfRight)}
             id="cvvCvc"
             variant="outlined"
+            // margin="normal"
+            fullWidth
             size="small"
             name="cvvCvc"
-            InputProps={{
-              inputComponent: StripeInput,
-              inputProps: {
-                component: CardCvcElement,
-              },
-            }}
+            //autoFocus
+
+            inputRef={register}
+            error={!!errorCvvCvc}
+            helperText={errorCvvCvc}
           />
+          {/* <TextField
+            id="cvvCvc"
+            variant="outlined"
+            // margin="normal"
+            fullWidth
+            size="small"
+            name="cvvCvc"
+            //autoFocus
+
+            inputRef={register}
+            error={!!errorCvvCvc}
+            helperText={errorCvvCvc}
+          /> */}
           <br />
           <br />
         </FormControl>
@@ -320,45 +389,61 @@ export default function MyCheckoutForm(props) {
             type="text"
             id="name"
             variant="outlined"
+            // margin="normal"
+            fullWidth
             size="small"
             name="name"
-            value={form.name}
-            onChange={changeHandler}
-            InputProps={{ style: { fontSize: 16 } }}
+            //autoFocus
+
+            inputRef={register}
+            error={!!errorName}
+            helperText={errorName}
           />
         </FormControl>
         <br /> <br />
         <span style={{ fontSize: 14 }}>Shipping Address</span>
         <FormControl
+          variant="outlined"
           className={clsx(
             classes.textfield,
             classes.textfieldFullWidth,
             classes.textfieldFullWidthPartTop
           )}
         >
-          <Select
-            MenuProps={{ classes: { paper: classes.selectX } }}
-            variant="outlined"
+          <Controller
+            as={
+              <Select>
+                <MenuItem value={"Germany"}>Germany</MenuItem>
+                <MenuItem value={"USA"}>USA</MenuItem>
+                <MenuItem value={"Russian Federation"}>
+                  Russian Federation
+                </MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={5}>5</MenuItem>
+                <MenuItem value={6}>6</MenuItem>
+                <MenuItem value={7}>7</MenuItem>
+                <MenuItem value={8}>8</MenuItem>
+                <MenuItem value={9}>9</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={11}>11-15</MenuItem>
+                <MenuItem value={16}>16-20</MenuItem>
+                <MenuItem value={20}>20+</MenuItem>
+              </Select>
+            }
             size="small"
             id="country"
             name="country"
-            style={{ fontSize: 16 }}
-            inputProps={{
-              name: "country",
-            }}
+            rules={{ required: "this is required" }}
+            control={control}
             defaultValue={countryName}
-            value={form.country}
-            onChange={changeHandler}
+            error={!!errorCountry}
+            helperText={errorCountry}
             classes={{
               root: classes.selectRoot,
               select: classes.select,
               selectMenu: classes.selectMenu,
             }}
-          >
-            <MenuItem value={"Germany"}>Germany</MenuItem>
-            <MenuItem value={"USA"}>USA</MenuItem>
-            <MenuItem value={"Russian Federation"}>Russian Federation</MenuItem>
-          </Select>
+          />
         </FormControl>
         <FormControl
           className={clsx(
@@ -370,11 +455,15 @@ export default function MyCheckoutForm(props) {
           <TextField
             id="address1"
             variant="outlined"
+            // margin="normal"
+            fullWidth
             size="small"
             name="address1"
-            value={form.address1}
-            onChange={changeHandler}
-            InputProps={{ style: { fontSize: 16 } }}
+            //autoFocus
+
+            inputRef={register}
+            error={!!errorAddress1}
+            helperText={errorAddress1}
           />
         </FormControl>
         <FormControl
@@ -387,11 +476,15 @@ export default function MyCheckoutForm(props) {
           <TextField
             id="address2"
             variant="outlined"
+            // margin="normal"
+            fullWidth
             size="small"
             name="address2"
-            value={form.address2}
-            onChange={changeHandler}
-            InputProps={{ style: { fontSize: 16 } }}
+            //autoFocus
+
+            inputRef={register}
+            error={!!errorAddress2}
+            helperText={errorAddress2}
           />
         </FormControl>
         <FormControl
@@ -400,11 +493,14 @@ export default function MyCheckoutForm(props) {
           <TextField
             id="zipCode"
             variant="outlined"
+            // margin="normal"
+            fullWidth
             size="small"
             name="zipCode"
-            value={form.zipCode}
-            onChange={changeHandler}
-            InputProps={{ style: { fontSize: 16 } }}
+            //autoFocus
+            inputRef={register}
+            error={!!errorZipCode}
+            helperText={errorZipCode}
           />
         </FormControl>
         <FormControl
@@ -413,11 +509,14 @@ export default function MyCheckoutForm(props) {
           <TextField
             id="city"
             variant="outlined"
+            // margin="normal"
+            fullWidth
             size="small"
             name="city"
-            value={form.city}
-            onChange={changeHandler}
-            InputProps={{ style: { fontSize: 16 } }}
+            //autoFocus
+            inputRef={register}
+            error={!!errorCity}
+            helperText={errorCity}
           />
         </FormControl>
         <br />
@@ -431,15 +530,10 @@ export default function MyCheckoutForm(props) {
           type="submit"
           variant="contained"
           disabled={!stripe}
-          style={{ textTransform: "none" }}
-          endIcon={<LockIcon style={{ marginLeft: "470%" }} />}
-
+          // className={classes.reservierenBtn}
           // disabled={loading}
         >
-          <span style={{ marginLeft: "10%" }}>
-            {" "}
-            Pay {ttlPriceFormatted} {currentCurrencySign}
-          </span>
+          ok
         </Button>
       </form>
     </div>
