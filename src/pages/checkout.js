@@ -20,7 +20,9 @@ import PropTypes from "prop-types"
 // import getStripe from "../utils/stripejs"
 
 const PUBLIC_KEY =
-  "pk_test_51HGUuRHwITO0GSJr0YK6FwbE17LUTst9UCvm2uH0RdjBtAnQJqgPmDn0BSunRc8FIEXRW3HatsFd1uDHkfaGJtUm00IA2780Iw"
+  // "pk_test_51HGUuRHwITO0GSJr0YK6FwbE17LUTst9UCvm2uH0RdjBtAnQJqgPmDn0BSunRc8FIEXRW3HatsFd1uDHkfaGJtUm00IA2780Iw"
+  "pk_live_51HGUuRHwITO0GSJrsfmL0TC1FALW0oD69VNOSaTyabdioZlHA3wScV04bXDY9nCZJGRwzf6jwDnnUVR2yt40qakM00QuQlXWB6"
+
 const stripePromise = loadStripe(PUBLIC_KEY)
 
 const useStyles = makeStyles(theme => ({

@@ -202,29 +202,6 @@ export default function MyCheckoutForm(props) {
   const elements = useElements()
   const { register, handleSubmit, errors, control } = useForm()
   const [stripeErrorMsg, setStripeErrorMsg] = useState(null)
-  const [form, setForm] = useState({
-    email: "",
-    name: "",
-    country: countryName,
-    address1: "",
-    address2: "",
-    zipCode: "",
-    city: "",
-  })
-
-  const billing_details = {
-    email: form.email,
-    name: form.name,
-    country: form.country,
-    address1: form.address1,
-    address2: form.address2,
-    zipCode: form.zipCode,
-    city: form.city,
-  }
-
-  const changeHandler = event => {
-    setForm({ ...form, [event.target.name]: event.target.value })
-  }
 
   const onSubmit = async event => {
     event.preventDefault()
@@ -236,7 +213,6 @@ export default function MyCheckoutForm(props) {
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardNumberElement),
-      billing_details: billing_details,
     })
 
     if (!error) {
@@ -287,8 +263,6 @@ export default function MyCheckoutForm(props) {
             variant="outlined"
             size="small"
             name="email"
-            value={form.email}
-            onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
             inputRef={register({
               required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
@@ -396,7 +370,13 @@ export default function MyCheckoutForm(props) {
             }}
           />
         </FormControl>
-        <span className={classes.errorMsg}> {stripeErrorMsg}</span>
+        <span
+          className={classes.errorMsg}
+          // style={{ textTransform: "uppercase" }}
+        >
+          {" "}
+          {stripeErrorMsg}
+        </span>
         <br />
         <br />
         <span style={{ fontSize: 14 }}>Name on the Card</span>
@@ -413,8 +393,6 @@ export default function MyCheckoutForm(props) {
             variant="outlined"
             size="small"
             name="name"
-            value={form.name}
-            onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
             inputRef={register({
               required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
@@ -467,9 +445,7 @@ export default function MyCheckoutForm(props) {
             id="country"
             name="country"
             control={control}
-            defaultValue={form.country}
-            value={form.country}
-            onChange={changeHandler}
+            defaultValue={countryName}
             inputRef={register({
               required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
             })}
@@ -496,8 +472,6 @@ export default function MyCheckoutForm(props) {
             placeholder="Адрес (строка 1)"
             size="small"
             name="address1"
-            value={form.address1}
-            onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
             inputRef={register({
               required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
@@ -526,8 +500,6 @@ export default function MyCheckoutForm(props) {
             placeholder="Адрес (строка 2)"
             size="small"
             name="address2"
-            value={form.address2}
-            onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
             inputRef={register({
               // required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
@@ -553,8 +525,6 @@ export default function MyCheckoutForm(props) {
             placeholder="Почтовый индекс"
             size="small"
             name="zipCode"
-            value={form.zipCode}
-            onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
             inputRef={register({
               required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
@@ -578,8 +548,6 @@ export default function MyCheckoutForm(props) {
             placeholder="Город"
             size="small"
             name="city"
-            value={form.city}
-            onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
             inputRef={register({
               required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
