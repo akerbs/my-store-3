@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
 
 const stripePromise = loadStripe(
   // process.env.GATSBY_STRIPE_PUBLISHABLE_KEY
-  "pk_test_51HGUuRHwITO0GSJr0YK6FwbE17LUTst9UCvm2uH0RdjBtAnQJqgPmDn0BSunRc8FIEXRW3HatsFd1uDHkfaGJtUm00IA2780Iw"
+  // "pk_test_51HGUuRHwITO0GSJr0YK6FwbE17LUTst9UCvm2uH0RdjBtAnQJqgPmDn0BSunRc8FIEXRW3HatsFd1uDHkfaGJtUm00IA2780Iw"
+  "pk_live_51HGUuRHwITO0GSJrsfmL0TC1FALW0oD69VNOSaTyabdioZlHA3wScV04bXDY9nCZJGRwzf6jwDnnUVR2yt40qakM00QuQlXWB6"
 )
 export const CurrencyContext = createContext()
 export const LanguageContext = createContext()
