@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
 import { Link, navigate } from "gatsby"
-// import "./checkout.css"
+
 import CardForm from "../components/Checkout/CardForm"
 import FpxBankForm from "../components/Checkout/FpxBankForm"
 import IbanForm from "../components/Checkout/IbanForm"
