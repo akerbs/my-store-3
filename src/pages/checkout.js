@@ -203,8 +203,8 @@ function Checkout() {
             </div>
 
             <div className={classes.boxRight}>
-              {/* <SplitForm /> */}
-              <MyCheckoutForm />
+              <SplitForm />
+              {/* <MyCheckoutForm /> */}
             </div>
           </div>
         </Hidden>
