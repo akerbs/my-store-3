@@ -7,8 +7,6 @@ import { makeStyles } from "@material-ui/core/styles"
 import { ThemeProvider } from "@material-ui/core/styles"
 import theme from "./theme"
 import "@stripe/stripe-js" // https://github.com/stripe/stripe-js#import-as-a-side-effect
-import { CartProvider } from "use-shopping-cart"
-import { loadStripe } from "@stripe/stripe-js"
 import SimpleReactLightbox from "simple-react-lightbox"
 import { DrawerCartContextProvider } from "../context/DrawerCartContext"
 import { DrawerMenuContextProvider } from "../context/DrawerMenuContext"
@@ -28,12 +26,6 @@ const useStyles = makeStyles(theme => ({
     // overflow: "hidden",
   },
 }))
-
-const stripePromise = loadStripe(
-  // process.env.GATSBY_STRIPE_PUBLISHABLE_KEY
-  // "pk_test_51HGUuRHwITO0GSJr0YK6FwbE17LUTst9UCvm2uH0RdjBtAnQJqgPmDn0BSunRc8FIEXRW3HatsFd1uDHkfaGJtUm00IA2780Iw"
-  "pk_live_51HGUuRHwITO0GSJrsfmL0TC1FALW0oD69VNOSaTyabdioZlHA3wScV04bXDY9nCZJGRwzf6jwDnnUVR2yt40qakM00QuQlXWB6"
-)
 export const CurrencyContext = createContext()
 export const LanguageContext = createContext()
 
@@ -144,7 +136,7 @@ function Layout({ children }) {
 
   return (
     <div className={classes.root}>
-      <GoogleReCaptchaProvider reCaptchaKey="6LebfdIZAAAAAJ_QgpOdjwdM9zUUNAi7aIFCtjp-">
+      <GoogleReCaptchaProvider reCaptchaKey={process.env.GATSBY_RECAPTCHA_KEY}>
         <CurrencyContext.Provider
           value={{
             actCurrency,
@@ -152,42 +144,28 @@ function Layout({ children }) {
             countryName,
           }}
         >
-          <CartProvider
-            mode="client-only"
-            stripe={stripePromise}
-            currency={actCurrency}
-            // successUrl="https://kerbs-store-1.vercel.app/success/"
-            // cancelUrl="https://kerbs-store-1.vercel.app/"
-            successUrl="http://localhost:8000/success/"
-            cancelUrl="http://localhost:8000/"
-            // successUrl={`${window.location.origin}/success/`}
-            // cancelUrl={`${window.location.origin}/`}
-            //  allowedCountries={["US", "GB", "CA", "DE"]}
-            billingAddressCollection={true}
+          <LanguageContext.Provider
+            value={{
+              actLanguage,
+              setActLanguage,
+              handleLanguageChange,
+            }}
           >
-            <LanguageContext.Provider
-              value={{
-                actLanguage,
-                setActLanguage,
-                handleLanguageChange,
-              }}
-            >
-              <ItemsContextProvider>
-                <CartContextProvider>
-                  <CssBaseline />
-                  <ThemeProvider theme={theme}>
-                    <SimpleReactLightbox>
-                      <DrawerMenuContextProvider>
-                        <DrawerCartContextProvider>
-                          {children}
-                        </DrawerCartContextProvider>
-                      </DrawerMenuContextProvider>
-                    </SimpleReactLightbox>
-                  </ThemeProvider>
-                </CartContextProvider>
-              </ItemsContextProvider>
-            </LanguageContext.Provider>
-          </CartProvider>
+            <ItemsContextProvider>
+              <CartContextProvider>
+                <CssBaseline />
+                <ThemeProvider theme={theme}>
+                  <SimpleReactLightbox>
+                    <DrawerMenuContextProvider>
+                      <DrawerCartContextProvider>
+                        {children}
+                      </DrawerCartContextProvider>
+                    </DrawerMenuContextProvider>
+                  </SimpleReactLightbox>
+                </ThemeProvider>
+              </CartContextProvider>
+            </ItemsContextProvider>
+          </LanguageContext.Provider>
         </CurrencyContext.Provider>
       </GoogleReCaptchaProvider>
     </div>

@@ -25,17 +25,6 @@ export default function Cart(props) {
   const { actLanguage } = useContext(LanguageContext)
   const { actCurrency } = useContext(CurrencyContext)
 
-  // const {
-  //   incrementItem,
-  //   decrementItem,
-  //   removeItem,
-  //   cartCount,
-  //   cartDetails,
-  //   // totalPrice,
-  //   formattedTotalPrice,
-  //   redirectToCheckout,
-  // } = useShoppingCart()
-
   const {
     cart,
     addToCart,

@@ -1,6 +1,6 @@
-if (process.env.NODE_ENV === "development") {
-  require("dotenv").config()
-}
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
 
 module.exports = {
   siteMetadata: {
@@ -39,9 +39,7 @@ module.exports = {
       resolve: `gatsby-source-stripe`,
       options: {
         objects: ["Price", "Product"],
-        secretKey: process.env.GATSBY_STRIPE_SECRET_KEY,
-        // secretKey:
-        //   " sk_test_51HGUuRHwITO0GSJrtMeWmTR6WduzZYAU2VTPRyBrY0wqKp0iBeeLKNwuIm6UOMT3o2IyodrpNB2gXJV4D4BJInv700HWefHxma",
+        secretKey: process.env.GATSBY_STRIPE_SECRET_KEY_TEST,
         downloadFiles: false,
       },
     },

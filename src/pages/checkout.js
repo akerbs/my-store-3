@@ -1,8 +1,7 @@
 import React, { useContext } from "react"
-import { loadStripe } from "@stripe/stripe-js"
+
 import { Elements } from "@stripe/react-stripe-js"
 import { Link, navigate } from "gatsby"
-
 import CardForm from "../components/Checkout/CardForm"
 import FpxBankForm from "../components/Checkout/FpxBankForm"
 import IbanForm from "../components/Checkout/IbanForm"
@@ -17,13 +16,7 @@ import withWidth from "@material-ui/core/withWidth"
 import Hidden from "@material-ui/core/Hidden"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import PropTypes from "prop-types"
-// import getStripe from "../utils/stripejs"
-
-const PUBLIC_KEY =
-  // "pk_test_51HGUuRHwITO0GSJr0YK6FwbE17LUTst9UCvm2uH0RdjBtAnQJqgPmDn0BSunRc8FIEXRW3HatsFd1uDHkfaGJtUm00IA2780Iw"
-  "pk_live_51HGUuRHwITO0GSJrsfmL0TC1FALW0oD69VNOSaTyabdioZlHA3wScV04bXDY9nCZJGRwzf6jwDnnUVR2yt40qakM00QuQlXWB6"
-
-const stripePromise = loadStripe(PUBLIC_KEY)
+import getStripe from "../utils/stripejs"
 
 const useStyles = makeStyles(theme => ({
   contentWrapper: {
@@ -53,7 +46,7 @@ function Checkout() {
   const { cart } = useContext(CartContext)
 
   return (
-    <Elements stripe={stripePromise}>
+    <Elements stripe={getStripe()}>
       <CssBaseline />
       <>
         {/* <Container className={classes.contentWrapper} id="wrapper"> */}
@@ -203,8 +196,8 @@ function Checkout() {
             </div>
 
             <div className={classes.boxRight}>
-              <SplitForm />
-              {/* <MyCheckoutForm /> */}
+              {/* <SplitForm /> */}
+              <MyCheckoutForm />
             </div>
           </div>
         </Hidden>

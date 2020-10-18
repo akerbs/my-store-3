@@ -22,11 +22,11 @@ const ItemsContextProvider = props => {
       scndImg: funnyBunny2,
       hovered: false,
       skuUsd: "price_1HNFcEHwITO0GSJr0BcSMXko",
-      priceUsd: 1,
+      priceUsd: 0,
       currencyUsd: "USD",
       currencySignUsd: "$",
       skuEur: "price_1HGjcwHwITO0GSJrJEhUG0Aq",
-      priceEur: 0,
+      priceEur: 100, // 1 euro
       currencyEur: "EUR",
       currencySignEur: "€",
       skuRub: "price_1HNFbdHwITO0GSJr0cQgGhYQ",
@@ -70,11 +70,11 @@ const ItemsContextProvider = props => {
       scndImg: funnyBunny2,
       hovered: false,
       skuUsd: "price_1HNFdPHwITO0GSJrVsLO5IdU",
-      priceUsd: 1,
+      priceUsd: 0,
       currencyUsd: "USD",
       currencySignUsd: "$",
       skuEur: "price_1HH7DcHwITO0GSJrZz3vg6d9",
-      priceEur: 0,
+      priceEur: 100, // 1 euro
       currencyEur: "EUR",
       currencySignEur: "€",
       skuRub: "price_1HNFdwHwITO0GSJrpygU4AcI",
@@ -99,11 +99,11 @@ const ItemsContextProvider = props => {
       scndImg: funnyBunny2,
       hovered: false,
       skuUsd: "price_1HMt2gHwITO0GSJrR1YuszFV",
-      priceUsd: 1,
+      priceUsd: 0,
       currencyUsd: "USD",
       currencySignUsd: "$",
       skuEur: "price_1HHUu9HwITO0GSJrsoWoL51O",
-      priceEur: 0,
+      priceEur: 100, // 1 euro
       currencyEur: "EUR",
       currencySignEur: "€",
       skuRub: "price_1HNFZ7HwITO0GSJrieVKbbte",
@@ -116,16 +116,16 @@ const ItemsContextProvider = props => {
     },
   ])
 
-  const [usdEurRate, setUsdEurRate] = useState(0)
-  const [usdRubRate, setUsdRubRate] = useState(0)
+  const [eurUsdRate, setEurUsdRate] = useState(0)
+  const [eurRubRate, setEurRubRate] = useState(0)
 
   const handlePricesUpdate = id => {
     const nextState = products.map(item =>
       item.id === id
         ? {
             ...item,
-            priceEur: Number((item.priceUsd * usdEurRate).toFixed(2)),
-            priceRub: Number((item.priceUsd * usdRubRate).toFixed(2)),
+            priceUsd: Number((item.priceEur * eurUsdRate).toFixed(2)),
+            priceRub: Number((item.priceEur * eurRubRate).toFixed(2)),
           }
         : item
     )
@@ -138,7 +138,7 @@ const ItemsContextProvider = props => {
 
   useEffect(() => {
     handlePricesUpdate()
-  }, [usdRubRate, usdEurRate])
+  }, [eurRubRate, eurUsdRate])
 
   // useEffect(() => {
   //   console.log("PROducts", products)
@@ -150,15 +150,15 @@ const ItemsContextProvider = props => {
   useEffect(() => {
     function GetExchangeRates() {
       try {
-        let response = fetch("https://api.exchangeratesapi.io/latest?base=USD")
+        let response = fetch("https://api.exchangeratesapi.io/latest?base=EUR")
           .then(res => {
             return res.json()
           })
           .then(data => {
             // console.log("data.rates.EUR:", data.rates.EUR)
             // console.log("data.rates.RUB:", data.rates.RUB)
-            setUsdRubRate(data.rates.RUB.toFixed(2))
-            setUsdEurRate(data.rates.EUR.toFixed(2))
+            setEurRubRate(data.rates.RUB.toFixed(2))
+            setEurUsdRate(data.rates.USD.toFixed(2))
           })
       } catch (error) {
         console.log(error)
