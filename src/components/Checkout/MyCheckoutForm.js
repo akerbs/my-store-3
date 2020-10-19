@@ -236,7 +236,7 @@ export default function MyCheckoutForm(props) {
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardNumberElement),
-      billing_details: billing_details,
+      // billing_details: billing_details,
     })
 
     if (!error) {
@@ -253,6 +253,7 @@ export default function MyCheckoutForm(props) {
             amount: ttlPrice,
             currency: currentCurrency,
             id: id,
+            // billing_details: billing_details,
           }),
         })
         if (response.ok) {

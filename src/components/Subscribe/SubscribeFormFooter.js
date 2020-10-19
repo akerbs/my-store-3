@@ -2,12 +2,10 @@ import React, { useState, useContext } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
-import { useForm } from "react-hook-form"
-import * as yup from "yup"
-import { yupResolver } from "@hookform/resolvers"
 import FormControl from "@material-ui/core/FormControl"
 import { LanguageContext } from "../layout"
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
+import clsx from "clsx"
 
 const useStyles = makeStyles(theme => ({
   textFieldEmail: {
@@ -18,29 +16,49 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 30,
     marginTop: 1,
   },
-}))
+  errorMsg: {
+    fontSize: 13,
+    fontWeight: "500",
+    color: "rgb(220,39,39)",
+  },
 
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .required("Feld ist erforderlich")
-    .matches(
-      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-      "Please enter a valid email address"
-    ),
-  // .email('Please check your email')
-})
+  textfieldError: {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderWidth: 1,
+        borderColor: "rgb(220,39,39)",
+      },
+      "&:hover fieldset": {
+        borderColor: "rgb(220,39,39)",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: theme.palette.primary.main,
+      },
+    },
+  },
+}))
 
 export default function () {
   const { executeRecaptcha } = useGoogleReCaptcha()
-  const [token, setToken] = useState("")
+  const [tokenRecapcha, setTokenRecapcha] = useState("")
   const classes = useStyles()
   const { actLanguage } = useContext(LanguageContext)
-  const { register, handleSubmit, reset, errors } = useForm({
-    resolver: yupResolver(schema),
-  })
-
   const [loading, setLoading] = useState(false)
+
+  const [form, setForm] = useState({
+    email: "",
+  })
+  const [errorMsg, setErrorMsg] = useState(null)
+
+  const changeHandler = event => {
+    setForm({ ...form, [event.target.name]: event.target.value })
+  }
+
+  const resetHandler = event => {
+    setForm({ email: "" })
+    setErrorMsg(null)
+    // document.getElementById("email").classList.remove("textfieldError")
+  }
 
   function handleLoadingOn() {
     setLoading(true)
@@ -49,57 +67,73 @@ export default function () {
     setLoading(false)
   }
 
-  const errorEmail = errors.hasOwnProperty("email") && errors["email"].message
+  const emailValue = form.email
 
-  async function onSubmit(data) {
-    if (!executeRecaptcha) {
-      return
-    }
-    try {
-      //   This is the same as grecaptcha.execute on traditional html script tags
-      const result = executeRecaptcha("subscribe_form_footer")
-      setToken(result) //--> grab the generated token by the reCAPTCHA
-      handleLoadingOn()
+  const onSubmit = async event => {
+    event.preventDefault()
 
-      let response = await fetch(
-        "https://my-store-1-mailer.herokuapp.com/subscribe",
-        // "http://localhost:3000/subscribe",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      )
-      if (response.ok) {
-        alert("Thank You!!! You have successfully subscribed :-)")
-        //  await navigate("/")
-        await reset(response)
-
-        let responseJson = await response.json()
-        handleLoadingOff()
-
-        return responseJson
+    if (form.email === "") {
+      setErrorMsg("field is requred")
+    } else if (!form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)) {
+      setErrorMsg("email is wrong")
+    } else {
+      if (!executeRecaptcha) {
+        return
       }
-    } catch (error) {
-      console.error(error)
+      try {
+        //   This is the same as grecaptcha.execute on traditional html script tags
+        const result = executeRecaptcha("store1")
+        setTokenRecapcha(result) //--> grab the generated token by the reCAPTCHA
+        handleLoadingOn()
+
+        const data = JSON.stringify({ emailValue, tokenRecapcha })
+
+        let response = await fetch(
+          // "https://my-store-1-mailer.herokuapp.com/subscribe",
+          "http://localhost:3000/subscribe",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json",
+            },
+            body: data,
+          }
+        )
+        if (response.ok) {
+          alert("Thank You!!! You have successfully subscribed :-)")
+
+          let responseJson = await response.json()
+          resetHandler()
+
+          handleLoadingOff()
+
+          return responseJson
+        }
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <FormControl>
+    <form onSubmit={onSubmit} noValidate>
+      <span className={classes.errorMsg}>{errorMsg}</span>
+      <FormControl
+        id="email"
+        className={clsx(
+          classes.textFieldEmail,
+          errorMsg && classes.textfieldError
+        )}
+      >
         <TextField
           type="email"
           name="email"
           placeholder="Your email address..."
           variant="outlined"
           size="small"
-          className={classes.textFieldEmail}
-          inputRef={register}
-          error={!!errorEmail}
-          helperText={errorEmail}
+          value={form.email}
+          onChange={changeHandler}
         />
       </FormControl>
       <Button
@@ -109,7 +143,6 @@ export default function () {
         variant="outlined"
         color="default"
         className={classes.btnSubscribe}
-        // size="small"
         disabled={loading}
       >
         {loading
