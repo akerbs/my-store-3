@@ -75,7 +75,7 @@ export default function () {
       return
     }
 
-    if (form.email === "") {
+    if (form.email === "" || form.email === "undefined") {
       setErrorMsg("field is requred")
     } else if (!form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)) {
       setErrorMsg("email is wrong")
