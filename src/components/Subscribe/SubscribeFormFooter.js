@@ -90,8 +90,8 @@ export default function () {
       const data = JSON.stringify({ emailValue, tokenRecapcha })
 
       let response = await fetch(
-        // "https://my-store-1-mailer.herokuapp.com/subscribe",
-        "http://localhost:3000/subscribe",
+        "https://my-store-1-mailer.herokuapp.com/subscribe",
+        // "http://localhost:3000/subscribe",
         {
           method: "POST",
           headers: {
