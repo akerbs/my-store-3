@@ -75,44 +75,44 @@ export default function () {
       return
     }
 
-    if (form.email === "" || form.email === "undefined") {
+    if (form.email === "") {
       setErrorMsg("field is requred")
     } else if (!form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)) {
       setErrorMsg("email is wrong")
-    }
+    } else {
+      try {
+        //   This is the same as grecaptcha.execute on traditional html script tags
+        const result = await executeRecaptcha("store1")
+        setTokenRecapcha(result) //--> grab the generated token by the reCAPTCHA
+        handleLoadingOn()
 
-    try {
-      //   This is the same as grecaptcha.execute on traditional html script tags
-      const result = await executeRecaptcha("store1")
-      setTokenRecapcha(result) //--> grab the generated token by the reCAPTCHA
-      handleLoadingOn()
+        const data = JSON.stringify({ emailValue, tokenRecapcha })
 
-      const data = JSON.stringify({ emailValue, tokenRecapcha })
+        let response = await fetch(
+          "https://my-store-1-mailer.herokuapp.com/subscribe",
+          // "http://localhost:3000/subscribe",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json",
+            },
+            body: data,
+          }
+        )
+        if (response.ok) {
+          alert("Thank You!!! You have successfully subscribed :-)")
 
-      let response = await fetch(
-        "https://my-store-1-mailer.herokuapp.com/subscribe",
-        // "http://localhost:3000/subscribe",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-          },
-          body: data,
+          let responseJson = await response.json()
+          resetHandler()
+
+          handleLoadingOff()
+
+          return responseJson
         }
-      )
-      if (response.ok) {
-        alert("Thank You!!! You have successfully subscribed :-)")
-
-        let responseJson = await response.json()
-        resetHandler()
-
-        handleLoadingOff()
-
-        return responseJson
+      } catch (error) {
+        console.error(error)
       }
-    } catch (error) {
-      console.error(error)
     }
   }
 
