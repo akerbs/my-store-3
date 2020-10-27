@@ -32,6 +32,7 @@ import {
 } from "@stripe/react-stripe-js"
 import StripeInput from "./StripeInput"
 import LockIcon from "@material-ui/icons/Lock"
+import { navigate } from "gatsby"
 
 const window = require("global/window")
 
@@ -70,7 +71,7 @@ const useStyles = makeStyles(theme => ({
     width: 380,
   },
   textfieldFullWidthPartTop: {
-    marginBottom: "-0.25%",
+    // paddingBottom: "-0.25%",
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderRadius: `4px 4px 0 0 `,
@@ -112,6 +113,8 @@ const useStyles = makeStyles(theme => ({
 
   textfieldError: {
     "& .MuiOutlinedInput-root": {
+      color: "rgb(220,39,39)",
+
       "& fieldset": {
         borderWidth: 1,
         borderColor: "rgb(220,39,39)",
@@ -122,6 +125,9 @@ const useStyles = makeStyles(theme => ({
       "&.Mui-focused fieldset": {
         borderColor: theme.palette.primary.main,
       },
+    },
+    "& .Mui-focused": {
+      color: "black",
     },
   },
   textFieldLeftError: {
@@ -189,7 +195,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function MyCheckoutForm(props) {
   const classes = useStyles()
-  const { actCurrency, countryName } = useContext(CurrencyContext)
+  const { actCurrency, countryCode } = useContext(CurrencyContext)
   const { actLanguage } = useContext(LanguageContext)
   const {
     cart,
@@ -200,71 +206,226 @@ export default function MyCheckoutForm(props) {
   } = useContext(CartContext)
   const stripe = useStripe()
   const elements = useElements()
-  const { register, handleSubmit, errors, control } = useForm()
+
+  // const { register, handleSubmit, errors, control } = useForm()
   const [stripeErrorMsg, setStripeErrorMsg] = useState(null)
   const [form, setForm] = useState({
-    email: "",
-    name: "",
-    country: countryName,
-    address1: "",
-    address2: "",
-    zipCode: "",
-    city: "",
+    email: null,
+    name: null,
+    country: countryCode,
+    line1: null,
+    line2: null,
+    postal_code: null,
+    city: null,
   })
+  const [error, setError] = useState({
+    email: false,
+    name: false,
+    country: false,
+    line1: false,
+    line2: false,
+    postal_code: false,
+    city: false,
+  })
+  const [errorMsg, setErrorMsg] = useState({
+    email: false,
+    name: false,
+    country: false,
+    line1: false,
+    line2: false,
+    postal_code: false,
+    city: false,
+  })
+  const [loading, setLoading] = useState(false)
 
-  const billing_details = {
-    email: form.email,
-    name: form.name,
-    country: form.country,
-    address1: form.address1,
-    address2: form.address2,
-    zipCode: form.zipCode,
-    city: form.city,
+  function handleLoadingOn() {
+    setLoading(true)
+  }
+  function handleLoadingOff() {
+    setLoading(false)
   }
 
   const changeHandler = event => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
+  useEffect(() => {
+    if (
+      form.email !== null &&
+      form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)
+    ) {
+      setError({ email: false })
+    }
+  }, [form.email])
+
+  useEffect(() => {
+    if (
+      form.name !== null &&
+      form.name.match(
+        /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
+      )
+    ) {
+      setError({ name: false })
+    }
+  }, [form.name])
+
+  useEffect(() => {
+    if (
+      form.country !== null &&
+      form.country.match(
+        /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
+      )
+    ) {
+      setError({ country: false })
+    }
+  }, [form.country])
+
+  useEffect(() => {
+    if (
+      form.line1 !== null &&
+      form.line1.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i)
+    ) {
+      setError({ line1: false })
+    }
+  }, [form.line1])
+
+  useEffect(() => {
+    if (
+      form.line2 === null ||
+      form.line2 === "" ||
+      form.line2 === "undefined" ||
+      (form.line2 !== null &&
+        form.line2.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i))
+    ) {
+      setError({ line2: false })
+    }
+  }, [form.line2])
+
+  useEffect(() => {
+    if (
+      form.postal_code !== null &&
+      form.postal_code.match(/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/g)
+    ) {
+      setError({ postal_code: false })
+    }
+  }, [form.postal_code])
+
+  useEffect(() => {
+    if (
+      form.city !== null &&
+      form.city.match(
+        /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
+      )
+    ) {
+      setError({ city: false })
+    }
+  }, [form.city])
+
   const onSubmit = async event => {
     event.preventDefault()
-    if (!stripe || !elements) {
+
+    if (
+      form.email === null ||
+      !form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)
+    ) {
+      setError({ email: true })
+      setErrorMsg({ email: "Email field is incomplete." })
+    } else if (
+      form.name === null ||
+      !form.name.match(
+        /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
+      )
+    ) {
+      setError({ name: true })
+      setErrorMsg({ name: "Name field is incomplete." })
+    } else if (
+      form.country === null ||
+      !form.country.match(
+        /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
+      )
+    ) {
+      setError({ country: true })
+      setErrorMsg({ country: "Country field is incomplete." })
+    } else if (
+      form.line1 === null ||
+      !form.line1.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i)
+    ) {
+      setError({ line1: true })
+      setErrorMsg({ line1: "Address field is incomplete." })
+    } else if (
+      form.line2 !== null &&
+      form.line2 !== "" &&
+      form.line2 !== "undefined" &&
+      !form.line2.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i)
+    ) {
+      setError({ line2: true })
+      setErrorMsg({ line2: "Address field is incomplete." })
+    } else if (
+      form.postal_code === null ||
+      !form.postal_code.match(/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/g)
+    ) {
+      setError({ postal_code: true })
+      setErrorMsg({ postal_code: "Zip Code field is incomplete." })
+    } else if (
+      form.city === null ||
+      !form.city.match(
+        /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
+      )
+    ) {
+      setError({ city: true })
+      setErrorMsg({ city: "City field is incomplete." })
+    } else if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
       // form submission until Stripe.js has loaded.
       return
-    }
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: elements.getElement(CardNumberElement),
-      // billing_details: billing_details,
-    })
-
-    if (!error) {
-      console.log("Stripe 23 | token generated!", paymentMethod)
-      try {
-        const { id } = paymentMethod
-        const response = await fetch("http://localhost:8080/stripe/charge", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          // body: JSON.stringify(data),
-          body: JSON.stringify({
-            amount: ttlPrice,
-            currency: currentCurrency,
-            id: id,
-            // billing_details: billing_details,
-          }),
-        })
-        if (response.ok) {
-          console.log("CheckoutForm.js 25 | payment successful!")
-        }
-      } catch (error) {
-        console.log("CheckoutForm.js 28 | ", error)
-      }
     } else {
-      console.log(error.message)
-      setStripeErrorMsg(error.message)
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardNumberElement),
+        billing_details: {
+          name: form.name,
+          email: form.email,
+          address: {
+            country: form.country,
+            line1: form.line1,
+            line2: form.line2,
+            postal_code: form.postal_code,
+            city: form.city,
+          },
+        },
+      })
+
+      if (!error) {
+        console.log("Stripe 23 | token generated!", paymentMethod)
+        try {
+          handleLoadingOn()
+          const { id } = paymentMethod
+          const response = await fetch("http://localhost:8080/stripe/charge", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            // body: JSON.stringify(data),
+            body: JSON.stringify({
+              amount: ttlPrice,
+              currency: currentCurrency,
+              id: id,
+              // receipt_email: form.email,
+            }),
+          })
+          if (response.ok) {
+            setStripeErrorMsg(null)
+            console.log("CheckoutForm.js 25 | payment successful!")
+            // handleLoadingOff()
+            navigate("/success")
+          }
+        } catch (error) {
+          console.log("CheckoutForm.js 28 | ", error)
+        }
+      } else {
+        console.log(error.message)
+        setStripeErrorMsg(error.message)
+      }
     }
   }
 
@@ -280,7 +441,7 @@ export default function MyCheckoutForm(props) {
           className={clsx(
             classes.textfield,
             classes.textfieldFullWidth,
-            errors.email && classes.textfieldError
+            error.email && classes.textfieldError
           )}
         >
           <TextField
@@ -291,17 +452,17 @@ export default function MyCheckoutForm(props) {
             value={form.email}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            inputRef={register({
-              required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Адрес эл. почты введен не полностью.",
-              },
-            })}
+            // inputRef={register({
+            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
+            //   pattern: {
+            //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            //     message: "Адрес эл. почты введен не полностью.",
+            //   },
+            // })}
           />
         </FormControl>
         <span className={classes.errorMsg}>
-          {errors.email && errors.email.message}
+          {error.email && errorMsg.email}
         </span>
         <br /> <br />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -312,7 +473,9 @@ export default function MyCheckoutForm(props) {
           className={clsx(
             classes.textfield,
             classes.textfieldFullWidth,
-            classes.textfieldFullWidthPartTop
+            classes.textfieldFullWidthPartTop,
+            stripeErrorMsg === "Your card number is incomplete." &&
+              classes.textfieldError
           )}
         >
           <TextField
@@ -366,7 +529,12 @@ export default function MyCheckoutForm(props) {
           />
         </FormControl>
         <FormControl
-          className={clsx(classes.textfield, classes.textfieldHalfLeft)}
+          className={clsx(
+            classes.textfield,
+            classes.textfieldHalfLeft,
+            stripeErrorMsg === "Your card's expiration date is incomplete." &&
+              classes.textfieldError
+          )}
         >
           <TextField
             id="cardExpiry"
@@ -382,7 +550,12 @@ export default function MyCheckoutForm(props) {
           />
         </FormControl>
         <FormControl
-          className={clsx(classes.textfield, classes.textfieldHalfRight)}
+          className={clsx(
+            classes.textfield,
+            classes.textfieldHalfRight,
+            stripeErrorMsg === "Your card's security code is incomplete." &&
+              classes.textfieldError
+          )}
         >
           <TextField
             id="cvvCvc"
@@ -397,7 +570,13 @@ export default function MyCheckoutForm(props) {
             }}
           />
         </FormControl>
-        <span className={classes.errorMsg}> {stripeErrorMsg}</span>
+        <span className={classes.errorMsg}>
+          {stripeErrorMsg === "Your card number is incomplete." ||
+          stripeErrorMsg === "Your card's expiration date is incomplete." ||
+          stripeErrorMsg === "Your card's security code is incomplete."
+            ? stripeErrorMsg
+            : null}
+        </span>
         <br />
         <br />
         <span style={{ fontSize: 14 }}>Name on the Card</span>
@@ -405,7 +584,7 @@ export default function MyCheckoutForm(props) {
           className={clsx(
             classes.textfield,
             classes.textfieldFullWidth,
-            errors.name && classes.textfieldError
+            error.name && classes.textfieldError
           )}
         >
           <TextField
@@ -417,18 +596,12 @@ export default function MyCheckoutForm(props) {
             value={form.name}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            inputRef={register({
-              required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-              // pattern: {
-              //   value: /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g,
-              //   message: "Адрес эл. почты введен не полностью.",
-              // },
-            })}
+            // inputRef={register({
+            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
+            // })}
           />
         </FormControl>
-        <span className={classes.errorMsg}>
-          {errors.name && errors.name.message}
-        </span>
+        <span className={classes.errorMsg}>{error.name && errorMsg.name}</span>
         <br /> <br />
         <span style={{ fontSize: 14 }}>Shipping Address</span>
         <FormControl
@@ -437,27 +610,20 @@ export default function MyCheckoutForm(props) {
             classes.textfield,
             classes.textfieldFullWidth,
             classes.textfieldFullWidthPartTop,
-            errors.country && classes.textfieldError,
-            errors.address1 &&
-              errors.city &&
-              errors.zipCode &&
-              classes.textfieldError,
-            errors.address1 &&
-              errors.city &&
-              errors.zipCode &&
-              classes.textFieldBetweenError
+            error.country && classes.textfieldError
+            // error.line1 &&
+            //   error.city &&
+            //   error.postal_code &&
+            //   classes.textfieldError,
+            // error.line1 &&
+            //   error.city &&
+            //   error.postal_code &&
+            //   classes.textFieldBetweenError
           )}
         >
-          <Controller
-            as={
-              <Select>
-                <MenuItem value={"Germany"}>Germany</MenuItem>
-                <MenuItem value={"USA"}>USA</MenuItem>
-                <MenuItem value={"Russian Federation"}>
-                  Russian Federation
-                </MenuItem>
-              </Select>
-            }
+          {/* <Controller
+            as={ */}
+          <Select
             classes={{
               root: classes.selectRoot,
               select: classes.select,
@@ -467,46 +633,55 @@ export default function MyCheckoutForm(props) {
             size="small"
             id="country"
             name="country"
-            control={control}
+            // control={control}
             defaultValue={form.country}
             value={form.country}
             onChange={changeHandler}
-            inputRef={register({
-              required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-            })}
-          />
+            // inputRef={register({
+            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
+            // })}
+          >
+            <MenuItem value={"DE"} key={"DE"}>
+              Germany
+            </MenuItem>
+            <MenuItem value={"US"} key={"US"}>
+              USA
+            </MenuItem>
+            <MenuItem value={"RU"} key={"RU"}>
+              Russian Federation
+            </MenuItem>
+          </Select>
+          {/* } */}
+          {/* /> */}
         </FormControl>
         <FormControl
           className={clsx(
             classes.textfield,
             classes.textfieldFullWidth,
             classes.textfieldFullWidthBetween,
-            errors.address1 && classes.textfieldError,
-            errors.address1 && classes.textFieldBetweenError,
-            errors.address1 &&
-              !errors.city &&
-              classes.textFieldBetweenErrorReset,
-            errors.address1 &&
-              !errors.zipCode &&
+            error.line1 && classes.textfieldError,
+            error.line1 && classes.textFieldBetweenError,
+            error.line1 && !error.city && classes.textFieldBetweenErrorReset,
+            error.line1 &&
+              !error.postal_code &&
               classes.textFieldBetweenErrorReset
           )}
         >
           <TextField
-            id="address1"
+            id="line1"
             variant="outlined"
             placeholder="Адрес (строка 1)"
             size="small"
-            name="address1"
-            value={form.address1}
+            name="line1"
+            value={form.line1}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            inputRef={register({
-              required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-              pattern: {
-                value: /([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i,
-                // message: "Адрес введен не полностью.",
-              },
-            })}
+            // inputRef={register({
+            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
+            //   pattern: {
+            //     value: /([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i,
+            //   },
+            // })}
           />
         </FormControl>
         <FormControl
@@ -514,63 +689,61 @@ export default function MyCheckoutForm(props) {
             classes.textfield,
             classes.textfieldFullWidth,
             classes.textfieldFullWidthBetween,
-            errors.address1 &&
-              errors.city &&
-              errors.zipCode &&
+            error.line2 && classes.textfieldError,
+            error.line1 &&
+              error.city &&
+              error.postal_code &&
               classes.textfieldError,
-            errors.address1 && classes.textFieldBetweenError
+            error.line1 && classes.textFieldBetweenError
           )}
         >
           <TextField
-            id="address2"
+            id="line2"
             variant="outlined"
             placeholder="Адрес (строка 2)"
             size="small"
-            name="address2"
-            value={form.address2}
+            name="line2"
+            value={form.line2}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            inputRef={register({
-              // required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-              pattern: {
-                value: /([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i,
-                // message: "Адрес введен не полностью.",
-              },
-            })}
+            // inputRef={register({
+            //   pattern: {
+            //     value: /([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i,
+            //   },
+            // })}
           />
         </FormControl>
         <FormControl
           className={clsx(
             classes.textfield,
             classes.textfieldHalfLeft,
-            errors.zipCode && classes.textfieldError,
-            errors.zipCode && classes.textFieldLeftError,
-            errors.zipCode && !errors.city && classes.textFieldLeftErrorReset
+            error.postal_code && classes.textfieldError,
+            error.postal_code && classes.textFieldLeftError,
+            error.postal_code && !error.city && classes.textFieldLeftErrorReset
           )}
         >
           <TextField
-            id="zipCode"
+            id="postal_code"
             variant="outlined"
             placeholder="Почтовый индекс"
             size="small"
-            name="zipCode"
-            value={form.zipCode}
+            name="postal_code"
+            value={form.postal_code}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            inputRef={register({
-              required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-              pattern: {
-                value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/g,
-                // message: "Индекс введен не полностью.",
-              },
-            })}
+            // inputRef={register({
+            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
+            //   pattern: {
+            //     value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/g,
+            //   },
+            // })}
           />
         </FormControl>
         <FormControl
           className={clsx(
             classes.textfield,
             classes.textfieldHalfRight,
-            errors.city && classes.textfieldError
+            error.city && classes.textfieldError
           )}
         >
           <TextField
@@ -582,21 +755,20 @@ export default function MyCheckoutForm(props) {
             value={form.city}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            inputRef={register({
-              required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-              pattern: {
-                value: /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g,
-                // message: "Город введен не полностью.",
-              },
-            })}
+            // inputRef={register({
+            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
+            //   pattern: {
+            //     value: /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g,
+            //   },
+            // })}
           />
         </FormControl>
         <span className={classes.errorMsg}>
-          {(errors.country && errors.country.message) ||
-            (errors.address1 && errors.address1.message) ||
-            (errors.address2 && errors.address2.message) ||
-            (errors.zipCode && errors.zipCode.message) ||
-            (errors.city && errors.city.message)}
+          {(error.country && errorMsg.country) ||
+            (error.line1 && errorMsg.line1) ||
+            (error.line2 && errorMsg.line2) ||
+            (error.postal_code && errorMsg.postal_code) ||
+            (error.city && errorMsg.city)}
         </span>
         <br />
         <br />
@@ -608,11 +780,9 @@ export default function MyCheckoutForm(props) {
           name="submit"
           type="submit"
           variant="contained"
-          disabled={!stripe}
+          disabled={!stripe || loading}
           style={{ textTransform: "none" }}
           endIcon={<LockIcon style={{ marginLeft: "470%" }} />}
-
-          // disabled={loading}
         >
           <span style={{ marginLeft: "10%" }}>
             {" "}

@@ -6,6 +6,7 @@ import FormControl from "@material-ui/core/FormControl"
 import { LanguageContext } from "../layout"
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
 import clsx from "clsx"
+import ClickAwayListener from "@material-ui/core/ClickAwayListener"
 
 const useStyles = makeStyles(theme => ({
   textFieldEmail: {
@@ -54,6 +55,12 @@ export default function () {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
+  const handleClickAway = () => {
+    if (form.email === "") {
+      setErrorMsg(null)
+    }
+  }
+
   const resetHandler = event => {
     setForm({ email: "" })
     setErrorMsg(null)
@@ -71,9 +78,9 @@ export default function () {
 
   const onSubmit = async event => {
     event.preventDefault()
-    if (!executeRecaptcha) {
-      return
-    }
+    // if (!executeRecaptcha) {
+    //   return
+    // }
 
     if (form.email === "") {
       setErrorMsg("field is requred")
@@ -82,20 +89,23 @@ export default function () {
     } else {
       try {
         //   This is the same as grecaptcha.execute on traditional html script tags
-        const result = await executeRecaptcha("store1")
-        setTokenRecapcha(result) //--> grab the generated token by the reCAPTCHA
+        // const result = await executeRecaptcha("store1")
+        // setTokenRecapcha(result) //--> grab the generated token by the reCAPTCHA
         handleLoadingOn()
 
-        const data = JSON.stringify({ emailValue, tokenRecapcha })
+        const data = JSON.stringify({
+          emailValue,
+          // , tokenRecapcha
+        })
 
         let response = await fetch(
-          "https://my-store-1-mailer.herokuapp.com/subscribe",
-          // "http://localhost:3000/subscribe",
+          // "https://my-store-1-mailer.herokuapp.com/subscribe",
+          // "http://localhost:5000/subscribe",
+          "/subscribe",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              '"Accept"': "application/json, text/plain, */*",
             },
             body: data,
           }
@@ -117,50 +127,52 @@ export default function () {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate>
-      <span className={classes.errorMsg}>{errorMsg}</span>
-      <FormControl
-        id="email"
-        className={clsx(
-          classes.textFieldEmail,
-          errorMsg && classes.textfieldError
-        )}
-      >
-        <TextField
-          type="email"
-          name="email"
-          placeholder="Your email address..."
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <form onSubmit={onSubmit} noValidate>
+        <span className={classes.errorMsg}>{errorMsg}</span>
+        <FormControl
+          id="email"
+          className={clsx(
+            classes.textFieldEmail,
+            errorMsg && classes.textfieldError
+          )}
+        >
+          <TextField
+            type="email"
+            name="email"
+            placeholder="Your email address..."
+            variant="outlined"
+            size="small"
+            value={form.email}
+            onChange={changeHandler}
+          />
+        </FormControl>
+        <Button
+          id="submit"
+          name="submit"
+          type="submit"
           variant="outlined"
-          size="small"
-          value={form.email}
-          onChange={changeHandler}
-        />
-      </FormControl>
-      <Button
-        id="submit"
-        name="submit"
-        type="submit"
-        variant="outlined"
-        color="default"
-        className={classes.btnSubscribe}
-        disabled={loading}
-      >
-        {loading
-          ? actLanguage === "DEU"
-            ? "Wird geladen..."
+          color="default"
+          className={classes.btnSubscribe}
+          disabled={loading}
+        >
+          {loading
+            ? actLanguage === "DEU"
+              ? "Wird geladen..."
+              : actLanguage === "RUS"
+              ? "Загрузка ..."
+              : actLanguage === "ENG"
+              ? "Loading..."
+              : "Loading..."
+            : actLanguage === "DEU"
+            ? "Anmelden"
             : actLanguage === "RUS"
-            ? "Загрузка ..."
+            ? "Подписаться"
             : actLanguage === "ENG"
-            ? "Loading..."
-            : "Loading..."
-          : actLanguage === "DEU"
-          ? "Anmelden"
-          : actLanguage === "RUS"
-          ? "Подписаться"
-          : actLanguage === "ENG"
-          ? "Sing up"
-          : null}
-      </Button>
-    </form>
+            ? "Sing up"
+            : null}
+        </Button>
+      </form>
+    </ClickAwayListener>
   )
 }

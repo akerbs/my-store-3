@@ -12,8 +12,8 @@ import Divider from "@material-ui/core/Divider"
 import { navigate } from "gatsby"
 import Slide from "@material-ui/core/Slide"
 import Fade from "@material-ui/core/Fade"
-import { LanguageContext } from "../../components/layout"
-import { CurrencyContext } from "../../components/layout"
+import { LanguageContext } from "../layout"
+import { CurrencyContext } from "../layout"
 
 const useStyles = makeStyles(theme => ({
   root: {

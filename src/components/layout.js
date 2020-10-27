@@ -32,13 +32,14 @@ export const LanguageContext = createContext()
 function Layout({ children }) {
   const classes = useStyles()
 
-  const [actCurrency, setActCurrency] = useState("USD")
-  const [actLanguage, setActLanguage] = useState("ENG")
+  const [actCurrency, setActCurrency] = useState("")
+  const [actLanguage, setActLanguage] = useState("")
 
-  const [countryName, setCountryName] = useState("")
+  const [countryCode, setCountryCode] = useState("")
+
   useEffect(() => {
-    console.log("COUNTRY", countryName)
-  }, [countryName])
+    console.log("COUNTRY", countryCode)
+  }, [countryCode])
 
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -66,64 +67,69 @@ function Layout({ children }) {
     }
   }, [])
 
+  useEffect(() => {
+    async function getLocation() {
+      const response = await fetch("https://ipapi.co/json")
+
+      const info = await response.json()
+      const countryCode = info.country_code
+
+      countryCode == "US"
+        ? setActCurrency("USD")
+        : countryCode == "DE"
+        ? setActCurrency("EUR")
+        : countryCode == "RU"
+        ? setActCurrency("RUB")
+        : setActCurrency("USD")
+
+      return countryCode
+    }
+    getLocation().then(countryCode => console.log("COUNTRY CODE:", countryCode))
+    setCountryCode(countryCode)
+  }, [])
+
   // useEffect(() => {
-  //   async function getLocation() {
-  //     const response = await fetch("https://ipapi.co/json")
+  //   function getLocation() {
+  //     window.navigator.geolocation.getCurrentPosition(
+  //       position => {
+  //         let latitude = position.coords.latitude
+  //         let longitude = position.coords.longitude
 
-  //     const info = await response.json()
-  //     const countryCode = info.country_code
+  //         const url = `http://api.geonames.org/countryCodeJSON?lat=${latitude}&lng=${longitude}&username=anker2702`
 
-  //     countryCode == "US"
-  //       ? setActCurrency("USD")
-  //       : countryCode == "DE"
-  //       ? setActCurrency("EUR")
-  //       : countryCode == "RU"
-  //       ? setActCurrency("RUB")
-  //       : setActCurrency("USD")
+  //         const response = fetch(url)
+  //           .then(res => {
+  //             return res.json()
+  //           })
 
-  //     return countryCode
+  //           .then(data => {
+  //             data.countryCode == "US"
+  //               ? setActCurrency("USD")
+  //               : data.countryCode == "DE"
+  //               ? setActCurrency("EUR")
+  //               : data.countryCode == "RU"
+  //               ? setActCurrency("RUB")
+  //               : setActCurrency("USD")
+  //             console.log("!!!!!ABC!!!!!", data)
+  //             // alert(data.countryName)
+  //             setCountryCode(data.countryCode)
+  //           })
+
+  //           .catch(err => {
+  //             console.log(err)
+  //           })
+  //       },
+  //       error => {
+  //         console.log(error.code)
+  //       }
+  //     )
   //   }
-  //   getLocation().then(countryCode => console.log("COUNTRY CODE:", countryCode))
+  //   getLocation()
   // }, [])
 
-  useEffect(() => {
-    function getLocation() {
-      window.navigator.geolocation.getCurrentPosition(
-        position => {
-          let latitude = position.coords.latitude
-          let longitude = position.coords.longitude
-          // console.log(latitude, longitude)
-          const url = `http://api.geonames.org/countryCodeJSON?lat=${latitude}&lng=${longitude}&username=anker2702`
-
-          const response = fetch(url)
-            .then(res => {
-              return res.json()
-            })
-
-            .then(data => {
-              data.countryCode == "US"
-                ? setActCurrency("USD")
-                : data.countryCode == "DE"
-                ? setActCurrency("EUR")
-                : data.countryCode == "RU"
-                ? setActCurrency("RUB")
-                : setActCurrency("USD")
-              // console.log("!!!!!ABC!!!!!", data)
-              // alert(data.countryName)
-              setCountryName(data.countryName)
-            })
-
-            .catch(err => {
-              console.log(err)
-            })
-        },
-        error => {
-          console.log(error.code)
-        }
-      )
-    }
-    getLocation()
-  }, [])
+  function handleCountryCodeChange(event) {
+    setCountryCode(event.target.value)
+  }
 
   function handleCurrencyChange(event) {
     setActCurrency(event.target.value)
@@ -141,7 +147,7 @@ function Layout({ children }) {
           value={{
             actCurrency,
             handleCurrencyChange,
-            countryName,
+            countryCode,
           }}
         >
           <LanguageContext.Provider
