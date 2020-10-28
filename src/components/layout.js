@@ -74,6 +74,8 @@ function Layout({ children }) {
       const info = await response.json()
       const countryCode = info.country_code
 
+      setCountryCode(countryCode)
+
       countryCode == "US"
         ? setActCurrency("USD")
         : countryCode == "DE"
@@ -85,7 +87,6 @@ function Layout({ children }) {
       return countryCode
     }
     getLocation().then(countryCode => console.log("COUNTRY CODE:", countryCode))
-    setCountryCode(countryCode)
   }, [])
 
   // useEffect(() => {

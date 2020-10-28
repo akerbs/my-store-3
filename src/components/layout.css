@@ -642,4 +642,5 @@ pre tt:after {
 
 .grecaptcha-badge {
   z-index: -9 !important;
+  /* visibility: hidden; */
 }

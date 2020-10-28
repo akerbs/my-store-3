@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography"
 import { LanguageContext } from "../layout"
 import { CurrencyContext } from "../layout"
 import { CartContext } from "../../context/CartContext"
-import { navigate } from "gatsby"
+import { navigate, Link } from "gatsby"
 import StorefrontIcon from "@material-ui/icons/Storefront"
 import IconButton from "@material-ui/core/IconButton"
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace"
@@ -16,17 +16,18 @@ import clsx from "clsx"
 
 const useStyles = makeStyles(theme => ({
   iconBtnMain: {
-    transition: "1s linear",
+    transition: "0.3s linear",
     "&:hover": {
       backgroundColor: "transparent",
       left: "-1%",
     },
   },
   arrowBtn: {
-    transition: "1s linear",
+    color: "#b1b1b1",
+    transition: "0.3s linear",
     "&:hover": {
       backgroundColor: "transparent",
-      color: "black",
+      color: "#303030",
     },
   },
   arrowBtnHovered: {
@@ -87,7 +88,10 @@ export default function Cart(props) {
             )}
           >
             {hovered ? (
-              <Typography variant="body2" style={{ color: "black" }}>
+              <Typography
+                variant="body2"
+                style={{ color: "#303030", fontWeight: 600 }}
+              >
                 Back
               </Typography>
             ) : (
@@ -95,7 +99,10 @@ export default function Cart(props) {
             )}
           </IconButton>
           {!hovered && (
-            <Typography variant="body2" style={{ display: "inline" }}>
+            <Typography
+              variant="body2"
+              style={{ display: "inline", fontWeight: 600 }}
+            >
               MyStore
             </Typography>
           )}
@@ -112,10 +119,80 @@ export default function Cart(props) {
         </Typography>
         <br />
       </div>
-      {Object.keys(cart).map((item, idx) => {
-        const cartItem = cart[item]
-        return <CheckoutCartItem key={idx} cartItem={cartItem} />
-      })}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "50vh",
+          justifyContent: "space-between",
+          // alignContent: "space-between",
+        }}
+      >
+        <div>
+          {Object.keys(cart).map((item, idx) => {
+            const cartItem = cart[item]
+            return <CheckoutCartItem key={idx} cartItem={cartItem} />
+          })}
+        </div>
+        <div style={{ color: "#8c8c8c" }}>
+          <a
+            href="https://stripe.com"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Typography variant="capture" gutterBottom>
+              Powered by{" "}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="capture"
+              style={{
+                display: "inline",
+                fontWeight: 600,
+                fontFamily: "Bebas",
+              }}
+            >
+              STRIPE
+            </Typography>
+          </a>
+          <Typography
+            gutterBottom
+            variant="capture"
+            style={{
+              display: "inline",
+              marginRight: "3%",
+              marginLeft: "3%",
+              color: "#e7e7e7",
+            }}
+          >
+            {" "}
+            |{" "}
+          </Typography>
+          <a
+            href="https://stripe.com/checkout/terms"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Typography
+              gutterBottom
+              variant="capture"
+              style={{ display: "inline", marginRight: "2%" }}
+            >
+              Terms{" "}
+            </Typography>
+          </a>
+          <a
+            href="https://stripe.com/privacy"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Typography
+              gutterBottom
+              variant="capture"
+              style={{ display: "inline" }}
+            >
+              Privacy
+            </Typography>
+          </a>
+        </div>
+      </div>
     </>
   )
 }

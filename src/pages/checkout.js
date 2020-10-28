@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
     padding: "9% 4% 0 17%",
     float: "left",
+    overflowY: "scroll",
   },
   boxRight: {
     boxShadow: " -1px 0 3px -1px rgba(0, 0, 0, 0.1)",
@@ -44,6 +45,7 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
     padding: "10% 5% 5% 5%",
     float: "right",
+    overflowY: "scroll",
   },
 }))
 
