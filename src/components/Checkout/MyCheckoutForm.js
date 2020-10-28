@@ -78,6 +78,12 @@ const useStyles = makeStyles(theme => ({
         // borderWidth: "1px 1px  0 1px ",
         borderBottomColor: "transparent",
       },
+      "&:hover fieldset": {
+        borderBottomColor: "transparent",
+      },
+      "&.Mui-focused fieldset": {
+        borderBottomColor: theme.palette.primary.main,
+      },
     },
   },
   textfieldFullWidthBetween: {
@@ -86,6 +92,12 @@ const useStyles = makeStyles(theme => ({
         borderRadius: 0,
         borderBottomColor: "transparent",
         // borderWidth: "0 1px 1px 1px",
+      },
+      "&:hover fieldset": {
+        borderBottomColor: "transparent",
+      },
+      "&.Mui-focused fieldset": {
+        borderBottomColor: theme.palette.primary.main,
       },
     },
   },
@@ -97,6 +109,12 @@ const useStyles = makeStyles(theme => ({
         // borderTopColor: "transparent",
         borderRightColor: "transparent",
         // borderWidth: "0 0 1px 1px",
+      },
+      "&:hover fieldset": {
+        borderRightColor: "transparent",
+      },
+      "&.Mui-focused fieldset": {
+        borderRightColor: theme.palette.primary.main,
       },
     },
   },
