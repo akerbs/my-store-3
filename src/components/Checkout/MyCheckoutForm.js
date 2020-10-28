@@ -217,6 +217,7 @@ export default function MyCheckoutForm(props) {
   const { actLanguage } = useContext(LanguageContext)
   const {
     cart,
+    clearCart,
     ttlPrice,
     currentCurrency,
     ttlPriceFormatted,
@@ -435,6 +436,7 @@ export default function MyCheckoutForm(props) {
             setStripeErrorMsg(null)
             console.log("CheckoutForm.js 25 | payment successful!")
             // handleLoadingOff()
+            clearCart()
             navigate("/success")
           }
         } catch (error) {
@@ -449,7 +451,7 @@ export default function MyCheckoutForm(props) {
 
   return (
     <div className={classes.root}>
-      <Typography variant="body1" style={{ fontWeight: 600 }}>
+      <Typography variant="body1" style={{ fontWeight: 600, color: "#303030" }}>
         Pay with card
       </Typography>
       <br />

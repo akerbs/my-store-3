@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     width: "100vw",
     minHeight: "100vh",
-    overflowY: "scroll",
+    // overflowY: "scroll",
   },
   boxLeft: {
     boxShadow: " 1px 0 3px -1px rgba(0, 0, 0, 0.1)",

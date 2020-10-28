@@ -101,7 +101,7 @@ export default function Cart(props) {
           {!hovered && (
             <Typography
               variant="body2"
-              style={{ display: "inline", fontWeight: 600 }}
+              style={{ display: "inline", fontWeight: 600, color: "#303030" }}
             >
               MyStore
             </Typography>
@@ -137,6 +137,8 @@ export default function Cart(props) {
         <div style={{ color: "#8c8c8c" }}>
           <a
             href="https://stripe.com"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Typography variant="capture" gutterBottom>
@@ -169,6 +171,8 @@ export default function Cart(props) {
           </Typography>
           <a
             href="https://stripe.com/checkout/terms"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Typography
@@ -181,6 +185,8 @@ export default function Cart(props) {
           </a>
           <a
             href="https://stripe.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Typography

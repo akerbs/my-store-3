@@ -51,9 +51,9 @@ const CartContextProvider = props => {
   }
 
   function clearCart() {
-    let hardCopy = [...cart]
-    hardCopy = hardCopy.splice(0, hardCopy.length)
-    setCart(hardCopy)
+    // let hardCopy = [...cart]
+    // hardCopy = hardCopy.splice(0, hardCopy.length)
+    setCart([])
   }
 
   let currentCurrency =
@@ -133,24 +133,3 @@ const CartContextProvider = props => {
 }
 
 export { CartContextProvider, CartContext }
-
-// setTimeout(() => {
-//   handlePricesUpdate()
-// }, 5000)
-
-// useEffect(() => {
-//   handlePricesUpdate()
-// }, [usdRubRate, usdEurRate])
-
-// addItem,
-// removeItem,
-// clearCart
-// totalPrice,
-// formattedTotalPrice,
-
-// incrementItem,
-// decrementItem,
-
-// cartCount,
-// cartDetails,
-// redirectToCheckout,
