@@ -431,6 +431,10 @@ export default function MyCheckoutForm(props) {
 
   return (
     <div className={classes.root}>
+      <Typography variant="body1" style={{ fontWeight: 600 }}>
+        Pay with card
+      </Typography>
+      <br />
       <form
         onSubmit={onSubmit}
         // onSubmit={handleSubmit(onSubmit)}
@@ -786,7 +790,8 @@ export default function MyCheckoutForm(props) {
         >
           <span style={{ marginLeft: "10%" }}>
             {" "}
-            Pay {ttlPriceFormatted} {currentCurrencySign}
+            Pay {currentCurrencySign}
+            {ttlPriceFormatted}
           </span>
         </Button>
       </form>

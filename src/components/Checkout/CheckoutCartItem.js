@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     margin: "auto",
     maxWidth: "auto",
     padding: 8,
+    backgroundColor: "inherit",
   },
   img: {
     margin: "auto",
@@ -132,14 +133,14 @@ export default function CheckoutCartItem(props) {
               xs={3}
               direction="column"
               spacing={1}
-              // style={{ paddingLeft: "8px", paddingRight: 0 }}
+              style={{ textAlign: "end" }}
             >
               <Typography
+                gutterBottom
                 variant="body2"
                 color="textPrimary"
                 style={{ fontWeight: 600 }}
               >
-                {getItemFormTotalPrice()}{" "}
                 {actCurrency === "EUR"
                   ? props.cartItem.currencySignEur
                   : actCurrency === "RUB"
@@ -147,22 +148,23 @@ export default function CheckoutCartItem(props) {
                   : actCurrency === "USD"
                   ? props.cartItem.currencySignUsd
                   : null}
+                {getItemFormTotalPrice()}
               </Typography>
-              <Typography variant="caption" gutterBottom>
-                {props.cartItem.quantity > 1 && getItemFormPrice()}{" "}
+              <Typography gutterBottom variant="caption">
                 {props.cartItem.quantity > 1 && actCurrency === "EUR"
                   ? props.cartItem.currencySignEur
                   : actCurrency === "RUB"
                   ? props.cartItem.currencySignRub
                   : actCurrency === "USD"
                   ? props.cartItem.currencySignUsd
-                  : null}{" "}
-                each
+                  : null}
+                {props.cartItem.quantity > 1 && getItemFormPrice()}{" "}
+                {props.cartItem.quantity > 1 && "each"}
               </Typography>
             </Grid>
           </Grid>
         </Paper>
-        <Divider variant="middle" light={true} />
+        {/* <Divider variant="middle" light={true} /> */}
       </div>
     </>
   )

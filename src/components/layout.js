@@ -19,7 +19,7 @@ const document = require("global/document")
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: "rgb(255,255,255)",
+    backgroundColor: "#fff",
     maxWidth: "100vw",
     margin: 0,
     padding: 0,
