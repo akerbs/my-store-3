@@ -13,6 +13,8 @@ import StorefrontIcon from "@material-ui/icons/Storefront"
 import IconButton from "@material-ui/core/IconButton"
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace"
 import clsx from "clsx"
+import { Elements } from "@stripe/react-stripe-js"
+import getStripe from "../../utils/stripejs"
 
 import LinkToStripeInfo from "./linkToStripeInfo"
 const window = require("global/window")
@@ -63,106 +65,66 @@ export default function Cart(props) {
   const [hovered, setHovered] = useState(false)
 
   return (
-    <div style={{ minHeight: rootMinHeight }}>
-      <CssBaseline />
-      <div style={{ marginLeft: btnBackToStoreMarginLeft }}>
-        <IconButton
-          color="secondary"
-          disableRipple={true}
-          className={classes.iconBtnMain}
-          onClick={() => {
-            navigate("/")
-          }}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          <IconButton
-            color="secondary"
-            edge="end"
-            disableRipple={true}
-            className={clsx(
-              classes.arrowBtn,
-              hovered && classes.arrowBtnHovered
-            )}
-          >
-            <KeyboardBackspaceIcon fontSize="small" />
-          </IconButton>
+    <Elements stripe={getStripe()}>
+      <div style={{ minHeight: rootMinHeight }}>
+        <CssBaseline />
+        <div style={{ marginLeft: btnBackToStoreMarginLeft }}>
           <IconButton
             color="secondary"
             disableRipple={true}
-            className={clsx(
-              classes.storeBtn,
-              !hovered && classes.storeBtnNoHovered
-            )}
-          >
-            {hovered ? (
-              <Typography
-                style={{ color: "#303030", fontSize: 14, fontWeight: 600 }}
-              >
-                Back
-              </Typography>
-            ) : (
-              <StorefrontIcon style={{ fontSize: 18 }} />
-            )}
-          </IconButton>
-          {!hovered && (
-            <Typography
-              style={{
-                display: "inline",
-                fontWeight: 600,
-                color: "#303030",
-                fontSize: 14,
-              }}
-            >
-              MyStore
-            </Typography>
-          )}
-        </IconButton>
-      </div>
-      <br />
-
-      {window.innerWidth > 600 && (
-        <div
-          style={{ marginLeft: paySumMArginLeft, textAlign: paySumTextAlign }}
-        >
-          {" "}
-          <Typography
-            style={{
-              display: "inline",
-              fontWeight: 600,
-              color: "#767676",
-              fontSize: 16,
+            className={classes.iconBtnMain}
+            onClick={() => {
+              navigate("/")
             }}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
           >
-            Pay
-          </Typography>
-          <Typography
-            variant="h4"
-            style={{ fontWeight: 600, color: "#303030" }}
-          >
-            {currentCurrencySign}
-            {ttlPriceFormatted}
-          </Typography>
-          <br />
+            <IconButton
+              color="secondary"
+              edge="end"
+              disableRipple={true}
+              className={clsx(
+                classes.arrowBtn,
+                hovered && classes.arrowBtnHovered
+              )}
+            >
+              <KeyboardBackspaceIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              color="secondary"
+              disableRipple={true}
+              className={clsx(
+                classes.storeBtn,
+                !hovered && classes.storeBtnNoHovered
+              )}
+            >
+              {hovered ? (
+                <Typography
+                  style={{ color: "#303030", fontSize: 14, fontWeight: 600 }}
+                >
+                  Back
+                </Typography>
+              ) : (
+                <StorefrontIcon style={{ fontSize: 18 }} />
+              )}
+            </IconButton>
+            {!hovered && (
+              <Typography
+                style={{
+                  display: "inline",
+                  fontWeight: 600,
+                  color: "#303030",
+                  fontSize: 14,
+                }}
+              >
+                MyStore
+              </Typography>
+            )}
+          </IconButton>
         </div>
-      )}
+        <br />
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "50vh",
-          justifyContent: "space-between",
-          // alignContent: "space-between",
-        }}
-      >
-        <div>
-          {Object.keys(cart).map((item, idx) => {
-            const cartItem = cart[item]
-            return <CheckoutCartItem key={idx} cartItem={cartItem} />
-          })}
-        </div>
-        {window.innerWidth < 599 && (
+        {window.innerWidth > 600 && (
           <div
             style={{ marginLeft: paySumMArginLeft, textAlign: paySumTextAlign }}
           >
@@ -188,9 +150,54 @@ export default function Cart(props) {
           </div>
         )}
 
-        {window.innerWidth > 600 && <LinkToStripeInfo />}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "50vh",
+            justifyContent: "space-between",
+            // alignContent: "space-between",
+          }}
+        >
+          <div>
+            {Object.keys(cart).map((item, idx) => {
+              const cartItem = cart[item]
+              return <CheckoutCartItem key={idx} cartItem={cartItem} />
+            })}
+          </div>
+          {window.innerWidth < 599 && (
+            <div
+              style={{
+                marginLeft: paySumMArginLeft,
+                textAlign: paySumTextAlign,
+              }}
+            >
+              {" "}
+              <Typography
+                style={{
+                  display: "inline",
+                  fontWeight: 600,
+                  color: "#767676",
+                  fontSize: 16,
+                }}
+              >
+                Pay
+              </Typography>
+              <Typography
+                variant="h4"
+                style={{ fontWeight: 600, color: "#303030" }}
+              >
+                {currentCurrencySign}
+                {ttlPriceFormatted}
+              </Typography>
+              <br />
+            </div>
+          )}
+
+          {window.innerWidth > 600 && <LinkToStripeInfo />}
+        </div>
       </div>
-    </div>
+    </Elements>
   )
 }
 

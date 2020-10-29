@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { Elements } from "@stripe/react-stripe-js"
+
 import { Link, navigate } from "gatsby"
 // import CardForm from "../components/Checkout/CardForm"
 // import FpxBankForm from "../components/Checkout/FpxBankForm"
@@ -15,7 +15,7 @@ import withWidth from "@material-ui/core/withWidth"
 import Hidden from "@material-ui/core/Hidden"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import PropTypes from "prop-types"
-import getStripe from "../utils/stripejs"
+
 import CheckoutCartOverview from "../components/Checkout/CheckoutCartOverview"
 
 const useStyles = makeStyles(theme => ({
@@ -55,26 +55,25 @@ function Checkout() {
     <>
       <CssBaseline />
       {/* <Container className={classes.contentWrapper} id="wrapper"> */}
-      <Elements stripe={getStripe()}>
-        <Hidden smDown>
-          <div className={classes.contentWrapper}>
-            <div className={classes.boxLeft}>
-              <CheckoutCartOverview />
-            </div>
 
-            <div className={classes.boxRight}>
-              {/* <SplitForm /> */}
-              <MyCheckoutForm />
-            </div>
+      <Hidden smDown>
+        <div className={classes.contentWrapper}>
+          <div className={classes.boxLeft}>
+            <CheckoutCartOverview />
           </div>
-        </Hidden>
-        {/* Middle up hide - but show for little viewport */}
-        <Hidden mdUp>
-          <CheckoutCartOverview />
-          <MyCheckoutForm />
-        </Hidden>
-        {/* </Container> */}
-      </Elements>
+
+          <div className={classes.boxRight}>
+            {/* <SplitForm /> */}
+            <MyCheckoutForm />
+          </div>
+        </div>
+      </Hidden>
+      {/* Middle up hide - but show for little viewport */}
+      <Hidden mdUp>
+        <CheckoutCartOverview />
+        <MyCheckoutForm />
+      </Hidden>
+      {/* </Container> */}
     </>
   )
 }
