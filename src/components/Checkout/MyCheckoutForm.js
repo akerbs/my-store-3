@@ -490,7 +490,7 @@ export default function MyCheckoutForm(props) {
         </span>
         <br /> <br />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 14 }}>Card Data</span>
+          <span style={{ fontSize: 14 }}>Card information</span>
           {/* <span style={{ fontSize: 14 }}>error.message</span> */}
         </div>
         <FormControl
@@ -603,7 +603,7 @@ export default function MyCheckoutForm(props) {
         </span>
         <br />
         <br />
-        <span style={{ fontSize: 14 }}>Name on the Card</span>
+        <span style={{ fontSize: 14 }}>Name on card</span>
         <FormControl
           className={clsx(
             classes.textfield,
@@ -627,7 +627,7 @@ export default function MyCheckoutForm(props) {
         </FormControl>
         <span className={classes.errorMsg}>{error.name && errorMsg.name}</span>
         <br /> <br />
-        <span style={{ fontSize: 14 }}>Shipping Address</span>
+        <span style={{ fontSize: 14 }}>Shipping address</span>
         <FormControl
           variant="outlined"
           className={clsx(

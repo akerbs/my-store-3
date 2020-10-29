@@ -105,9 +105,7 @@ export default function CheckoutCartItem(props) {
               // style={{ paddingLeft: "8px", paddingRight: 0 }}
             >
               <Typography
-                gutterBottom
-                variant="body2"
-                style={{ fontWeight: 600 }}
+                style={{ fontWeight: 600, fontSize: 14, lineHeight: 2 }}
               >
                 {actLanguage === "DEU"
                   ? props.cartItem.nameDeu
@@ -117,7 +115,7 @@ export default function CheckoutCartItem(props) {
                   ? props.cartItem.nameEng
                   : null}
               </Typography>
-              <Typography variant="caption" gutterBottom>
+              <Typography style={{ fontSize: 12, color: "#767676" }}>
                 Qty: {props.cartItem.quantity},{" "}
                 {actLanguage === "DEU"
                   ? props.cartItem.descriptionDeu
@@ -136,10 +134,8 @@ export default function CheckoutCartItem(props) {
               style={{ textAlign: "end" }}
             >
               <Typography
-                gutterBottom
-                variant="body2"
                 color="textPrimary"
-                style={{ fontWeight: 600 }}
+                style={{ fontWeight: 600, fontSize: 14, lineHeight: 2 }}
               >
                 {actCurrency === "EUR"
                   ? props.cartItem.currencySignEur
@@ -150,7 +146,7 @@ export default function CheckoutCartItem(props) {
                   : null}
                 {getItemFormTotalPrice()}
               </Typography>
-              <Typography gutterBottom variant="caption">
+              <Typography style={{ fontSize: 12, color: "#767676" }}>
                 {props.cartItem.quantity > 1 && actCurrency === "EUR"
                   ? props.cartItem.currencySignEur
                   : actCurrency === "RUB"

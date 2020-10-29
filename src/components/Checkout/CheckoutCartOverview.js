@@ -13,6 +13,7 @@ import StorefrontIcon from "@material-ui/icons/Storefront"
 import IconButton from "@material-ui/core/IconButton"
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace"
 import clsx from "clsx"
+import Stripe from "../../images/stripe.png"
 
 const useStyles = makeStyles(theme => ({
   iconBtnMain: {
@@ -89,19 +90,22 @@ export default function Cart(props) {
           >
             {hovered ? (
               <Typography
-                variant="body2"
-                style={{ color: "#303030", fontWeight: 600 }}
+                style={{ color: "#303030", fontSize: 14, fontWeight: 600 }}
               >
                 Back
               </Typography>
             ) : (
-              <StorefrontIcon fontSize="small" />
+              <StorefrontIcon style={{ fontSize: 18 }} />
             )}
           </IconButton>
           {!hovered && (
             <Typography
-              variant="body2"
-              style={{ display: "inline", fontWeight: 600, color: "#303030" }}
+              style={{
+                display: "inline",
+                fontWeight: 600,
+                color: "#303030",
+                fontSize: 14,
+              }}
             >
               MyStore
             </Typography>
@@ -112,8 +116,17 @@ export default function Cart(props) {
 
       <div style={{ marginLeft: "2%" }}>
         {" "}
-        Pay
-        <Typography variant="h4" style={{ fontWeight: 600 }}>
+        <Typography
+          style={{
+            display: "inline",
+            fontWeight: 600,
+            color: "#767676",
+            fontSize: 16,
+          }}
+        >
+          Pay
+        </Typography>
+        <Typography variant="h4" style={{ fontWeight: 600, color: "#303030" }}>
           {currentCurrencySign}
           {ttlPriceFormatted}
         </Typography>
@@ -135,16 +148,17 @@ export default function Cart(props) {
           })}
         </div>
         <div style={{ color: "#8c8c8c" }}>
-          <a
-            href="https://stripe.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Typography variant="capture" gutterBottom>
-              Powered by{" "}
-            </Typography>
-            <Typography
+          <div style={{ display: "inline" }}>
+            <a
+              href="https://stripe.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Typography style={{ display: "inline", fontSize: 12 }}>
+                Powered by{" "}
+              </Typography>
+              {/* <Typography
               gutterBottom
               variant="capture"
               style={{
@@ -152,10 +166,18 @@ export default function Cart(props) {
                 fontWeight: 600,
                 fontFamily: "Bebas",
               }}
-            >
-              STRIPE
-            </Typography>
-          </a>
+            > */}
+
+              <img
+                src={Stripe}
+                alt="Stripe logo"
+                style={{ width: 33, marginBottom: "-0.7%" }}
+              />
+
+              {/* </Typography> */}
+            </a>
+          </div>
+
           <Typography
             gutterBottom
             variant="capture"
@@ -169,34 +191,32 @@ export default function Cart(props) {
             {" "}
             |{" "}
           </Typography>
-          <a
-            href="https://stripe.com/checkout/terms"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Typography
-              gutterBottom
-              variant="capture"
-              style={{ display: "inline", marginRight: "2%" }}
+          <div style={{ display: "inline" }}>
+            <a
+              href="https://stripe.com/checkout/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "inherit" }}
             >
-              Terms{" "}
-            </Typography>
-          </a>
-          <a
-            href="https://stripe.com/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Typography
-              gutterBottom
-              variant="capture"
-              style={{ display: "inline" }}
+              <Typography
+                style={{ display: "inline", marginRight: "2%", fontSize: 12 }}
+              >
+                Terms{" "}
+              </Typography>
+            </a>
+          </div>
+          <div style={{ display: "inline" }}>
+            <a
+              href="https://stripe.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "inherit" }}
             >
-              Privacy
-            </Typography>
-          </a>
+              <Typography style={{ display: "inline", fontSize: 12 }}>
+                Privacy
+              </Typography>
+            </a>
+          </div>
         </div>
       </div>
     </>

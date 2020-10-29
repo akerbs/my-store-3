@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     // minWidth: "50vw",
     // maxWidth: "50vw",
     margin: 0,
-    padding: "9% 4% 0 17%",
+    padding: "8% 5% 0 18%",
     float: "left",
   },
   boxRight: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     // minWidth: "50vw",
     // maxWidth: "50vw",
     margin: 0,
-    padding: "10% 5% 5% 5%",
+    padding: "9% 5% 5% 5.5%",
     float: "right",
   },
 }))
