@@ -14,6 +14,9 @@ import Slide from "@material-ui/core/Slide"
 import Fade from "@material-ui/core/Fade"
 import { LanguageContext } from "../layout"
 import { CurrencyContext } from "../layout"
+const window = require("global/window")
+
+const CheckoutCartItemPadding = window.innerWidth <= 599 ? "8%" : "2%"
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -21,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     margin: "auto",
     maxWidth: "auto",
-    padding: 8,
+    padding: CheckoutCartItemPadding,
     backgroundColor: "inherit",
   },
   img: {

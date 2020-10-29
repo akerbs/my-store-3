@@ -33,12 +33,22 @@ import {
 import StripeInput from "./StripeInput"
 import LockIcon from "@material-ui/icons/Lock"
 import { navigate } from "gatsby"
+import LinkToStripeInfo from "./linkToStripeInfo"
 
 const window = require("global/window")
 
+const foolWidth = window.innerWidth <= 599 ? 288 : 380
+const halfFoolWidth = foolWidth / 2
+const selectMenuWidth = window.innerWidth <= 599 ? 288 : 348
+const rootMarginLeft = window.innerWidth <= 599 ? "5%" : 0
+const lockIconMarginLeft = window.innerWidth <= 599 ? "350%" : "470%"
+const paymentCardsMarginRight = window.innerWidth <= 599 ? "11%" : "8%"
+
 const useStyles = makeStyles(theme => ({
   root: {
-    width: 380,
+    width: foolWidth,
+    marginLeft: rootMarginLeft,
+    minHeight: "100vh",
   },
 
   textfield: {
@@ -68,7 +78,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   textfieldFullWidth: {
-    width: 380,
+    width: foolWidth,
   },
   textfieldFullWidthPartTop: {
     // paddingBottom: "-0.25%",
@@ -102,7 +112,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   textfieldHalfLeft: {
-    width: 190,
+    width: halfFoolWidth,
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderRadius: `0 0 0 4px`,
@@ -119,7 +129,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   textfieldHalfRight: {
-    width: 190,
+    width: halfFoolWidth,
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderRadius: `0 0 4px 0`,
@@ -198,7 +208,7 @@ const useStyles = makeStyles(theme => ({
   selectRoot: {},
   select: {},
   selectMenu: {
-    width: 348,
+    width: selectMenuWidth,
     padding: "2.109% 0 2.109% 3%",
     margin: 0,
     marginBottom: "-0.25%",
@@ -451,9 +461,15 @@ export default function MyCheckoutForm(props) {
 
   return (
     <div className={classes.root}>
-      <Typography variant="body1" style={{ fontWeight: 600, color: "#303030" }}>
-        Pay with card
-      </Typography>
+      {window.innerWidth > 600 && (
+        <Typography
+          variant="body1"
+          style={{ fontWeight: 600, color: "#303030" }}
+        >
+          Pay with card
+        </Typography>
+      )}
+
       <br />
       <form
         onSubmit={onSubmit}
@@ -519,17 +535,17 @@ export default function MyCheckoutForm(props) {
                     display: "flex",
                     padding: 0,
                     margin: 0,
-                    marginRight: "8%",
+                    marginRight: paymentCardsMarginRight,
                   }}
                 >
                   <img
                     src={payCard1}
-                    style={{ height: 18, padding: 0, margin: 0 }}
+                    style={{ height: 17, padding: 0, margin: 0 }}
                   />
                   <img
                     src={payCard2}
                     style={{
-                      height: 18,
+                      height: 17,
                       padding: 0,
                       margin: 0,
                       marginLeft: "5%",
@@ -538,7 +554,7 @@ export default function MyCheckoutForm(props) {
                   <img
                     src={payCard22}
                     style={{
-                      height: 18,
+                      height: 17,
                       padding: 0,
                       margin: 0,
                       marginLeft: "5%",
@@ -806,7 +822,7 @@ export default function MyCheckoutForm(props) {
           variant="contained"
           disabled={!stripe || loading}
           style={{ textTransform: "none" }}
-          endIcon={<LockIcon style={{ marginLeft: "470%" }} />}
+          endIcon={<LockIcon style={{ marginLeft: lockIconMarginLeft }} />}
         >
           <span style={{ marginLeft: "10%" }}>
             {" "}
@@ -815,6 +831,12 @@ export default function MyCheckoutForm(props) {
           </span>
         </Button>
       </form>
+      {window.innerWidth <= 599 && (
+        <>
+          <br />
+          <LinkToStripeInfo />
+        </>
+      )}
     </div>
   )
 }

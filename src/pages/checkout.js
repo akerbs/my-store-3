@@ -16,7 +16,6 @@ import Hidden from "@material-ui/core/Hidden"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import PropTypes from "prop-types"
 import getStripe from "../utils/stripejs"
-
 import CheckoutCartOverview from "../components/Checkout/CheckoutCartOverview"
 
 const useStyles = makeStyles(theme => ({
@@ -70,7 +69,10 @@ function Checkout() {
           </div>
         </Hidden>
         {/* Middle up hide - but show for little viewport */}
-        <Hidden mdUp>test mini display</Hidden>
+        <Hidden mdUp>
+          <CheckoutCartOverview />
+          <MyCheckoutForm />
+        </Hidden>
         {/* </Container> */}
       </>
     </Elements>

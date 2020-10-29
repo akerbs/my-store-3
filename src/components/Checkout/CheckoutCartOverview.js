@@ -13,7 +13,13 @@ import StorefrontIcon from "@material-ui/icons/Storefront"
 import IconButton from "@material-ui/core/IconButton"
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace"
 import clsx from "clsx"
-import Stripe from "../../images/stripe.png"
+
+import LinkToStripeInfo from "./linkToStripeInfo"
+const window = require("global/window")
+
+const btnBackToStoreMarginLeft = window.innerWidth <= 599 ? 0 : "-8%"
+const paySumMArginLeft = window.innerWidth <= 599 ? 0 : "2%"
+const paySumTextAlign = window.innerWidth <= 599 ? "center" : "inherit"
 
 const useStyles = makeStyles(theme => ({
   iconBtnMain: {
@@ -56,9 +62,9 @@ export default function Cart(props) {
   const [hovered, setHovered] = useState(false)
 
   return (
-    <>
+    <div style={{ minHeight: "100vh" }}>
       <CssBaseline />
-      <div style={{ marginLeft: "-8%" }}>
+      <div style={{ marginLeft: btnBackToStoreMarginLeft }}>
         <IconButton
           color="secondary"
           disableRipple={true}
@@ -66,8 +72,8 @@ export default function Cart(props) {
           onClick={() => {
             navigate("/")
           }}
-          onMouseOver={() => setHovered(true)}
-          onMouseOut={() => setHovered(false)}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
         >
           <IconButton
             color="secondary"
@@ -114,24 +120,32 @@ export default function Cart(props) {
       </div>
       <br />
 
-      <div style={{ marginLeft: "2%" }}>
-        {" "}
-        <Typography
-          style={{
-            display: "inline",
-            fontWeight: 600,
-            color: "#767676",
-            fontSize: 16,
-          }}
+      {window.innerWidth > 600 && (
+        <div
+          style={{ marginLeft: paySumMArginLeft, textAlign: paySumTextAlign }}
         >
-          Pay
-        </Typography>
-        <Typography variant="h4" style={{ fontWeight: 600, color: "#303030" }}>
-          {currentCurrencySign}
-          {ttlPriceFormatted}
-        </Typography>
-        <br />
-      </div>
+          {" "}
+          <Typography
+            style={{
+              display: "inline",
+              fontWeight: 600,
+              color: "#767676",
+              fontSize: 16,
+            }}
+          >
+            Pay
+          </Typography>
+          <Typography
+            variant="h4"
+            style={{ fontWeight: 600, color: "#303030" }}
+          >
+            {currentCurrencySign}
+            {ttlPriceFormatted}
+          </Typography>
+          <br />
+        </div>
+      )}
+
       <div
         style={{
           display: "flex",
@@ -147,79 +161,35 @@ export default function Cart(props) {
             return <CheckoutCartItem key={idx} cartItem={cartItem} />
           })}
         </div>
-        <div style={{ color: "#8c8c8c" }}>
-          <div style={{ display: "inline" }}>
-            <a
-              href="https://stripe.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <Typography style={{ display: "inline", fontSize: 12 }}>
-                Powered by{" "}
-              </Typography>
-              {/* <Typography
-              gutterBottom
-              variant="capture"
+        {window.innerWidth < 599 && (
+          <div
+            style={{ marginLeft: paySumMArginLeft, textAlign: paySumTextAlign }}
+          >
+            {" "}
+            <Typography
               style={{
                 display: "inline",
                 fontWeight: 600,
-                fontFamily: "Bebas",
+                color: "#767676",
+                fontSize: 16,
               }}
-            > */}
-
-              <img
-                src={Stripe}
-                alt="Stripe logo"
-                style={{ width: 33, marginBottom: "-0.7%" }}
-              />
-
-              {/* </Typography> */}
-            </a>
-          </div>
-
-          <Typography
-            gutterBottom
-            variant="capture"
-            style={{
-              display: "inline",
-              marginRight: "3%",
-              marginLeft: "3%",
-              color: "#e7e7e7",
-            }}
-          >
-            {" "}
-            |{" "}
-          </Typography>
-          <div style={{ display: "inline" }}>
-            <a
-              href="https://stripe.com/checkout/terms"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: "none", color: "inherit" }}
             >
-              <Typography
-                style={{ display: "inline", marginRight: "2%", fontSize: 12 }}
-              >
-                Terms{" "}
-              </Typography>
-            </a>
-          </div>
-          <div style={{ display: "inline" }}>
-            <a
-              href="https://stripe.com/privacy"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: "none", color: "inherit" }}
+              Pay
+            </Typography>
+            <Typography
+              variant="h4"
+              style={{ fontWeight: 600, color: "#303030" }}
             >
-              <Typography style={{ display: "inline", fontSize: 12 }}>
-                Privacy
-              </Typography>
-            </a>
+              {currentCurrencySign}
+              {ttlPriceFormatted}
+            </Typography>
+            <br />
           </div>
-        </div>
+        )}
+
+        {window.innerWidth > 600 && <LinkToStripeInfo />}
       </div>
-    </>
+    </div>
   )
 }
 
