@@ -52,10 +52,10 @@ function Checkout() {
   const classes = useStyles()
 
   return (
-    <Elements stripe={getStripe()}>
+    <>
       <CssBaseline />
-      <>
-        {/* <Container className={classes.contentWrapper} id="wrapper"> */}
+      {/* <Container className={classes.contentWrapper} id="wrapper"> */}
+      <Elements stripe={getStripe()}>
         <Hidden smDown>
           <div className={classes.contentWrapper}>
             <div className={classes.boxLeft}>
@@ -74,8 +74,8 @@ function Checkout() {
           <MyCheckoutForm />
         </Hidden>
         {/* </Container> */}
-      </>
-    </Elements>
+      </Elements>
+    </>
   )
 }
 
