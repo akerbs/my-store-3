@@ -11,8 +11,10 @@ import { LanguageContext } from "../layout"
 import Stripe from "../../images/stripe.png"
 const window = require("global/window")
 
+const rootMarginBottom = window.innerWidth <= 599 ? "10%" : 0
 const rootTextAlign = window.innerWidth <= 599 ? "center" : "inherit"
-const termsPrivacyMargin = window.innerWidth <= 599 ? "2% 0 3% 0" : 0
+const termsPrivacyMarginTop = window.innerWidth <= 599 ? "3%" : 0
+const termsPrivacydisplay = window.innerWidth <= 599 ? "block" : "inline"
 
 const useStyles = makeStyles(theme => ({}))
 
@@ -20,14 +22,20 @@ export default function (props) {
   const classes = useStyles()
 
   return (
-    <div style={{ color: "#8c8c8c", textAlign: rootTextAlign }}>
-      <div style={{ display: "inline" }}>
-        <a
-          href="https://stripe.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
+    <div
+      style={{
+        color: "#8c8c8c",
+        textAlign: rootTextAlign,
+        marginBottom: rootMarginBottom,
+      }}
+    >
+      <a
+        href="https://stripe.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <div style={{ display: "inline" }}>
           <Typography style={{ display: "inline", fontSize: 12 }}>
             Powered by{" "}
           </Typography>
@@ -35,10 +43,10 @@ export default function (props) {
           <img
             src={Stripe}
             alt="Stripe logo"
-            style={{ width: 33, marginBottom: "-0.7%" }}
+            style={{ width: 33, marginBottom: "-0.9%" }}
           />
-        </a>
-      </div>
+        </div>
+      </a>
       {window.innerWidth > 600 ? (
         <Typography
           style={{
@@ -55,7 +63,12 @@ export default function (props) {
       ) : (
         <br />
       )}
-      <div style={{ display: "inline", margin: termsPrivacyMargin }}>
+      <div
+        style={{
+          display: termsPrivacydisplay,
+          marginTop: termsPrivacyMarginTop,
+        }}
+      >
         <div style={{ display: "inline" }}>
           <a
             href="https://stripe.com/checkout/terms"

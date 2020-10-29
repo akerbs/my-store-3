@@ -17,7 +17,7 @@ import { CurrencyContext } from "../layout"
 const window = require("global/window")
 
 const CheckoutCartItemPadding =
-  window.innerWidth <= 599 ? "0 3% 1% 7%" : "0 2% 3% 2%"
+  window.innerWidth <= 599 ? "0 1% 1% 4%" : "0 2% 3% 2%"
 
 const useStyles = makeStyles(theme => ({
   root: {},
