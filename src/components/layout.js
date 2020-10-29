@@ -13,6 +13,8 @@ import { DrawerMenuContextProvider } from "../context/DrawerMenuContext"
 import { ItemsContextProvider } from "../context/ItemsContext"
 import { CartContextProvider } from "../context/CartContext"
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3"
+import { Elements } from "@stripe/react-stripe-js"
+import getStripe from "../utils/stripejs"
 
 const window = require("global/window")
 const document = require("global/document")
@@ -143,38 +145,42 @@ function Layout({ children }) {
 
   return (
     <div className={classes.root}>
-      <GoogleReCaptchaProvider reCaptchaKey={process.env.GATSBY_RECAPTCHA_KEY}>
-        <CurrencyContext.Provider
-          value={{
-            actCurrency,
-            handleCurrencyChange,
-            countryCode,
-          }}
+      <Elements stripe={getStripe()}>
+        <GoogleReCaptchaProvider
+          reCaptchaKey={process.env.GATSBY_RECAPTCHA_KEY}
         >
-          <LanguageContext.Provider
+          <CurrencyContext.Provider
             value={{
-              actLanguage,
-              setActLanguage,
-              handleLanguageChange,
+              actCurrency,
+              handleCurrencyChange,
+              countryCode,
             }}
           >
-            <ItemsContextProvider>
-              <CartContextProvider>
-                <CssBaseline />
-                <ThemeProvider theme={theme}>
-                  <SimpleReactLightbox>
-                    <DrawerMenuContextProvider>
-                      <DrawerCartContextProvider>
-                        {children}
-                      </DrawerCartContextProvider>
-                    </DrawerMenuContextProvider>
-                  </SimpleReactLightbox>
-                </ThemeProvider>
-              </CartContextProvider>
-            </ItemsContextProvider>
-          </LanguageContext.Provider>
-        </CurrencyContext.Provider>
-      </GoogleReCaptchaProvider>
+            <LanguageContext.Provider
+              value={{
+                actLanguage,
+                setActLanguage,
+                handleLanguageChange,
+              }}
+            >
+              <ItemsContextProvider>
+                <CartContextProvider>
+                  <CssBaseline />
+                  <ThemeProvider theme={theme}>
+                    <SimpleReactLightbox>
+                      <DrawerMenuContextProvider>
+                        <DrawerCartContextProvider>
+                          {children}
+                        </DrawerCartContextProvider>
+                      </DrawerMenuContextProvider>
+                    </SimpleReactLightbox>
+                  </ThemeProvider>
+                </CartContextProvider>
+              </ItemsContextProvider>
+            </LanguageContext.Provider>
+          </CurrencyContext.Provider>
+        </GoogleReCaptchaProvider>
+      </Elements>
     </div>
   )
 }
