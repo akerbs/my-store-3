@@ -43,13 +43,12 @@ const selectMenuWidth = window.innerWidth <= 599 ? 288 : 348
 const rootMarginLeft = window.innerWidth <= 599 ? "5%" : 0
 const lockIconMarginLeft = window.innerWidth <= 599 ? "350%" : "470%"
 const paymentCardsMarginRight = window.innerWidth <= 599 ? "11%" : "8%"
-const rootMinHeight = window.innerWidth <= 599 ? 0 : "100vh"
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: foolWidth,
     marginLeft: rootMarginLeft,
-    minHeight: rootMinHeight,
+    minHeight: "100vh",
   },
 
   textfield: {

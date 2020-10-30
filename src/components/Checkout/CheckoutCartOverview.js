@@ -23,9 +23,6 @@ const paySumTextAlign = window.innerWidth <= 599 ? "center" : "inherit"
 const rootMinHeight = window.innerWidth <= 599 ? 0 : "100vh"
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    minHeight: rootMinHeight,
-  },
   iconBtnMain: {
     transition: "0.3s linear",
     "&:hover": {
@@ -66,7 +63,7 @@ export default function Cart(props) {
   const [hovered, setHovered] = useState(false)
 
   return (
-    <div className={classes.root}>
+    <div style={{ minHeight: rootMinHeight }}>
       <CssBaseline />
       <div style={{ marginLeft: btnBackToStoreMarginLeft }}>
         <IconButton
