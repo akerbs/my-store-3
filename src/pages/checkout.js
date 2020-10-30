@@ -15,8 +15,13 @@ import withWidth from "@material-ui/core/withWidth"
 import Hidden from "@material-ui/core/Hidden"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import PropTypes from "prop-types"
-
 import CheckoutCartOverview from "../components/Checkout/CheckoutCartOverview"
+import { Elements } from "@stripe/react-stripe-js"
+import getStripe from "../utils/stripejs"
+
+const window = require("global/window")
+const boxMinHeight = window.innerWidth <= 599 ? 0 : "100vh"
+const boxWidth = window.innerWidth <= 599 ? "100vw" : "50vw"
 
 const useStyles = makeStyles(theme => ({
   contentWrapper: {
@@ -28,8 +33,8 @@ const useStyles = makeStyles(theme => ({
   },
   boxLeft: {
     boxShadow: " 1px 0 3px -1px rgba(0, 0, 0, 0.1)",
-    minHeight: "100vh",
-    width: "50vw",
+    minHeight: boxMinHeight,
+    width: boxWidth,
     // minWidth: "50vw",
     // maxWidth: "50vw",
     margin: 0,
@@ -38,8 +43,8 @@ const useStyles = makeStyles(theme => ({
   },
   boxRight: {
     boxShadow: " -1px 0 3px -1px rgba(0, 0, 0, 0.1)",
-    minHeight: "100vh",
-    width: "50vw",
+    minHeight: boxMinHeight,
+    width: boxWidth,
     // minWidth: "50vw",
     // maxWidth: "50vw",
     margin: 0,
@@ -53,27 +58,29 @@ function Checkout() {
 
   return (
     <>
-      <CssBaseline />
-      {/* <Container className={classes.contentWrapper} id="wrapper"> */}
+      <Elements stripe={getStripe()}>
+        <CssBaseline />
+        {/* <Container className={classes.contentWrapper} id="wrapper"> */}
 
-      <Hidden smDown>
-        <div className={classes.contentWrapper}>
-          <div className={classes.boxLeft}>
-            <CheckoutCartOverview />
-          </div>
+        <Hidden smDown>
+          <div className={classes.contentWrapper}>
+            <div className={classes.boxLeft}>
+              <CheckoutCartOverview />
+            </div>
 
-          <div className={classes.boxRight}>
-            {/* <SplitForm /> */}
-            <MyCheckoutForm />
+            <div className={classes.boxRight}>
+              {/* <SplitForm /> */}
+              <MyCheckoutForm />
+            </div>
           </div>
-        </div>
-      </Hidden>
-      {/* Middle up hide - but show for little viewport */}
-      <Hidden mdUp>
-        <CheckoutCartOverview />
-        <MyCheckoutForm />
-      </Hidden>
-      {/* </Container> */}
+        </Hidden>
+        {/* Middle up hide - but show for little viewport */}
+        <Hidden mdUp>
+          <CheckoutCartOverview />
+          <MyCheckoutForm />
+        </Hidden>
+        {/* </Container> */}
+      </Elements>
     </>
   )
 }
