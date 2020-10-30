@@ -20,7 +20,7 @@ import { Elements } from "@stripe/react-stripe-js"
 import getStripe from "../utils/stripejs"
 
 const window = require("global/window")
-const boxMinHeight = window.innerWidth <= 599 ? 0 : "100vh"
+const boxMinHeight = window.innerWidth <= 599 ? "50vw" : "100vh"
 const boxWidth = window.innerWidth <= 599 ? "100vw" : "50vw"
 
 const useStyles = makeStyles(theme => ({
