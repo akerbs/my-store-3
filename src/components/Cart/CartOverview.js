@@ -121,12 +121,12 @@ export default function Cart(props) {
                   >
                     {loading
                       ? actLanguage === "DEU"
-                        ? "Wird geladen..."
+                        ? "Verarbeitung..."
                         : actLanguage === "RUS"
-                        ? "Загрузка ..."
+                        ? "Обработка ..."
                         : actLanguage === "ENG"
-                        ? "Loading..."
-                        : "Loading..."
+                        ? "Processing..."
+                        : "Processing..."
                       : actLanguage === "DEU"
                       ? "Zur Kasse"
                       : actLanguage === "RUS"
