@@ -684,6 +684,9 @@ export default function MyCheckoutForm(props) {
             <MenuItem value={"DE"} key={"DE"}>
               Germany
             </MenuItem>
+            <MenuItem value={"FR"} key={"FR"}>
+              France
+            </MenuItem>
             <MenuItem value={"US"} key={"US"}>
               USA
             </MenuItem>

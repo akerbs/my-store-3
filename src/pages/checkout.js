@@ -18,6 +18,9 @@ import PropTypes from "prop-types"
 import CheckoutCartOverview from "../components/Checkout/CheckoutCartOverview"
 import { Elements } from "@stripe/react-stripe-js"
 import getStripe from "../utils/stripejs"
+const window = require("global/window")
+
+const boxWidth = window.innerWidth <= 599 ? "100vw" : "50vw"
 
 const useStyles = makeStyles(theme => ({
   contentWrapper: {
@@ -30,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   boxLeft: {
     boxShadow: " 1px 0 3px -1px rgba(0, 0, 0, 0.1)",
     minHeight: "100vh",
-    width: "50vw",
+    width: boxWidth,
     // minWidth: "50vw",
     // maxWidth: "50vw",
     margin: 0,
@@ -40,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   boxRight: {
     boxShadow: " -1px 0 3px -1px rgba(0, 0, 0, 0.1)",
     minHeight: "100vh",
-    width: "50vw",
+    width: boxWidth,
     // minWidth: "50vw",
     // maxWidth: "50vw",
     margin: 0,
