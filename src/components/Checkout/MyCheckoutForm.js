@@ -34,6 +34,7 @@ import StripeInput from "./StripeInput"
 import LockIcon from "@material-ui/icons/Lock"
 import { navigate } from "gatsby"
 import LinkToStripeInfo from "./linkToStripeInfo"
+import { DrawerCartContext } from "../../context/DrawerCartContext"
 
 const window = require("global/window")
 
@@ -224,6 +225,8 @@ const useStyles = makeStyles(theme => ({
 export default function MyCheckoutForm(props) {
   const classes = useStyles()
   const { actCurrency, countryCode } = useContext(CurrencyContext)
+  const { handleDrawerCartClose } = useContext(DrawerCartContext)
+
   const { actLanguage } = useContext(LanguageContext)
   const {
     cart,
@@ -408,6 +411,7 @@ export default function MyCheckoutForm(props) {
       // form submission until Stripe.js has loaded.
       return
     } else {
+      handleLoadingOn()
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
         card: elements.getElement(CardNumberElement),
@@ -427,26 +431,31 @@ export default function MyCheckoutForm(props) {
       if (!error) {
         console.log("Stripe 23 | token generated!", paymentMethod)
         try {
-          handleLoadingOn()
           const { id } = paymentMethod
-          const response = await fetch("http://localhost:8080/stripe/charge", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            // body: JSON.stringify(data),
-            body: JSON.stringify({
-              amount: ttlPrice,
-              currency: currentCurrency,
-              id: id,
-              // receipt_email: form.email,
-            }),
-          })
+
+          const response = await fetch(
+            " https://stripe-api-test-server.herokuapp.com/stripe/charge",
+            {
+              // const response = await fetch("http://localhost:8080/stripe/charge", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              // body: JSON.stringify(data),
+              body: JSON.stringify({
+                amount: ttlPrice,
+                currency: currentCurrency,
+                id: id,
+                // receipt_email: form.email,
+              }),
+            }
+          )
           if (response.ok) {
             setStripeErrorMsg(null)
             console.log("CheckoutForm.js 25 | payment successful!")
             // handleLoadingOff()
             clearCart()
+            handleDrawerCartClose()
             navigate("/success")
           }
         } catch (error) {
@@ -827,11 +836,23 @@ export default function MyCheckoutForm(props) {
           style={{ textTransform: "none" }}
           endIcon={<LockIcon style={{ marginLeft: lockIconMarginLeft }} />}
         >
-          <span style={{ marginLeft: "10%" }}>
-            {" "}
-            Pay {currentCurrencySign}
-            {ttlPriceFormatted}
-          </span>
+          {loading ? (
+            actLanguage === "DEU" ? (
+              "Verarbeitung..."
+            ) : actLanguage === "RUS" ? (
+              "Обработка ..."
+            ) : actLanguage === "ENG" ? (
+              "Processing..."
+            ) : (
+              "Processing..."
+            )
+          ) : (
+            <span style={{ marginLeft: "10%" }}>
+              {" "}
+              Pay {currentCurrencySign}
+              {ttlPriceFormatted}
+            </span>
+          )}
         </Button>
       </form>
       {window.innerWidth <= 599 && (
