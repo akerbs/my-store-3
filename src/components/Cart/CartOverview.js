@@ -11,6 +11,7 @@ import { LanguageContext } from "../layout"
 import { CurrencyContext } from "../layout"
 import { CartContext } from "../../context/CartContext"
 import { navigate } from "gatsby"
+import { DrawerCartContext } from "../../context/DrawerCartContext"
 
 const useStyles = makeStyles(theme => ({
   btnWrapper: {
@@ -28,6 +29,8 @@ export default function Cart(props) {
   function handleSetLoading() {
     setLoading(true)
   }
+
+  const { handleDrawerCartClose } = useContext(DrawerCartContext)
 
   const {
     cart,
@@ -120,6 +123,7 @@ export default function Cart(props) {
                     onClick={() => {
                       // console.log(cart)
                       handleSetLoading()
+                      handleDrawerCartClose()
                       navigate("/checkout")
                     }}
                   >
