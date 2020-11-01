@@ -151,13 +151,14 @@ export default function CheckoutCartItem(props) {
                 {getItemFormTotalPrice()}
               </Typography>
               <Typography style={{ fontSize: 11, color: "#767676" }}>
-                {props.cartItem.quantity > 1 && actCurrency === "EUR"
-                  ? props.cartItem.currencySignEur
-                  : actCurrency === "RUB"
-                  ? props.cartItem.currencySignRub
-                  : actCurrency === "USD"
-                  ? props.cartItem.currencySignUsd
-                  : null}
+                {props.cartItem.quantity > 1 &&
+                  (actCurrency === "EUR"
+                    ? props.cartItem.currencySignEur
+                    : actCurrency === "RUB"
+                    ? props.cartItem.currencySignRub
+                    : actCurrency === "USD"
+                    ? props.cartItem.currencySignUsd
+                    : null)}
                 {props.cartItem.quantity > 1 && getItemFormPrice()}
                 {props.cartItem.quantity > 1 && "/pc."}
               </Typography>
