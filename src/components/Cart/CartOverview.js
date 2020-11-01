@@ -21,9 +21,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function Cart(props) {
   const classes = useStyles()
-  const [loading, setLoading] = useState(false)
   const { actLanguage } = useContext(LanguageContext)
   const { actCurrency } = useContext(CurrencyContext)
+
+  const [loading, setLoading] = useState(false)
+  function handleSetLoading() {
+    setLoading(true)
+  }
 
   const {
     cart,
@@ -115,7 +119,7 @@ export default function Cart(props) {
                     disabled={loading}
                     onClick={() => {
                       // console.log(cart)
-                      setLoading(true)
+                      handleSetLoading()
                       navigate("/checkout")
                     }}
                   >
