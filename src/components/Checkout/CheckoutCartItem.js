@@ -17,7 +17,7 @@ import { CurrencyContext } from "../layout"
 const window = require("global/window")
 
 const CheckoutCartItemPadding =
-  window.innerWidth <= 599 ? "0 1% 1% 4%" : "0 2% 3% 2%"
+  window.innerWidth <= 599 ? "0 4% 1% 5%" : "0 2% 3% 2%"
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -119,7 +119,7 @@ export default function CheckoutCartItem(props) {
                   ? props.cartItem.nameEng
                   : null}
               </Typography>
-              <Typography style={{ fontSize: 12, color: "#767676" }}>
+              <Typography style={{ fontSize: 11, color: "#767676" }}>
                 Qty: {props.cartItem.quantity},{" "}
                 {actLanguage === "DEU"
                   ? props.cartItem.descriptionDeu
@@ -150,7 +150,7 @@ export default function CheckoutCartItem(props) {
                   : null}
                 {getItemFormTotalPrice()}
               </Typography>
-              <Typography style={{ fontSize: 12, color: "#767676" }}>
+              <Typography style={{ fontSize: 11, color: "#767676" }}>
                 {props.cartItem.quantity > 1 && actCurrency === "EUR"
                   ? props.cartItem.currencySignEur
                   : actCurrency === "RUB"
@@ -158,8 +158,8 @@ export default function CheckoutCartItem(props) {
                   : actCurrency === "USD"
                   ? props.cartItem.currencySignUsd
                   : null}
-                {props.cartItem.quantity > 1 && getItemFormPrice()}{" "}
-                {props.cartItem.quantity > 1 && "each"}
+                {props.cartItem.quantity > 1 && getItemFormPrice()}
+                {props.cartItem.quantity > 1 && "/pc."}
               </Typography>
             </Grid>
           </Grid>

@@ -18,11 +18,14 @@ import LinkToStripeInfo from "./linkToStripeInfo"
 const window = require("global/window")
 
 const btnBackToStoreMarginLeft = window.innerWidth <= 599 ? 0 : "-8%"
-const paySumMArginLeft = window.innerWidth <= 599 ? 0 : "2%"
+const paySumMarginLeft = window.innerWidth <= 599 ? 0 : "2%"
 const paySumTextAlign = window.innerWidth <= 599 ? "center" : "inherit"
 const rootMinHeight = window.innerWidth <= 599 ? 0 : "100vh"
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    minHeight: rootMinHeight,
+  },
   iconBtnMain: {
     transition: "0.3s linear",
     "&:hover": {
@@ -63,7 +66,7 @@ export default function Cart(props) {
   const [hovered, setHovered] = useState(false)
 
   return (
-    <div style={{ minHeight: rootMinHeight }}>
+    <div className={classes.root}>
       <CssBaseline />
       <div style={{ marginLeft: btnBackToStoreMarginLeft }}>
         <IconButton
@@ -123,7 +126,7 @@ export default function Cart(props) {
 
       {window.innerWidth > 600 && (
         <div
-          style={{ marginLeft: paySumMArginLeft, textAlign: paySumTextAlign }}
+          style={{ marginLeft: paySumMarginLeft, textAlign: paySumTextAlign }}
         >
           {" "}
           <Typography
@@ -165,7 +168,7 @@ export default function Cart(props) {
         {window.innerWidth < 599 && (
           <div
             style={{
-              marginLeft: paySumMArginLeft,
+              marginLeft: paySumMarginLeft,
               textAlign: paySumTextAlign,
             }}
           >
