@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({}))
 
 export default function (props) {
   const classes = useStyles()
+  const { actLanguage } = useContext(LanguageContext)
 
   return (
     <div
@@ -37,7 +38,13 @@ export default function (props) {
       >
         <div style={{ display: "inline" }}>
           <Typography style={{ display: "inline", fontSize: 12 }}>
-            Powered by{" "}
+            {actLanguage === "DEU"
+              ? "Powered by"
+              : actLanguage === "RUS"
+              ? "На платформе"
+              : actLanguage === "ENG"
+              ? "Powered by"
+              : null}{" "}
           </Typography>
 
           <img
@@ -79,7 +86,13 @@ export default function (props) {
             <Typography
               style={{ display: "inline", marginRight: "2%", fontSize: 12 }}
             >
-              Terms{" "}
+              {actLanguage === "DEU"
+                ? "Bedingungen"
+                : actLanguage === "RUS"
+                ? "Условия"
+                : actLanguage === "ENG"
+                ? "Terms"
+                : null}{" "}
             </Typography>
           </a>
         </div>
@@ -91,7 +104,13 @@ export default function (props) {
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Typography style={{ display: "inline", fontSize: 12 }}>
-              Privacy
+              {actLanguage === "DEU"
+                ? "Datenschutz"
+                : actLanguage === "RUS"
+                ? "Конфиденциальность"
+                : actLanguage === "ENG"
+                ? "Privacy"
+                : null}
             </Typography>
           </a>
         </div>

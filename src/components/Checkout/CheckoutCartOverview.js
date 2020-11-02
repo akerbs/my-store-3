@@ -102,7 +102,13 @@ export default function Cart(props) {
               <Typography
                 style={{ color: "#303030", fontSize: 14, fontWeight: 600 }}
               >
-                Back
+                {actLanguage === "DEU"
+                  ? "Zurück"
+                  : actLanguage === "RUS"
+                  ? "Назад"
+                  : actLanguage === "ENG"
+                  ? "Back"
+                  : null}
               </Typography>
             ) : (
               <StorefrontIcon style={{ fontSize: 18 }} />
@@ -137,14 +143,19 @@ export default function Cart(props) {
               fontSize: 16,
             }}
           >
-            Pay
+            {actLanguage === "DEU"
+              ? "Zahlen"
+              : actLanguage === "RUS"
+              ? "Оплатить"
+              : actLanguage === "ENG"
+              ? "Pay"
+              : null}
           </Typography>
           <Typography
-            variant="h4"
+            variant="h5"
             style={{ fontWeight: 600, color: "#303030" }}
           >
-            {currentCurrencySign}
-            {ttlPriceFormatted}
+            {ttlPriceFormatted} {currentCurrencySign}
           </Typography>
           <br />
         </div>
@@ -154,7 +165,7 @@ export default function Cart(props) {
         style={{
           display: "flex",
           flexDirection: "column",
-          minHeight: "50vh",
+          minHeight: "58vh",
           justifyContent: "space-between",
           // alignContent: "space-between",
         }}
@@ -181,7 +192,13 @@ export default function Cart(props) {
                 fontSize: 16,
               }}
             >
-              Pay
+              {actLanguage === "DEU"
+                ? "Bezahlen"
+                : actLanguage === "RUS"
+                ? "Оплатить"
+                : actLanguage === "ENG"
+                ? "Pay"
+                : null}
             </Typography>
             <Typography
               variant="h4"

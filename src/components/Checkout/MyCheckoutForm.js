@@ -1,18 +1,11 @@
 import React, { useState, useContext, useEffect, useRef } from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { makeStyles, fade } from "@material-ui/core/styles"
-import Container from "@material-ui/core/Container"
-import withWidth from "@material-ui/core/withWidth"
-import Hidden from "@material-ui/core/Hidden"
-import PropTypes from "prop-types"
 import Button from "@material-ui/core/Button"
 import { CurrencyContext } from "../layout"
 import { LanguageContext } from "../layout"
 import { CartContext } from "../../context/CartContext"
 import Typography from "@material-ui/core/Typography"
-import * as yup from "yup"
-import { useForm, Controller } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers"
 import TextField from "@material-ui/core/TextField"
 import clsx from "clsx"
 import InputAdornment from "@material-ui/core/InputAdornment"
@@ -20,9 +13,7 @@ import payCard1 from "../../images/payCards/dark/1.png"
 import payCard2 from "../../images/payCards/dark/2.png"
 import payCard22 from "../../images/payCards/dark/22.png"
 import CreditCardIcon from "@material-ui/icons/CreditCard"
-import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
-import Select from "@material-ui/core/Select"
 import {
   useStripe,
   useElements,
@@ -35,12 +26,17 @@ import LockIcon from "@material-ui/icons/Lock"
 import { navigate } from "gatsby"
 import LinkToStripeInfo from "./linkToStripeInfo"
 import { DrawerCartContext } from "../../context/DrawerCartContext"
+import {
+  AllCountriesRus,
+  AllCountriesDeu,
+  AllCountriesEng,
+} from "./AllCountries"
 
 const window = require("global/window")
 
 const foolWidth = window.innerWidth <= 599 ? 288 : 380
 const halfFoolWidth = foolWidth / 2
-const selectMenuWidth = window.innerWidth <= 599 ? 288 : 348
+// const selectMenuWidth = window.innerWidth <= 599 ? 288 : 348
 const rootMarginLeft = window.innerWidth <= 599 ? "5%" : 0
 const lockIconMarginLeft = window.innerWidth <= 599 ? "350%" : "470%"
 const paymentCardsMarginRight = window.innerWidth <= 599 ? "11%" : "8%"
@@ -204,21 +200,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: 13,
     fontWeight: "500",
     color: "rgb(220,39,39)",
-  },
-
-  selectRoot: {},
-  select: {},
-  selectMenu: {
-    width: selectMenuWidth,
-    padding: "2.109% 0 2.109% 3%",
-    margin: 0,
-    marginBottom: "-0.25%",
-    fontSize: 16,
-  },
-  selectX: {
-    "& li": {
-      fontSize: 16,
-    },
   },
 }))
 
@@ -411,7 +392,6 @@ export default function MyCheckoutForm(props) {
       // form submission until Stripe.js has loaded.
       return
     } else {
-      handleLoadingOn()
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
         card: elements.getElement(CardNumberElement),
@@ -431,6 +411,7 @@ export default function MyCheckoutForm(props) {
       if (!error) {
         console.log("Stripe 23 | token generated!", paymentMethod)
         try {
+          handleLoadingOn()
           const { id } = paymentMethod
 
           const response = await fetch(
@@ -470,12 +451,19 @@ export default function MyCheckoutForm(props) {
 
   return (
     <div className={classes.root}>
+      <CssBaseline />
       {window.innerWidth > 600 && (
         <Typography
           variant="body1"
           style={{ fontWeight: 600, color: "#303030" }}
         >
-          Pay with card
+          {actLanguage === "DEU"
+            ? "Mit Karte zahlen"
+            : actLanguage === "RUS"
+            ? "Оплатить картой"
+            : actLanguage === "ENG"
+            ? "Pay with card"
+            : null}
         </Typography>
       )}
 
@@ -485,7 +473,15 @@ export default function MyCheckoutForm(props) {
         // onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        <span style={{ fontSize: 14 }}>Email</span>
+        <span style={{ fontSize: 14 }}>
+          {actLanguage === "DEU"
+            ? "E-mail"
+            : actLanguage === "RUS"
+            ? "Эл. почта"
+            : actLanguage === "ENG"
+            ? "Email"
+            : null}
+        </span>
         <FormControl
           className={clsx(
             classes.textfield,
@@ -501,13 +497,6 @@ export default function MyCheckoutForm(props) {
             value={form.email}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            // inputRef={register({
-            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-            //   pattern: {
-            //     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            //     message: "Адрес эл. почты введен не полностью.",
-            //   },
-            // })}
           />
         </FormControl>
         <span className={classes.errorMsg}>
@@ -515,7 +504,15 @@ export default function MyCheckoutForm(props) {
         </span>
         <br /> <br />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 14 }}>Card information</span>
+          <span style={{ fontSize: 14 }}>
+            {actLanguage === "DEU"
+              ? "Kartendated"
+              : actLanguage === "RUS"
+              ? "Данные карты"
+              : actLanguage === "ENG"
+              ? "Card information"
+              : null}
+          </span>
           {/* <span style={{ fontSize: 14 }}>error.message</span> */}
         </div>
         <FormControl
@@ -523,7 +520,8 @@ export default function MyCheckoutForm(props) {
             classes.textfield,
             classes.textfieldFullWidth,
             classes.textfieldFullWidthPartTop,
-            stripeErrorMsg === "Your card number is incomplete." &&
+            (stripeErrorMsg === "Your card number is incomplete." ||
+              stripeErrorMsg === "Номер карты неполон.") &&
               classes.textfieldError
           )}
         >
@@ -581,7 +579,11 @@ export default function MyCheckoutForm(props) {
           className={clsx(
             classes.textfield,
             classes.textfieldHalfLeft,
-            stripeErrorMsg === "Your card's expiration date is incomplete." &&
+            (stripeErrorMsg === "Your card's expiration date is incomplete." ||
+              stripeErrorMsg ===
+                "Срок истечения действия карты указан не полностью." ||
+              stripeErrorMsg ===
+                "Неполная дата истечения срока действия карты.") &&
               classes.textfieldError
           )}
         >
@@ -602,7 +604,8 @@ export default function MyCheckoutForm(props) {
           className={clsx(
             classes.textfield,
             classes.textfieldHalfRight,
-            stripeErrorMsg === "Your card's security code is incomplete." &&
+            (stripeErrorMsg === "Your card's security code is incomplete." ||
+              stripeErrorMsg === "Неполный код CVV/CVC карты.") &&
               classes.textfieldError
           )}
         >
@@ -621,14 +624,27 @@ export default function MyCheckoutForm(props) {
         </FormControl>
         <span className={classes.errorMsg}>
           {stripeErrorMsg === "Your card number is incomplete." ||
+          stripeErrorMsg === "Номер карты неполон." ||
           stripeErrorMsg === "Your card's expiration date is incomplete." ||
-          stripeErrorMsg === "Your card's security code is incomplete."
+          stripeErrorMsg ===
+            "Срок истечения действия карты указан не полностью." ||
+          stripeErrorMsg === "Неполная дата истечения срока действия карты." ||
+          stripeErrorMsg === "Your card's security code is incomplete." ||
+          stripeErrorMsg === "Неполный код CVV/CVC карты."
             ? stripeErrorMsg
             : null}
         </span>
         <br />
         <br />
-        <span style={{ fontSize: 14 }}>Name on card</span>
+        <span style={{ fontSize: 14 }}>
+          {actLanguage === "DEU"
+            ? "Name des Karteninhabers"
+            : actLanguage === "RUS"
+            ? "Имя, указанное на карте"
+            : actLanguage === "ENG"
+            ? "Name on card"
+            : null}
+        </span>
         <FormControl
           className={clsx(
             classes.textfield,
@@ -645,14 +661,19 @@ export default function MyCheckoutForm(props) {
             value={form.name}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            // inputRef={register({
-            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-            // })}
           />
         </FormControl>
         <span className={classes.errorMsg}>{error.name && errorMsg.name}</span>
         <br /> <br />
-        <span style={{ fontSize: 14 }}>Shipping address</span>
+        <span style={{ fontSize: 14 }}>
+          {actLanguage === "DEU"
+            ? "Lieferadresse"
+            : actLanguage === "RUS"
+            ? "Адрес доставки"
+            : actLanguage === "ENG"
+            ? "Shipping address"
+            : null}
+        </span>
         <FormControl
           variant="outlined"
           className={clsx(
@@ -660,51 +681,24 @@ export default function MyCheckoutForm(props) {
             classes.textfieldFullWidth,
             classes.textfieldFullWidthPartTop,
             error.country && classes.textfieldError
-            // error.line1 &&
-            //   error.city &&
-            //   error.postal_code &&
-            //   classes.textfieldError,
-            // error.line1 &&
-            //   error.city &&
-            //   error.postal_code &&
-            //   classes.textFieldBetweenError
           )}
         >
-          {/* <Controller
-            as={ */}
-          <Select
-            classes={{
-              root: classes.selectRoot,
-              select: classes.select,
-              selectMenu: classes.selectMenu,
-            }}
-            MenuProps={{ classes: { paper: classes.selectX } }}
-            size="small"
-            id="country"
-            name="country"
-            // control={control}
-            defaultValue={form.country}
-            value={form.country}
-            onChange={changeHandler}
-            // inputRef={register({
-            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-            // })}
-          >
-            <MenuItem value={"DE"} key={"DE"}>
-              Germany
-            </MenuItem>
-            <MenuItem value={"FR"} key={"FR"}>
-              France
-            </MenuItem>
-            <MenuItem value={"US"} key={"US"}>
-              USA
-            </MenuItem>
-            <MenuItem value={"RU"} key={"RU"}>
-              Russian Federation
-            </MenuItem>
-          </Select>
-          {/* } */}
-          {/* /> */}
+          {actLanguage === "DEU" ? (
+            <AllCountriesDeu
+              country={form.country}
+              changeHandler={changeHandler}
+            />
+          ) : actLanguage === "RUS" ? (
+            <AllCountriesRus
+              country={form.country}
+              changeHandler={changeHandler}
+            />
+          ) : actLanguage === "ENG" ? (
+            <AllCountriesEng
+              country={form.country}
+              changeHandler={changeHandler}
+            />
+          ) : null}
         </FormControl>
         <FormControl
           className={clsx(
@@ -722,18 +716,20 @@ export default function MyCheckoutForm(props) {
           <TextField
             id="line1"
             variant="outlined"
-            placeholder="Адрес (строка 1)"
+            placeholder={
+              actLanguage === "DEU"
+                ? "Adresszeile 1"
+                : actLanguage === "RUS"
+                ? "Адрес (строка 1)"
+                : actLanguage === "ENG"
+                ? "Addressline 1"
+                : null
+            }
             size="small"
             name="line1"
             value={form.line1}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            // inputRef={register({
-            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-            //   pattern: {
-            //     value: /([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i,
-            //   },
-            // })}
           />
         </FormControl>
         <FormControl
@@ -752,17 +748,20 @@ export default function MyCheckoutForm(props) {
           <TextField
             id="line2"
             variant="outlined"
-            placeholder="Адрес (строка 2)"
+            placeholder={
+              actLanguage === "DEU"
+                ? "Adresszeile 2"
+                : actLanguage === "RUS"
+                ? "Адрес (строка 2)"
+                : actLanguage === "ENG"
+                ? "Addressline 2"
+                : null
+            }
             size="small"
             name="line2"
             value={form.line2}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            // inputRef={register({
-            //   pattern: {
-            //     value: /([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i,
-            //   },
-            // })}
           />
         </FormControl>
         <FormControl
@@ -777,18 +776,20 @@ export default function MyCheckoutForm(props) {
           <TextField
             id="postal_code"
             variant="outlined"
-            placeholder="Почтовый индекс"
+            placeholder={
+              actLanguage === "DEU"
+                ? "PLZ"
+                : actLanguage === "RUS"
+                ? "Почтовый индекс"
+                : actLanguage === "ENG"
+                ? "ZIP"
+                : null
+            }
             size="small"
             name="postal_code"
             value={form.postal_code}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            // inputRef={register({
-            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-            //   pattern: {
-            //     value: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/g,
-            //   },
-            // })}
           />
         </FormControl>
         <FormControl
@@ -801,18 +802,20 @@ export default function MyCheckoutForm(props) {
           <TextField
             id="city"
             variant="outlined"
-            placeholder="Город"
+            placeholder={
+              actLanguage === "DEU"
+                ? "Ort"
+                : actLanguage === "RUS"
+                ? "Город"
+                : actLanguage === "ENG"
+                ? "City"
+                : null
+            }
             size="small"
             name="city"
             value={form.city}
             onChange={changeHandler}
             InputProps={{ style: { fontSize: 16 } }}
-            // inputRef={register({
-            //   required: "ОБЯЗАТЕЛЬНО ДЛЯ ЗАПОЛНЕНИЯ",
-            //   pattern: {
-            //     value: /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g,
-            //   },
-            // })}
           />
         </FormControl>
         <span className={classes.errorMsg}>
@@ -834,7 +837,14 @@ export default function MyCheckoutForm(props) {
           variant="contained"
           disabled={!stripe || loading}
           style={{ textTransform: "none" }}
-          endIcon={<LockIcon style={{ marginLeft: lockIconMarginLeft }} />}
+          endIcon={
+            <LockIcon
+              style={{
+                // marginLeft: lockIconMarginLeft
+                right: "10%",
+              }}
+            />
+          }
         >
           {loading ? (
             actLanguage === "DEU" ? (
@@ -848,9 +858,14 @@ export default function MyCheckoutForm(props) {
             )
           ) : (
             <span style={{ marginLeft: "10%" }}>
-              {" "}
-              Pay {currentCurrencySign}
-              {ttlPriceFormatted}
+              {actLanguage === "DEU"
+                ? "Zahlen"
+                : actLanguage === "RUS"
+                ? "Оплатить"
+                : actLanguage === "ENG"
+                ? "Pay"
+                : null}{" "}
+              {ttlPriceFormatted} {currentCurrencySign}
             </span>
           )}
         </Button>
