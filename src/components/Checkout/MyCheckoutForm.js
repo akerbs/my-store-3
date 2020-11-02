@@ -231,7 +231,7 @@ export default function MyCheckoutForm(props) {
     postal_code: null,
     city: null,
   })
-  const [error, setError] = useState({
+  const [errorForm, setErrorForm] = useState({
     email: false,
     name: false,
     country: false,
@@ -240,7 +240,7 @@ export default function MyCheckoutForm(props) {
     postal_code: false,
     city: false,
   })
-  const [errorMsg, setErrorMsg] = useState({
+  const [errorFormMsg, setErrorFormMsg] = useState({
     email: false,
     name: false,
     country: false,
@@ -267,7 +267,7 @@ export default function MyCheckoutForm(props) {
       form.email !== null &&
       form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)
     ) {
-      setError({ email: false })
+      setErrorForm({ email: false })
     }
   }, [form.email])
 
@@ -278,7 +278,7 @@ export default function MyCheckoutForm(props) {
         /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
       )
     ) {
-      setError({ name: false })
+      setErrorForm({ name: false })
     }
   }, [form.name])
 
@@ -289,7 +289,7 @@ export default function MyCheckoutForm(props) {
         /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
       )
     ) {
-      setError({ country: false })
+      setErrorForm({ country: false })
     }
   }, [form.country])
 
@@ -298,7 +298,7 @@ export default function MyCheckoutForm(props) {
       form.line1 !== null &&
       form.line1.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i)
     ) {
-      setError({ line1: false })
+      setErrorForm({ line1: false })
     }
   }, [form.line1])
 
@@ -310,7 +310,7 @@ export default function MyCheckoutForm(props) {
       (form.line2 !== null &&
         form.line2.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i))
     ) {
-      setError({ line2: false })
+      setErrorForm({ line2: false })
     }
   }, [form.line2])
 
@@ -319,7 +319,7 @@ export default function MyCheckoutForm(props) {
       form.postal_code !== null &&
       form.postal_code.match(/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/g)
     ) {
-      setError({ postal_code: false })
+      setErrorForm({ postal_code: false })
     }
   }, [form.postal_code])
 
@@ -330,7 +330,7 @@ export default function MyCheckoutForm(props) {
         /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
       )
     ) {
-      setError({ city: false })
+      setErrorForm({ city: false })
     }
   }, [form.city])
 
@@ -341,52 +341,52 @@ export default function MyCheckoutForm(props) {
       form.email === null ||
       !form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)
     ) {
-      setError({ email: true })
-      setErrorMsg({ email: "Email field is incomplete." })
+      setErrorForm({ email: true })
+      setErrorFormMsg({ email: "Email field is incomplete." })
     } else if (
       form.name === null ||
       !form.name.match(
         /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
       )
     ) {
-      setError({ name: true })
-      setErrorMsg({ name: "Name field is incomplete." })
+      setErrorForm({ name: true })
+      setErrorFormMsg({ name: "Name field is incomplete." })
     } else if (
       form.country === null ||
       !form.country.match(
         /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
       )
     ) {
-      setError({ country: true })
-      setErrorMsg({ country: "Country field is incomplete." })
+      setErrorForm({ country: true })
+      setErrorFormMsg({ country: "Country field is incomplete." })
     } else if (
       form.line1 === null ||
       !form.line1.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i)
     ) {
-      setError({ line1: true })
-      setErrorMsg({ line1: "Address field is incomplete." })
+      setErrorForm({ line1: true })
+      setErrorFormMsg({ line1: "Address field is incomplete." })
     } else if (
       form.line2 !== null &&
       form.line2 !== "" &&
       form.line2 !== "undefined" &&
       !form.line2.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i)
     ) {
-      setError({ line2: true })
-      setErrorMsg({ line2: "Address field is incomplete." })
+      setErrorForm({ line2: true })
+      setErrorFormMsg({ line2: "Address field is incomplete." })
     } else if (
       form.postal_code === null ||
       !form.postal_code.match(/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/g)
     ) {
-      setError({ postal_code: true })
-      setErrorMsg({ postal_code: "Zip Code field is incomplete." })
+      setErrorForm({ postal_code: true })
+      setErrorFormMsg({ postal_code: "Zip Code field is incomplete." })
     } else if (
       form.city === null ||
       !form.city.match(
         /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
       )
     ) {
-      setError({ city: true })
-      setErrorMsg({ city: "City field is incomplete." })
+      setErrorForm({ city: true })
+      setErrorFormMsg({ city: "City field is incomplete." })
     } else if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
       // form submission until Stripe.js has loaded.
@@ -449,6 +449,33 @@ export default function MyCheckoutForm(props) {
     }
   }
 
+  // function stripeChangeHandler(e) {
+  //   e.preventDefault()
+
+  //   if (
+  //     stripeErrorMsg !== "Your card number is incomplete." &&
+  //     stripeErrorMsg !== "Номер карты неполон."
+  //   ) {
+  //     let stripeCardNumber = document.getElementById("cardNumber")
+  //     stripeCardNumber.classList.remove("textfieldError")
+  //   }
+
+  //   if (
+  //     stripeErrorMsg !== "Your card's expiration date is incomplete." &&
+  //     stripeErrorMsg !== "Срок истечения действия карты указан не полностью." &&
+  //     stripeErrorMsg !== "Неполная дата истечения срока действия карты."
+  //   ) {
+  //     document.getElementById("cardExpiry").classList.remove("textfieldError")
+  //   }
+
+  //   if (
+  //     stripeErrorMsg !== "Your card's security code is incomplete." &&
+  //     stripeErrorMsg !== "Неполный код CVV/CVC карты."
+  //   ) {
+  //     document.getElementById("cvvCvc").classList.remove("textfieldError")
+  //   }
+  // }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -486,7 +513,7 @@ export default function MyCheckoutForm(props) {
           className={clsx(
             classes.textfield,
             classes.textfieldFullWidth,
-            error.email && classes.textfieldError
+            errorForm.email && classes.textfieldError
           )}
         >
           <TextField
@@ -500,7 +527,7 @@ export default function MyCheckoutForm(props) {
           />
         </FormControl>
         <span className={classes.errorMsg}>
-          {error.email && errorMsg.email}
+          {errorForm.email && errorFormMsg.email}
         </span>
         <br /> <br />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -521,7 +548,8 @@ export default function MyCheckoutForm(props) {
             classes.textfieldFullWidth,
             classes.textfieldFullWidthPartTop,
             (stripeErrorMsg === "Your card number is incomplete." ||
-              stripeErrorMsg === "Номер карты неполон.") &&
+              stripeErrorMsg === "Номер карты неполон." ||
+              stripeErrorMsg === "Die Kartennummer ist unvollständig.") &&
               classes.textfieldError
           )}
         >
@@ -530,6 +558,7 @@ export default function MyCheckoutForm(props) {
             variant="outlined"
             size="small"
             name="cardNumber"
+            onChange={e => setStripeErrorMsg(e.error)}
             InputProps={{
               inputComponent: StripeInput,
               inputProps: {
@@ -583,7 +612,9 @@ export default function MyCheckoutForm(props) {
               stripeErrorMsg ===
                 "Срок истечения действия карты указан не полностью." ||
               stripeErrorMsg ===
-                "Неполная дата истечения срока действия карты.") &&
+                "Неполная дата истечения срока действия карты." ||
+              stripeErrorMsg ===
+                "Das Ablaufdatum der Karte ist unvollständig.") &&
               classes.textfieldError
           )}
         >
@@ -592,6 +623,7 @@ export default function MyCheckoutForm(props) {
             variant="outlined"
             size="small"
             name="cardExpiry"
+            onChange={e => setStripeErrorMsg(e.error)}
             InputProps={{
               inputComponent: StripeInput,
               inputProps: {
@@ -605,7 +637,9 @@ export default function MyCheckoutForm(props) {
             classes.textfield,
             classes.textfieldHalfRight,
             (stripeErrorMsg === "Your card's security code is incomplete." ||
-              stripeErrorMsg === "Неполный код CVV/CVC карты.") &&
+              stripeErrorMsg === "Неполный код CVV/CVC карты." ||
+              stripeErrorMsg ===
+                "Der Sicherheitscode der Karte ist unvollständig") &&
               classes.textfieldError
           )}
         >
@@ -614,6 +648,7 @@ export default function MyCheckoutForm(props) {
             variant="outlined"
             size="small"
             name="cvvCvc"
+            onChange={e => setStripeErrorMsg(e.error)}
             InputProps={{
               inputComponent: StripeInput,
               inputProps: {
@@ -625,12 +660,15 @@ export default function MyCheckoutForm(props) {
         <span className={classes.errorMsg}>
           {stripeErrorMsg === "Your card number is incomplete." ||
           stripeErrorMsg === "Номер карты неполон." ||
+          stripeErrorMsg === "Die Kartennummer ist unvollständig." ||
           stripeErrorMsg === "Your card's expiration date is incomplete." ||
           stripeErrorMsg ===
             "Срок истечения действия карты указан не полностью." ||
           stripeErrorMsg === "Неполная дата истечения срока действия карты." ||
+          stripeErrorMsg === "Das Ablaufdatum der Karte ist unvollständig." ||
           stripeErrorMsg === "Your card's security code is incomplete." ||
-          stripeErrorMsg === "Неполный код CVV/CVC карты."
+          stripeErrorMsg === "Неполный код CVV/CVC карты." ||
+          stripeErrorMsg === "Der Sicherheitscode der Karte ist unvollständig"
             ? stripeErrorMsg
             : null}
         </span>
@@ -649,7 +687,7 @@ export default function MyCheckoutForm(props) {
           className={clsx(
             classes.textfield,
             classes.textfieldFullWidth,
-            error.name && classes.textfieldError
+            errorForm.name && classes.textfieldError
           )}
         >
           <TextField
@@ -663,7 +701,9 @@ export default function MyCheckoutForm(props) {
             InputProps={{ style: { fontSize: 16 } }}
           />
         </FormControl>
-        <span className={classes.errorMsg}>{error.name && errorMsg.name}</span>
+        <span className={classes.errorMsg}>
+          {errorForm.name && errorFormMsg.name}
+        </span>
         <br /> <br />
         <span style={{ fontSize: 14 }}>
           {actLanguage === "DEU"
@@ -680,7 +720,7 @@ export default function MyCheckoutForm(props) {
             classes.textfield,
             classes.textfieldFullWidth,
             classes.textfieldFullWidthPartTop,
-            error.country && classes.textfieldError
+            errorForm.country && classes.textfieldError
           )}
         >
           {actLanguage === "DEU" ? (
@@ -705,11 +745,13 @@ export default function MyCheckoutForm(props) {
             classes.textfield,
             classes.textfieldFullWidth,
             classes.textfieldFullWidthBetween,
-            error.line1 && classes.textfieldError,
-            error.line1 && classes.textFieldBetweenError,
-            error.line1 && !error.city && classes.textFieldBetweenErrorReset,
-            error.line1 &&
-              !error.postal_code &&
+            errorForm.line1 && classes.textfieldError,
+            errorForm.line1 && classes.textFieldBetweenError,
+            errorForm.line1 &&
+              !errorForm.city &&
+              classes.textFieldBetweenErrorReset,
+            errorForm.line1 &&
+              !errorForm.postal_code &&
               classes.textFieldBetweenErrorReset
           )}
         >
@@ -737,12 +779,12 @@ export default function MyCheckoutForm(props) {
             classes.textfield,
             classes.textfieldFullWidth,
             classes.textfieldFullWidthBetween,
-            error.line2 && classes.textfieldError,
-            error.line1 &&
-              error.city &&
-              error.postal_code &&
+            errorForm.line2 && classes.textfieldError,
+            errorForm.line1 &&
+              errorForm.city &&
+              errorForm.postal_code &&
               classes.textfieldError,
-            error.line1 && classes.textFieldBetweenError
+            errorForm.line1 && classes.textFieldBetweenError
           )}
         >
           <TextField
@@ -768,9 +810,11 @@ export default function MyCheckoutForm(props) {
           className={clsx(
             classes.textfield,
             classes.textfieldHalfLeft,
-            error.postal_code && classes.textfieldError,
-            error.postal_code && classes.textFieldLeftError,
-            error.postal_code && !error.city && classes.textFieldLeftErrorReset
+            errorForm.postal_code && classes.textfieldError,
+            errorForm.postal_code && classes.textFieldLeftError,
+            errorForm.postal_code &&
+              !errorForm.city &&
+              classes.textFieldLeftErrorReset
           )}
         >
           <TextField
@@ -796,7 +840,7 @@ export default function MyCheckoutForm(props) {
           className={clsx(
             classes.textfield,
             classes.textfieldHalfRight,
-            error.city && classes.textfieldError
+            errorForm.city && classes.textfieldError
           )}
         >
           <TextField
@@ -818,12 +862,12 @@ export default function MyCheckoutForm(props) {
             InputProps={{ style: { fontSize: 16 } }}
           />
         </FormControl>
-        <span className={classes.errorMsg}>
-          {(error.country && errorMsg.country) ||
-            (error.line1 && errorMsg.line1) ||
-            (error.line2 && errorMsg.line2) ||
-            (error.postal_code && errorMsg.postal_code) ||
-            (error.city && errorMsg.city)}
+        <span className={classes.errorFormMsg}>
+          {(errorForm.country && errorFormMsg.country) ||
+            (errorForm.line1 && errorFormMsg.line1) ||
+            (errorForm.line2 && errorFormMsg.line2) ||
+            (errorForm.postal_code && errorFormMsg.postal_code) ||
+            (errorForm.city && errorFormMsg.city)}
         </span>
         <br />
         <br />
