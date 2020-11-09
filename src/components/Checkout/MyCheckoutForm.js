@@ -342,7 +342,16 @@ export default function MyCheckoutForm(props) {
       !form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)
     ) {
       setErrorForm({ email: true })
-      setErrorFormMsg({ email: "Email field is incomplete." })
+      setErrorFormMsg({
+        email:
+          actLanguage === "DEU"
+            ? "Die E-Mail-Adresse ist unvollständig"
+            : actLanguage === "RUS"
+            ? "Адрес эл. почты введен не полностью."
+            : actLanguage === "ENG"
+            ? "Email field is incomplete."
+            : null,
+      })
     } else if (
       form.name === null ||
       !form.name.match(
@@ -350,21 +359,47 @@ export default function MyCheckoutForm(props) {
       )
     ) {
       setErrorForm({ name: true })
-      setErrorFormMsg({ name: "Name field is incomplete." })
+      setErrorFormMsg({
+        name:
+          actLanguage === "DEU"
+            ? "Der Name ist unvollständig"
+            : actLanguage === "RUS"
+            ? "Имя указано не полностью."
+            : actLanguage === "ENG"
+            ? "Name field is incomplete."
+            : null,
+      })
     } else if (
+      !form.country ||
       form.country === null ||
-      !form.country.match(
-        /[^0-9\.\,\"\?\!\;\:\#\$\%\&\(\)\*\+\-\/\<\>\=\@\[\]\\\^\_\{\}\|\~]+/g
-      )
+      form.country === "undefined"
     ) {
       setErrorForm({ country: true })
-      setErrorFormMsg({ country: "Country field is incomplete." })
+      setErrorFormMsg({
+        country:
+          actLanguage === "DEU"
+            ? "Bitte wählen Sie das Land aus."
+            : actLanguage === "RUS"
+            ? "Пожалуйста, выберите страну."
+            : actLanguage === "ENG"
+            ? "Please select the country."
+            : null,
+      })
     } else if (
       form.line1 === null ||
       !form.line1.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i)
     ) {
       setErrorForm({ line1: true })
-      setErrorFormMsg({ line1: "Address field is incomplete." })
+      setErrorFormMsg({
+        line1:
+          actLanguage === "DEU"
+            ? "Die Adresse ist unvollständig"
+            : actLanguage === "RUS"
+            ? "Адрес указан не полностью."
+            : actLanguage === "ENG"
+            ? "Address field is incomplete."
+            : null,
+      })
     } else if (
       form.line2 !== null &&
       form.line2 !== "" &&
@@ -372,13 +407,31 @@ export default function MyCheckoutForm(props) {
       !form.line2.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i)
     ) {
       setErrorForm({ line2: true })
-      setErrorFormMsg({ line2: "Address field is incomplete." })
+      setErrorFormMsg({
+        line2:
+          actLanguage === "DEU"
+            ? "Die Adresse ist unvollständig"
+            : actLanguage === "RUS"
+            ? "Адрес указан не полностью."
+            : actLanguage === "ENG"
+            ? "Address field is incomplete."
+            : null,
+      })
     } else if (
       form.postal_code === null ||
       !form.postal_code.match(/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/g)
     ) {
       setErrorForm({ postal_code: true })
-      setErrorFormMsg({ postal_code: "Zip Code field is incomplete." })
+      setErrorFormMsg({
+        postal_code:
+          actLanguage === "DEU"
+            ? "Die Postleitzahl ist unvollständig"
+            : actLanguage === "RUS"
+            ? "Почтовый индекс указан не полностью."
+            : actLanguage === "ENG"
+            ? "Postal code field is incomplete."
+            : null,
+      })
     } else if (
       form.city === null ||
       !form.city.match(
@@ -386,7 +439,16 @@ export default function MyCheckoutForm(props) {
       )
     ) {
       setErrorForm({ city: true })
-      setErrorFormMsg({ city: "City field is incomplete." })
+      setErrorFormMsg({
+        city:
+          actLanguage === "DEU"
+            ? "Der Ort ist unvollständig"
+            : actLanguage === "RUS"
+            ? "Город указан не полностью."
+            : actLanguage === "ENG"
+            ? "City field is incomplete."
+            : null,
+      })
     } else if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
       // form submission until Stripe.js has loaded.
@@ -862,7 +924,7 @@ export default function MyCheckoutForm(props) {
             InputProps={{ style: { fontSize: 16 } }}
           />
         </FormControl>
-        <span className={classes.errorFormMsg}>
+        <span className={classes.errorMsg}>
           {(errorForm.country && errorFormMsg.country) ||
             (errorForm.line1 && errorFormMsg.line1) ||
             (errorForm.line2 && errorFormMsg.line2) ||
