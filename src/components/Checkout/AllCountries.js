@@ -2,6 +2,7 @@ import React from "react"
 import Select from "@material-ui/core/Select"
 import MenuItem from "@material-ui/core/MenuItem"
 import { makeStyles } from "@material-ui/core/styles"
+const window = require("global/window")
 
 const selectMenuWidth = window.innerWidth <= 599 ? 288 : 348
 
