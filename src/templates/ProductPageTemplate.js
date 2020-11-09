@@ -124,13 +124,17 @@ function ProductPageTemplate(props) {
   //////////////////////////////////////////////////////
 
   function formatPrice(price) {
-    let priceF = price.toString()
-    let beforeDot = priceF.slice(0, -2)
-    let afterDot = priceF.slice(-2)
-    let corrPrice = `${beforeDot}.${afterDot}`
-    let formPrice = Number(corrPrice)
-    let formPriceCorr = formPrice.toFixed(2)
-    return formPriceCorr
+    if (!price) {
+      return null
+    } else {
+      let priceF = price.toString()
+      let beforeDot = priceF.slice(0, -2)
+      let afterDot = priceF.slice(-2)
+      let corrPrice = `${beforeDot}.${afterDot}`
+      let formPrice = Number(corrPrice)
+      let formPriceCorr = formPrice.toFixed(2)
+      return formPriceCorr
+    }
   }
 
   return (

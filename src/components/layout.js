@@ -79,7 +79,33 @@ function Layout({ children }) {
 
       countryCode === "US"
         ? setActCurrency("USD")
-        : countryCode === "DE" || countryCode === "FR"
+        : countryCode === "AT" ||
+          countryCode === "BE" ||
+          countryCode === "DE" ||
+          countryCode === "GR" ||
+          countryCode === "IE" ||
+          countryCode === "ES" ||
+          countryCode === "IT" ||
+          countryCode === "CY" ||
+          countryCode === "LV" ||
+          countryCode === "LT" ||
+          countryCode === "LU" ||
+          countryCode === "MT" ||
+          countryCode === "NL" ||
+          countryCode === "PT" ||
+          countryCode === "SK" ||
+          countryCode === "SI" ||
+          countryCode === "SF" ||
+          countryCode === "FR" ||
+          countryCode === "EE" ||
+          countryCode === "VA" ||
+          countryCode === "MC" ||
+          countryCode === "SM" ||
+          countryCode === "PM" ||
+          countryCode === "YT" ||
+          countryCode === "AD" ||
+          countryCode === "ME" ||
+          countryCode === "XK"
         ? setActCurrency("EUR")
         : countryCode === "RU"
         ? setActCurrency("RUB")
