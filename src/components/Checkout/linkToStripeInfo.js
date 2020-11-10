@@ -8,7 +8,7 @@ import Tab from "@material-ui/core/Tab"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import { LanguageContext } from "../layout"
-import Stripe from "../../images/stripe.png"
+import Stripe from "../../images/payCards/stripe.png"
 const window = require("global/window")
 
 const rootMarginBottom = window.innerWidth <= 599 ? "10%" : 0
