@@ -59,7 +59,7 @@ export function BuyNowBtn(props) {
       disabled={props.loading}
       onClick={() => {
         props.handleSetLoading()
-        props.clearCart()
+        // props.clearCart()
         props.addToCart(props.item, props.quantityOfItem)
         navigate("/checkout")
         // handleDirectPayment()

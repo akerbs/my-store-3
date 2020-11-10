@@ -53,6 +53,7 @@ const CartContextProvider = props => {
   function clearCart() {
     // let hardCopy = [...cart]
     // hardCopy = hardCopy.splice(0, hardCopy.length)
+    // setCart(hardCopy)
     setCart([])
   }
 
