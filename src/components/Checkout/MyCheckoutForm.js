@@ -9,9 +9,11 @@ import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
 import clsx from "clsx"
 import InputAdornment from "@material-ui/core/InputAdornment"
-import payCard1 from "../../images/payCards/dark/1.png"
-import payCard2 from "../../images/payCards/dark/2.png"
-import payCard22 from "../../images/payCards/dark/22.png"
+import payCard1 from "../../images/payCards/visa.png"
+import payCard2 from "../../images/payCards/mastercard.png"
+import payCard3 from "../../images/payCards/amex.png"
+import payCard4 from "../../images/payCards/cvc.png"
+
 import CreditCardIcon from "@material-ui/icons/CreditCard"
 import FormControl from "@material-ui/core/FormControl"
 import {
@@ -650,7 +652,7 @@ export default function MyCheckoutForm(props) {
                     }}
                   />
                   <img
-                    src={payCard22}
+                    src={payCard3}
                     style={{
                       height: 17,
                       padding: 0,
@@ -715,6 +717,17 @@ export default function MyCheckoutForm(props) {
               inputComponent: StripeInput,
               inputProps: {
                 component: CardCvcElement,
+              },
+              endAdornment: (
+                //  <CreditCardIcon />
+
+                <img
+                  src={payCard4}
+                  style={{ height: 17, padding: 0, margin: 0 }}
+                />
+              ),
+              classes: {
+                adornedEnd: classes.adornedEnd,
               },
             }}
           />
