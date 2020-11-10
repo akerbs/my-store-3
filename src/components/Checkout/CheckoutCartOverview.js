@@ -47,6 +47,13 @@ const useStyles = makeStyles(theme => ({
   storeBtn: {
     padding: "5%",
     margin: "0 2% 0 2%",
+    width: 28,
+    maxWidth: 28,
+    minWidth: 28,
+    height: 28,
+    maxHeight: 28,
+    minHeight: 28,
+
     "&:hover": {
       backgroundColor: "transparent",
     },
@@ -111,7 +118,11 @@ export default function Cart(props) {
                   : null}
               </Typography>
             ) : (
-              <StorefrontIcon style={{ fontSize: 18 }} />
+              <StorefrontIcon
+                style={{
+                  fontSize: 18,
+                }}
+              />
             )}
           </IconButton>
           {!hovered && (
@@ -129,8 +140,7 @@ export default function Cart(props) {
         </IconButton>
       </div>
       <br />
-
-      {window.innerWidth > 600 && (
+      {window.innerWidth >= 600 && (
         <div
           style={{ marginLeft: paySumMarginLeft, textAlign: paySumTextAlign }}
         >
@@ -160,7 +170,6 @@ export default function Cart(props) {
           <br />
         </div>
       )}
-
       <div
         style={{
           display: "flex",
@@ -176,14 +185,15 @@ export default function Cart(props) {
             return <CheckoutCartItem key={idx} cartItem={cartItem} />
           })}
         </div>
-        {window.innerWidth < 599 && (
+        {window.innerWidth <= 599 && (
           <div
             style={{
               marginLeft: paySumMarginLeft,
+
               textAlign: paySumTextAlign,
             }}
           >
-            {" "}
+            <br /> <br />{" "}
             <Typography
               style={{
                 display: "inline",
@@ -211,7 +221,7 @@ export default function Cart(props) {
           </div>
         )}
 
-        {window.innerWidth > 600 && <LinkToStripeInfo />}
+        {window.innerWidth >= 600 && <LinkToStripeInfo />}
       </div>
     </div>
   )

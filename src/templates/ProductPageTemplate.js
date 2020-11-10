@@ -81,7 +81,7 @@ function ProductPageTemplate(props) {
   const classes = useStyles()
   const { actCurrency } = useContext(CurrencyContext)
   const { actLanguage } = useContext(LanguageContext)
-  const { addToCart } = useContext(CartContext)
+  const { addToCart, clearCart } = useContext(CartContext)
   const { handleDrawerCartOpen } = useContext(DrawerCartContext)
   const [quantityOfItem, setQuantityOfItem] = useState(1)
   const [loading, setLoading] = useState(false)
@@ -231,6 +231,7 @@ function ProductPageTemplate(props) {
                   loading={loading}
                   handleSetLoading={handleSetLoading}
                   addToCart={addToCart}
+                  clearCart={clearCart}
                   item={props.item}
                   quantityOfItem={quantityOfItem}
                 />

@@ -39,14 +39,13 @@ const window = require("global/window")
 const foolWidth = window.innerWidth <= 599 ? 288 : 380
 const halfFoolWidth = foolWidth / 2
 // const selectMenuWidth = window.innerWidth <= 599 ? 288 : 348
-const rootMarginLeft = window.innerWidth <= 599 ? "5%" : 0
 const lockIconMarginLeft = window.innerWidth <= 599 ? "350%" : "470%"
 const paymentCardsMarginRight = window.innerWidth <= 599 ? "11%" : "8%"
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: foolWidth,
-    marginLeft: rootMarginLeft,
+    margin: "0 auto",
     minHeight: "100vh",
   },
 

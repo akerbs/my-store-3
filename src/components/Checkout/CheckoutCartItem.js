@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   root: {},
   paper: {
     padding: theme.spacing(2),
-    margin: "auto",
+    margin: "3% auto",
     maxWidth: "auto",
     padding: CheckoutCartItemPadding,
     backgroundColor: "inherit",
@@ -134,45 +134,97 @@ export default function CheckoutCartItem(props) {
                     : null}
                 </Typography>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography style={{ fontSize: 12, color: "#767676" }}>
-                  {actLanguage === "DEU"
-                    ? "Anz: "
-                    : actLanguage === "RUS"
-                    ? "Кол-во: "
-                    : actLanguage === "ENG"
-                    ? "Qty: "
-                    : null}
-                  {props.cartItem.quantity},{" "}
-                  {actLanguage === "DEU"
-                    ? props.cartItem.descriptionDeu
-                    : actLanguage === "RUS"
-                    ? props.cartItem.descriptionRus
-                    : actLanguage === "ENG"
-                    ? props.cartItem.descriptionEng
-                    : null}
-                </Typography>
 
-                <Typography style={{ fontSize: 12, color: "#767676" }}>
-                  {props.cartItem.quantity > 1 && getItemFormPrice()}{" "}
-                  {props.cartItem.quantity > 1 &&
-                    (actCurrency === "EUR"
-                      ? props.cartItem.currencySignEur
-                      : actCurrency === "RUB"
-                      ? props.cartItem.currencySignRub
-                      : actCurrency === "USD"
-                      ? props.cartItem.currencySignUsd
-                      : null)}{" "}
-                  {props.cartItem.quantity > 1 &&
-                    (actLanguage === "DEU"
-                      ? "pro Stück"
+              {window.innerWidth >= 600 && (
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <Typography style={{ fontSize: 12, color: "#767676" }}>
+                    {actLanguage === "DEU"
+                      ? "Anz: "
                       : actLanguage === "RUS"
-                      ? "за шт."
+                      ? "Кол-во: "
                       : actLanguage === "ENG"
-                      ? "each"
-                      : null)}
-                </Typography>
-              </div>
+                      ? "Qty: "
+                      : null}
+                    {props.cartItem.quantity},{" "}
+                    {actLanguage === "DEU"
+                      ? props.cartItem.descriptionDeu
+                      : actLanguage === "RUS"
+                      ? props.cartItem.descriptionRus
+                      : actLanguage === "ENG"
+                      ? props.cartItem.descriptionEng
+                      : null}
+                  </Typography>
+
+                  <Typography style={{ fontSize: 12, color: "#767676" }}>
+                    {props.cartItem.quantity > 1 && getItemFormPrice()}{" "}
+                    {props.cartItem.quantity > 1 &&
+                      (actCurrency === "EUR"
+                        ? props.cartItem.currencySignEur
+                        : actCurrency === "RUB"
+                        ? props.cartItem.currencySignRub
+                        : actCurrency === "USD"
+                        ? props.cartItem.currencySignUsd
+                        : null)}{" "}
+                    {props.cartItem.quantity > 1 &&
+                      (actLanguage === "DEU"
+                        ? "pro Stück"
+                        : actLanguage === "RUS"
+                        ? "за шт."
+                        : actLanguage === "ENG"
+                        ? "each"
+                        : null)}
+                  </Typography>
+                </div>
+              )}
+              {window.innerWidth <= 599 && (
+                <>
+                  <div
+                    style={{ display: "flex", justifyContent: "flex-start" }}
+                  >
+                    <Typography style={{ fontSize: 12, color: "#767676" }}>
+                      {actLanguage === "DEU"
+                        ? "Anz: "
+                        : actLanguage === "RUS"
+                        ? "Кол-во: "
+                        : actLanguage === "ENG"
+                        ? "Qty: "
+                        : null}
+                      {props.cartItem.quantity},{" "}
+                      {actLanguage === "DEU"
+                        ? props.cartItem.descriptionDeu
+                        : actLanguage === "RUS"
+                        ? props.cartItem.descriptionRus
+                        : actLanguage === "ENG"
+                        ? props.cartItem.descriptionEng
+                        : null}
+                    </Typography>
+                  </div>
+
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <Typography style={{ fontSize: 12, color: "#767676" }}>
+                      {props.cartItem.quantity > 1 && getItemFormPrice()}{" "}
+                      {props.cartItem.quantity > 1 &&
+                        (actCurrency === "EUR"
+                          ? props.cartItem.currencySignEur
+                          : actCurrency === "RUB"
+                          ? props.cartItem.currencySignRub
+                          : actCurrency === "USD"
+                          ? props.cartItem.currencySignUsd
+                          : null)}{" "}
+                      {props.cartItem.quantity > 1 &&
+                        (actLanguage === "DEU"
+                          ? "pro Stück"
+                          : actLanguage === "RUS"
+                          ? "за шт."
+                          : actLanguage === "ENG"
+                          ? "each"
+                          : null)}
+                    </Typography>
+                  </div>
+                </>
+              )}
             </Grid>
           </Grid>
         </Paper>
