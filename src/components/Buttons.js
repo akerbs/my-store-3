@@ -58,8 +58,8 @@ export function BuyNowBtn(props) {
       color="primary"
       disabled={props.loading}
       onClick={() => {
-        props.handleSetLoading()
         // props.clearCart()
+        props.handleSetLoading()
         props.addToCart(props.item, props.quantityOfItem)
         navigate("/checkout")
         // handleDirectPayment()

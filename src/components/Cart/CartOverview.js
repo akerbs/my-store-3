@@ -12,6 +12,7 @@ import { CurrencyContext } from "../layout"
 import { CartContext } from "../../context/CartContext"
 import { navigate } from "gatsby"
 import { DrawerCartContext } from "../../context/DrawerCartContext"
+import PaypalExpressBtn from "react-paypal-express-checkout"
 
 const useStyles = makeStyles(theme => ({
   btnWrapper: {
@@ -43,6 +44,38 @@ export default function Cart(props) {
   } = useContext(CartContext)
 
   // console.log("cartDetails:", cartDetails)
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const onSuccess = payment => {
+    // Congratulation, it came here means everything's fine!
+    console.log("The payment was succeeded!", payment)
+    // You can bind the "payment" object's value to your state or props or whatever here, please see below for sample returned data
+  }
+
+  const onCancel = data => {
+    // User pressed "cancel" or close Paypal's popup!
+    console.log("The payment was cancelled!", data)
+    // You can bind the "data" object's value to your state or props or whatever here, please see below for sample returned data
+  }
+
+  const onError = err => {
+    // The main Paypal's script cannot be loaded or somethings block the loading of that script!
+    console.log("Error!", err)
+    // Because the Paypal's main script is loaded asynchronously from "https://www.paypalobjects.com/api/checkout.js"
+    // => sometimes it may take about 0.5 second for everything to get set, or for the button to appear
+  }
+
+  let env = "sandbox" // you can set here to 'production' for production
+  // let currency = "EUR" //{ actCurrency } // or you can set this value from your props or state
+  // let total = 1 //{ ttlPriceFormatted } // same as above, this is the total amount (based on currency) to be paid by using Paypal express checkout
+  // Document on Paypal's currency code: https://developer.paypal.com/docs/classic/api/currency_codes/
+
+  const client = {
+    sandbox:
+      "AS5h-8gSSmEnVnUPEFYfkq2QTdMl0JGuncsuAAaAHQmrcFM_T_Zp2xsNa9g4aRwQhPMLmN2_Ek-50EAD",
+    production: process.env.GATSBY_PAYPAL_API_ID, //
+  }
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <div>
@@ -143,6 +176,32 @@ export default function Cart(props) {
                       ? "Checkout"
                       : "Checkout"}
                   </Button>
+                </Fade>
+              </div>
+            </Slide>
+          </div>
+          <div className={classes.btnWrapper}>
+            <Slide in={props.open} timeout={1000} direction="up">
+              <div>
+                <Fade in={props.open} timeout={2000}>
+                  <PaypalExpressBtn
+                    env={env}
+                    client={client}
+                    currency={actCurrency}
+                    total={ttlPriceFormatted}
+                    onError={onError}
+                    onSuccess={onSuccess}
+                    onCancel={onCancel}
+                    fullWidth
+                    style={{
+                      layout: "horizontal",
+                      size: "responsive",
+                      color: "silver",
+                      shape: "rect",
+                      label: "pay",
+                      tagline: "false",
+                    }}
+                  />
                 </Fade>
               </div>
             </Slide>

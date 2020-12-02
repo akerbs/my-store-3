@@ -333,6 +333,7 @@ function ProductPageTemplate(props) {
               addToCart={addToCart}
               item={props.item}
               quantityOfItem={quantityOfItem}
+              clearCart={clearCart}
             />
             <br /> <br />
             <Accordion data={props.item} />
