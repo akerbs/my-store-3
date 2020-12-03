@@ -49,6 +49,9 @@ export default function Cart(props) {
   const onSuccess = payment => {
     // Congratulation, it came here means everything's fine!
     console.log("The payment was succeeded!", payment)
+    handleDrawerCartClose()
+    clearCart()
+    navigate("/")
     // You can bind the "payment" object's value to your state or props or whatever here, please see below for sample returned data
   }
 
