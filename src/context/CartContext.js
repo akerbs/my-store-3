@@ -79,12 +79,11 @@ const CartContextProvider = props => {
   const [ttlPriceFormatted, setTtlPriceFormatted] = useState(0)
   const [couponUsed, setCouponUsed] = useState(false)
 
-  function changeTtlPriceFormattedWithCoupon(discountPercent) {
+  function changeTtlPriceWithCoupon(discountPercent) {
     if (couponUsed === false) {
-      const newTtlPrice =
-        ttlPriceFormatted - (discountPercent / 100) * ttlPriceFormatted
+      const newTtlPrice = ttlPrice - (discountPercent / 100) * ttlPrice
 
-      setTtlPriceFormatted(newTtlPrice)
+      setTtlPrice(newTtlPrice)
       setCouponUsed(true)
     } else {
       alert("discount was already used")
@@ -124,7 +123,7 @@ const CartContextProvider = props => {
   useEffect(() => {
     updateTtlPriceFormatted()
     console.log("TTL PRICE OF ITEMS IN CART (formatted):", ttlPriceFormatted)
-  }, [ttlPrice, ttlPriceFormatted])
+  }, [ttlPrice])
 
   return (
     <CartContext.Provider
@@ -139,7 +138,7 @@ const CartContextProvider = props => {
         ttlPriceFormatted,
         currentCurrency,
         currentCurrencySign,
-        changeTtlPriceFormattedWithCoupon,
+        changeTtlPriceWithCoupon,
         couponUsed,
       }}
     >

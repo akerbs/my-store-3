@@ -50,9 +50,7 @@ export default function BasicTextFields() {
   const { actLanguage } = useContext(LanguageContext)
   const { actCurrency } = useContext(CurrencyContext)
 
-  const { changeTtlPriceFormattedWithCoupon, couponUsed } = useContext(
-    CartContext
-  )
+  const { changeTtlPriceWithCoupon, couponUsed } = useContext(CartContext)
 
   const [couponValue, setCouponValue] = useState("")
   const [couponMsg, setCouponMsg] = useState(null)
@@ -69,7 +67,7 @@ export default function BasicTextFields() {
     } else if (couponUsed === true) {
       setCouponMsg("discount was already used")
     } else if (couponUsed === false && couponValue === "10%OFF") {
-      changeTtlPriceFormattedWithCoupon(10)
+      changeTtlPriceWithCoupon(10)
       // alert("10%OFF")
       setCouponMsg("discount is successful :)")
     }
