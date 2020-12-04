@@ -124,7 +124,7 @@ const CartContextProvider = props => {
   useEffect(() => {
     updateTtlPriceFormatted()
     console.log("TTL PRICE OF ITEMS IN CART (formatted):", ttlPriceFormatted)
-  }, [ttlPrice])
+  }, [ttlPrice, ttlPriceFormatted])
 
   return (
     <CartContext.Provider
