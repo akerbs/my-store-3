@@ -4,6 +4,8 @@ import CssBaseline from "@material-ui/core/CssBaseline"
 import CartItem from "./CartItem"
 import { makeStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
+import TextField from "@material-ui/core/TextField"
+
 import Typography from "@material-ui/core/Typography"
 import Slide from "@material-ui/core/Slide"
 import Fade from "@material-ui/core/Fade"
@@ -13,6 +15,8 @@ import { CartContext } from "../../context/CartContext"
 import { navigate } from "gatsby"
 import { DrawerCartContext } from "../../context/DrawerCartContext"
 import PaypalExpressBtn from "react-paypal-express-checkout"
+import Divider from "@material-ui/core/Divider"
+import Coupon from "../Coupon"
 
 const useStyles = makeStyles(theme => ({
   btnWrapper: {
@@ -99,6 +103,16 @@ export default function Cart(props) {
           )
         })}
       </div>
+
+      {!cart.length ? null : (
+        <Slide in={props.open} timeout={1000} direction="up">
+          <div>
+            <Fade in={props.open} timeout={2000}>
+              <Coupon />
+            </Fade>
+          </div>
+        </Slide>
+      )}
 
       {!cart.length ? (
         <Slide in={props.open} timeout={1000} direction="up">

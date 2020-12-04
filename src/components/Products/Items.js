@@ -87,8 +87,8 @@ export default function () {
                 sku={newSku}
                 key={item.productId}
                 id={idx}
-                onMouseOver={changeHover}
-                onMouseOut={changeHover}
+                onMouseOver={idx === 0 ? changeHover : null}
+                onMouseOut={idx === 0 ? changeHover : null}
               />
             </Grid>
           )

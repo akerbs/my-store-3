@@ -40,6 +40,10 @@ const useStyles = makeStyles({
       color: theme.palette.secondary.contrastText,
     },
   },
+  imgNoHoverEffect: {
+    width: "100%",
+    transition: "1s",
+  },
   img: {
     width: "100%",
     transition: "1s",
@@ -69,8 +73,16 @@ export default function (props) {
       <Card
         className={classes.card}
         id={props.id}
-        onMouseOver={() => props.onMouseOver(props.id, true)}
-        onMouseOut={() => props.onMouseOut(props.id, false)}
+        onMouseOver={
+          props.onMouseOver !== null
+            ? () => props.onMouseOver(props.id, true)
+            : null
+        }
+        onMouseOut={
+          props.onMouseOver !== null
+            ? () => props.onMouseOut(props.id, false)
+            : null
+        }
         style={{ overflow: "hidden" }}
       >
         <Slide in={show} timeout={props.sku.timeoutShow} direction="up">
@@ -78,7 +90,9 @@ export default function (props) {
             <Link to={`/products/${props.sku.linkId}`} className={classes.link}>
               <img
                 style={{ width: "100%" }}
-                className={classes.img}
+                className={
+                  props.id !== 0 ? classes.img : classes.imgNoHoverEffect
+                }
                 src={props.sku.hovered ? props.sku.scndImg : props.sku.firstImg}
                 alt={props.sku.name}
               />
