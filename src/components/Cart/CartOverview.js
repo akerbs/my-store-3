@@ -55,7 +55,7 @@ export default function Cart(props) {
     console.log("The payment was succeeded!", payment)
     handleDrawerCartClose()
     clearCart()
-    navigate("/")
+    navigate("/success")
     // You can bind the "payment" object's value to your state or props or whatever here, please see below for sample returned data
   }
 

@@ -75,8 +75,8 @@ export default function () {
       <CssBaseline />
       <Header />
       <Scroll showBelow={250} />
-      <div className={classes.contentWrapper}>
-        <div className={classes.titleWrapper} id="selector1">
+      <div className={classes.contentWrapper} id="selector1">
+        <div className={classes.titleWrapper}>
           <Slide in={showTitle} timeout={700} direction="up">
             <div>
               <h1>Shop</h1>
