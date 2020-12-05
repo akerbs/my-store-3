@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   },
   appBarShiftToRight: {
     width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: 100,
+    marginLeft: drawerWidth,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
