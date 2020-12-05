@@ -70,10 +70,10 @@ export default function () {
   })
 
   return (
-    <div className={classes.root} id="selector1">
+    <div className={classes.root}>
       <SEO title="Products" keywords={[`gatsby`, `application`, `react`]} />
       <CssBaseline />
-      <Header />
+      <Header id="selector1" />
       <Scroll showBelow={250} />
       <div className={classes.contentWrapper}>
         <div className={classes.titleWrapper}>
