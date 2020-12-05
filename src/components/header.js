@@ -68,10 +68,10 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   menuLeftButton: {
-    // marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
   },
   menuRightButton: {
-    // paddingLeft: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
   },
 
   // hide: {
