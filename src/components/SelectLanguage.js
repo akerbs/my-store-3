@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
     "& .MuiSelect-icon": {
       // color: theme.palette.primary.dark,
       width: "1em",
+      padding: 0,
     },
   },
   // icon: {
