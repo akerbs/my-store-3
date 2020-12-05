@@ -37,10 +37,6 @@ function HideOnScroll(props) {
 }
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexGrow: 1,
-  },
   appBar: {
     backgroundColor: theme.palette.primary.main,
     transition: theme.transitions.create(["margin", "width"], {
@@ -64,12 +60,12 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  menuLeftButton: {
-    // marginRight: theme.spacing(1),
-  },
-  menuRightButton: {
-    paddingLeft: theme.spacing(1),
-  },
+  // menuLeftButton: {
+  //   // marginRight: theme.spacing(1),
+  // },
+  // menuRightButton: {
+  //   paddingLeft: "0.5%",
+  // },
 
   // hide: {
   //   display: "none",
@@ -112,7 +108,7 @@ export default function Header(props) {
   } = useContext(DrawerMenuContext)
 
   return (
-    <div className={classes.root}>
+    <div className="root">
       <CssBaseline />
       <HideOnScroll {...props}>
         <AppBar
@@ -128,7 +124,7 @@ export default function Header(props) {
               aria-label="open drawer"
               onClick={handleDrawerMenuOpen}
               edge="start"
-              className={clsx(classes.menuLeftButton, openDrawerMenu && "hide")}
+              className={clsx("menuLeftButton", openDrawerMenu && "hide")}
             >
               <MenuIcon />
             </IconButton>
@@ -145,10 +141,7 @@ export default function Header(props) {
               aria-label="open drawer"
               onClick={handleDrawerCartOpen}
               edge="end"
-              className={clsx(
-                classes.menuRightButton,
-                openDrawerCart && "hide"
-              )}
+              className={clsx("menuRightButton", openDrawerCart && "hide")}
             >
               <Badge badgeContent={cartCount} color="secondary" variant="dot">
                 <ShoppingCartIcon />
