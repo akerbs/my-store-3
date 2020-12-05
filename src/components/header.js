@@ -40,6 +40,8 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexGrow: 1,
     width: "100vw",
+    minWidth: "100vw",
+    maxWidth: "100vw",
   },
   appBar: {
     backgroundColor: theme.palette.primary.main,
