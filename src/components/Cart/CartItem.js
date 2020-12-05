@@ -138,7 +138,7 @@ export default function CartItem(props) {
                 >
                   <Grid item xs container direction="column" spacing={1}>
                     <Grid item xs>
-                      <Typography variant="subtitle2">
+                      <Typography variant="subtitle2" gutterBottom>
                         {
                           // props.cartItem.name
 
