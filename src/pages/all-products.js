@@ -54,26 +54,32 @@ export default function () {
   // //   handleOpenSubscribeWindow()
   // // }, 3000)
 
-  function startShowTitleInView() {
-    setShowTitle(true)
-  }
+  // function startShowTitleInView() {
+  //   setShowTitle(true)
+  // }
   // function stopInView1() {
   //   setShow1(false)
   // }
 
   useEffect(() => {
-    // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
-    inView("#selector1").once("enter", startShowTitleInView)
-    // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
-    // inView(".selector2").once("enter", startInView2)
-    inView.threshold(0)
+    setTimeout(() => {
+      setShowTitle(true)
+    }, 100)
   })
+
+  // useEffect(() => {
+  //   // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
+  //   inView("#selector1").once("enter", startShowTitleInView)
+  //   // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
+  //   // inView(".selector2").once("enter", startInView2)
+  //   inView.threshold(0)
+  // })
 
   return (
     <div className={classes.root}>
       <SEO title="Products" keywords={[`gatsby`, `application`, `react`]} />
       <CssBaseline />
-      <Header id="selector1" />
+      <Header />
       <Scroll showBelow={250} />
       <div className={classes.contentWrapper}>
         <div className={classes.titleWrapper}>
