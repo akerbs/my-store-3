@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 5,
   },
   icon: {
-    paddingLeft: 1,
+    padding: 0,
   },
 }))
 
