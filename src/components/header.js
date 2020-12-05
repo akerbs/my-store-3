@@ -42,9 +42,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   appBar: {
-    width: "100%",
-    minWidth: "100%",
-    maxWidth: "100%",
     backgroundColor: theme.palette.primary.main,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
@@ -53,7 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
   appBarShiftToRight: {
     width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
+    marginLeft: 100, //drawerWidth
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -68,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   menuLeftButton: {
-    marginRight: theme.spacing(1),
+    // marginRight: theme.spacing(1),
   },
   menuRightButton: {
     paddingLeft: theme.spacing(1),
