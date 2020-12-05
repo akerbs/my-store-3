@@ -34,7 +34,7 @@ export default function SelectCurrency() {
             icon: classes.icon,
           }}
           disableUnderline={true}
-          autoWidth
+          // autoWidth
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
           value={actCurrency}

@@ -30,7 +30,7 @@ export default function SelectLanguage() {
             icon: classes.icon,
           }}
           disableUnderline={true}
-          autoWidth
+          // autoWidth
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
           value={actLanguage}
