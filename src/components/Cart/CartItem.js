@@ -20,7 +20,7 @@ const cartItemPadding =
   window.innerWidth <= 599 ? "6.7% 6% 0% 6%" : "2% 2% 2% 4.3%"
 
 const itemTextPaddingLeft = window.innerWidth <= 599 ? "5%" : "2%"
-const itemTextMarginBottom = window.innerWidth <= 599 ? "5%" : "0%"
+const itemMarginBottom = window.innerWidth <= 599 ? "5%" : "0%"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,6 +33,7 @@ const useStyles = makeStyles(theme => ({
     margin: "auto",
     maxWidth: "auto",
     padding: cartItemPadding,
+    marginBottom: itemMarginBottom,
   },
   imgBtn: {
     // marginTop: "5%",
@@ -130,7 +131,6 @@ export default function CartItem(props) {
                   style={{
                     paddingLeft: itemTextPaddingLeft,
                     paddingRight: 0,
-                    marginBottom: itemTextMarginBottom,
                   }}
                 >
                   <Grid item xs container direction="column" spacing={1}>
