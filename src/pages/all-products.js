@@ -70,12 +70,12 @@ export default function () {
   })
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} id="selector1">
       <SEO title="Products" keywords={[`gatsby`, `application`, `react`]} />
       <CssBaseline />
       <Header />
       <Scroll showBelow={250} />
-      <div className={classes.contentWrapper} id="selector1">
+      <div className={classes.contentWrapper}>
         <div className={classes.titleWrapper}>
           <Slide in={showTitle} timeout={700} direction="up">
             <div>
