@@ -23,7 +23,7 @@ import "./header.css"
 
 const window = require("global/window")
 
-const drawerWidth = window.innerWidth <= 599 ? "100vw" : 450
+const drawerWidth = window.innerWidth <= 599 ? "100vw" : "27vw"
 
 function HideOnScroll(props) {
   const { children } = props
