@@ -8,23 +8,23 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid rgba(0, 0, 0, 0.12)",
     height: "30px",
     paddingTop: "5px",
-    paddingBottom: "7px",
-    minWidth: "90px",
+    paddingBottom: "5px",
+    minWidth: "80px",
     display: "inline",
     borderRadius: "8px",
   },
   btnLeft: {
-    height: "30px",
-    width: "30px",
-    maxWidth: "30px",
-    minWidth: "30px",
+    height: "20px",
+    width: "20px",
+    maxWidth: "20px",
+    minWidth: "20px",
     borderRadius: "8px 0 0 8px",
   },
   btnRight: {
-    height: "30px",
-    width: "30px",
-    maxWidth: "30px",
-    minWidth: "30px",
+    height: "20px",
+    width: "20px",
+    maxWidth: "20px",
+    minWidth: "20px",
     borderRadius: "0 8px 8px 0 ",
   },
 }))
@@ -39,7 +39,7 @@ export default function (props) {
         disabled={props.quantity <= 1 ? true : false}
       >
         <Typography
-          variant="body2"
+          variant="caption"
           color="textSecondary"
           style={{ marginBottom: 4 }}
         >
@@ -47,7 +47,11 @@ export default function (props) {
         </Typography>
       </Button>
 
-      <span style={{ minWidth: "60px" }}>{props.quantity}</span>
+      <span style={{ minWidth: "60px" }}>
+        <Typography variant="caption" style={{}}>
+          {props.quantity}{" "}
+        </Typography>
+      </span>
 
       <Button
         className={classes.btnRight}
@@ -55,7 +59,7 @@ export default function (props) {
         disabled={props.quantity >= 99 ? true : false}
       >
         <Typography
-          variant="body2"
+          variant="caption"
           color="textSecondary"
           style={{ marginBottom: 4 }}
         >

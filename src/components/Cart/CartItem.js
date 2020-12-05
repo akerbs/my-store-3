@@ -164,7 +164,7 @@ export default function CartItem(props) {
                         }
                       </Typography>
                       <div style={{ marginTop: "3%" }}>
-                        <Typography variant="body2" color="textPrimary">
+                        <Typography variant="caption" color="textPrimary">
                           <Counter
                             incrementItem={props.incrementItem}
                             decrementItem={props.decrementItem}
@@ -175,6 +175,7 @@ export default function CartItem(props) {
                           {/* {corrPrice} */}
                           {
                             // props.cartItem.price
+
                             getItemFormTotalPrice()
                           }{" "}
                           {actCurrency === "EUR"
