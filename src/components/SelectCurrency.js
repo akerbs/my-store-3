@@ -51,7 +51,7 @@ export default function SelectCurrency() {
             clearCart()
           }}
           // onChange={handleCurrencyChange}
-          style={{ color: "white", maxWidth: "3.5rem" }}
+          style={{ color: "white", maxWidth: "3.3rem" }}
         >
           <MenuItem value={"USD"}>USD</MenuItem>
           <MenuItem value={"EUR"}>EUR</MenuItem>
