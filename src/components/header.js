@@ -19,6 +19,7 @@ import { DrawerCartContext } from "../context/DrawerCartContext"
 import { DrawerMenuContext } from "../context/DrawerMenuContext"
 import SelectCurrency from "./SelectCurrency"
 import SelectLanguage from "./SelectLanguage"
+import "./header.css"
 
 const window = require("global/window")
 
@@ -70,12 +71,12 @@ const useStyles = makeStyles(theme => ({
     // marginRight: theme.spacing(2),
   },
   menuRightButton: {
-    paddingLeft: theme.spacing(1),
+    // paddingLeft: theme.spacing(1),
   },
 
-  hide: {
-    display: "none",
-  },
+  // hide: {
+  //   display: "none",
+  // },
   title: {
     flexGrow: 1,
     display: "inline",
@@ -130,10 +131,7 @@ export default function Header(props) {
               aria-label="open drawer"
               onClick={handleDrawerMenuOpen}
               edge="start"
-              className={clsx(
-                classes.menuLeftButton,
-                openDrawerMenu && classes.hide
-              )}
+              className={clsx(classes.menuLeftButton, openDrawerMenu && "hide")}
             >
               <MenuIcon />
             </IconButton>
@@ -152,7 +150,7 @@ export default function Header(props) {
               edge="end"
               className={clsx(
                 classes.menuRightButton,
-                openDrawerCart && classes.hide
+                openDrawerCart && "hide"
               )}
             >
               <Badge badgeContent={cartCount} color="secondary" variant="dot">
