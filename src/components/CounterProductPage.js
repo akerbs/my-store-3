@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function Counter(props) {
+export default function (props) {
   const classes = useStyles()
   return (
     <div className={classes.root}>

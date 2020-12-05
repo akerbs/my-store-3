@@ -106,7 +106,7 @@ export default function DrawerMenu(props) {
             </Slide> */}
                 </Link>
                 <Link
-                  to="/products"
+                  to="/all-products"
                   className={classes.drawerLink}
                   // activeClassName={classes.active}
                   onClick={props.onClose}

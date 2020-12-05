@@ -13,8 +13,9 @@ import StorefrontIcon from "@material-ui/icons/Storefront"
 import IconButton from "@material-ui/core/IconButton"
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace"
 import clsx from "clsx"
-
 import LinkToStripeInfo from "./linkToStripeInfo"
+import CouponCheckout from "./CouponCheckout"
+
 const window = require("global/window")
 
 const btnBackToStoreMarginLeft = window.innerWidth <= 599 ? 0 : "-8%"
@@ -63,7 +64,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function Cart(props) {
+export default function (props) {
   const classes = useStyles()
   const { actLanguage } = useContext(LanguageContext)
   const { actCurrency } = useContext(CurrencyContext)
@@ -144,7 +145,7 @@ export default function Cart(props) {
         <div
           style={{ marginLeft: paySumMarginLeft, textAlign: paySumTextAlign }}
         >
-          {" "}
+          <CouponCheckout />
           <Typography
             style={{
               display: "inline",
@@ -174,7 +175,7 @@ export default function Cart(props) {
         style={{
           display: "flex",
           flexDirection: "column",
-          minHeight: "58vh",
+          minHeight: "46vh", //58vh
           justifyContent: "space-between",
           // alignContent: "space-between",
         }}
@@ -193,7 +194,8 @@ export default function Cart(props) {
               textAlign: paySumTextAlign,
             }}
           >
-            <br /> <br />{" "}
+            <br /> <br />
+            <CouponCheckout />
             <Typography
               style={{
                 display: "inline",

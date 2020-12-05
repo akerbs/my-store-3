@@ -7,7 +7,7 @@ import SEO from "../components/seo"
 
 // import products from "../components/Products/data/products"
 // import products from "../components/Products/data/products"
-import Items from "../components/Products/Items"
+import Items from "../components/AllProductsPage/Items"
 // import SkusEur from "../components/Products/SkusEur"
 // import SkusUsd from "../components/Products/SkusUsd"
 // import SkusRub from "../components/Products/SkusRub"

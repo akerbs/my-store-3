@@ -5,9 +5,9 @@ import { Input } from "@material-ui/core"
 import Button from "@material-ui/core/Button"
 import { useShoppingCart } from "use-shopping-cart"
 import Divider from "@material-ui/core/Divider"
-import { LanguageContext } from "./layout"
-import { CurrencyContext } from "./layout"
-import { CartContext } from "../context/CartContext"
+import { LanguageContext } from "../layout"
+import { CurrencyContext } from "../layout"
+import { CartContext } from "../../context/CartContext"
 const window = require("global/window")
 
 const couponMargin =
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function BasicTextFields() {
+export default function () {
   const classes = useStyles()
   const { actLanguage } = useContext(LanguageContext)
   const { actCurrency } = useContext(CurrencyContext)

@@ -16,7 +16,7 @@ import { navigate } from "gatsby"
 import { DrawerCartContext } from "../../context/DrawerCartContext"
 import PaypalExpressBtn from "react-paypal-express-checkout"
 import Divider from "@material-ui/core/Divider"
-import Coupon from "../Coupon"
+import Coupon from "./CouponCart"
 
 const useStyles = makeStyles(theme => ({
   btnWrapper: {
