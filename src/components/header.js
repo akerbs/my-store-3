@@ -42,6 +42,8 @@ const useStyles = makeStyles(theme => ({
   },
   appBar: {
     width: "100%",
+    minWidth: "100%",
+    maxWidth: "100%",
     backgroundColor: theme.palette.primary.main,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
