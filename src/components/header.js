@@ -70,23 +70,23 @@ const useStyles = makeStyles(theme => ({
   // hide: {
   //   display: "none",
   // },
-  title: {
-    flexGrow: 1,
-    display: "inline",
-  },
-  toolbar: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  link: {
-    textDecoration: "none",
-    "&:visited": {
-      color: "white",
-    },
-    "&:active": {
-      color: theme.palette.primary.light,
-    },
-  },
+  // title: {
+  //   flexGrow: 1,
+  //   display: "inline",
+  // },
+  // toolbar: {
+  //   display: "flex",
+  //   justifyContent: "space-between",
+  // },
+  // link: {
+  //   textDecoration: "none",
+  //   "&:visited": {
+  //     color: "white",
+  //   },
+  //   "&:active": {
+  //     color: theme.palette.primary.light,
+  //   },
+  // },
 }))
 
 export default function Header(props) {
@@ -118,7 +118,7 @@ export default function Header(props) {
             [classes.appBarShiftToRight]: openDrawerMenu,
           })}
         >
-          <Toolbar className={classes.toolbar}>
+          <Toolbar className="toolbar">
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -129,8 +129,8 @@ export default function Header(props) {
               <MenuIcon />
             </IconButton>
 
-            <Typography variant="h6" className={classes.title}>
-              <Link to="/" className={classes.link}>
+            <Typography variant="h6" className="title">
+              <Link to="/" className="link">
                 LOGO
               </Link>
             </Typography>

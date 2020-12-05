@@ -12,3 +12,21 @@
 .menuRightButto {
   padding-left: 0.5%;
 }
+
+.title {
+  flex-grow: 1;
+  display: inline;
+}
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+.link {
+  text-decoration: none;
+}
+.link:visited {
+  color: white;
+}
+.link:active {
+  color: #4791db;
+}
