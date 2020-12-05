@@ -22,6 +22,8 @@ const cartItemPadding =
 const itemTextPaddingLeft = window.innerWidth <= 599 ? "5%" : "2%"
 const itemMarginBottom = window.innerWidth <= 599 ? "5%" : "0%"
 
+const itemTextMarginTop = window.innerWidth <= 599 ? "2%" : "0%"
+
 const useStyles = makeStyles(theme => ({
   root: {
     // flexGrow: 1,
@@ -131,6 +133,7 @@ export default function CartItem(props) {
                   style={{
                     paddingLeft: itemTextPaddingLeft,
                     paddingRight: 0,
+                    marginTop: itemTextMarginTop,
                   }}
                 >
                   <Grid item xs container direction="column" spacing={1}>
