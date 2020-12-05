@@ -14,18 +14,28 @@ import Slide from "@material-ui/core/Slide"
 import Fade from "@material-ui/core/Fade"
 import { LanguageContext } from "../layout"
 import { CurrencyContext } from "../layout"
+const window = require("global/window")
+
+const cartItemPadding =
+  window.innerWidth <= 599 ? "6.7% 6% 0% 6%" : "2% 2% 2% 4.3%"
+
+const itemTextPaddingLeft = window.innerWidth <= 599 ? "5%" : "2%"
+const itemTextMarginBottom = window.innerWidth <= 599 ? "5%" : "0%"
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    // flexGrow: 1,
+    padding: 0,
+    margin: 0,
   },
   paper: {
     padding: theme.spacing(2),
     margin: "auto",
     maxWidth: "auto",
-    padding: 8,
+    padding: cartItemPadding,
   },
   imgBtn: {
+    // marginTop: "5%",
     width: 100,
     height: 100,
     display: " inline-block",
@@ -88,7 +98,7 @@ export default function CartItem(props) {
           <div className={classes.root}>
             <Paper className={classes.paper} elevation="0">
               <Grid container spacing={1}>
-                <Grid item xs={4}>
+                <Grid item sm={3} xs={4}>
                   <ButtonBase
                     onClick={() => {
                       navigate(`/products/${LinkToProductPage}`)
@@ -114,14 +124,18 @@ export default function CartItem(props) {
                 </Grid>
                 <Grid
                   item
+                  sm={9}
                   xs={8}
-                  sm
                   container
-                  style={{ paddingLeft: "8px", paddingRight: 0 }}
+                  style={{
+                    paddingLeft: itemTextPaddingLeft,
+                    paddingRight: 0,
+                    marginBottom: itemTextMarginBottom,
+                  }}
                 >
                   <Grid item xs container direction="column" spacing={1}>
                     <Grid item xs>
-                      <Typography gutterBottom variant="subtitle1">
+                      <Typography variant="subtitle2">
                         {
                           // props.cartItem.name
 
@@ -134,7 +148,7 @@ export default function CartItem(props) {
                             : null
                         }
                       </Typography>
-                      <Typography variant="body2" gutterBottom>
+                      <Typography variant="caption" gutterBottom>
                         {
                           // props.cartItem.description
                           actLanguage === "DEU"
@@ -146,27 +160,29 @@ export default function CartItem(props) {
                             : null
                         }
                       </Typography>
-                      <Typography variant="body2" color="textPrimary">
-                        <Counter
-                          incrementItem={props.incrementItem}
-                          decrementItem={props.decrementItem}
-                          quantity={props.cartItem.quantity}
-                          cartItem={props.cartItem}
-                        />{" "}
-                        {/* {(props.item.currency = "eur" ? "€" : props.item.currency)}{" "} */}
-                        {/* {corrPrice} */}
-                        {
-                          // props.cartItem.price
-                          getItemFormTotalPrice()
-                        }{" "}
-                        {actCurrency === "EUR"
-                          ? props.cartItem.currencySignEur
-                          : actCurrency === "RUB"
-                          ? props.cartItem.currencySignRub
-                          : actCurrency === "USD"
-                          ? props.cartItem.currencySignUsd
-                          : null}
-                      </Typography>
+                      <div style={{ marginTop: "3%" }}>
+                        <Typography variant="body2" color="textPrimary">
+                          <Counter
+                            incrementItem={props.incrementItem}
+                            decrementItem={props.decrementItem}
+                            quantity={props.cartItem.quantity}
+                            cartItem={props.cartItem}
+                          />{" "}
+                          {/* {(props.item.currency = "eur" ? "€" : props.item.currency)}{" "} */}
+                          {/* {corrPrice} */}
+                          {
+                            // props.cartItem.price
+                            getItemFormTotalPrice()
+                          }{" "}
+                          {actCurrency === "EUR"
+                            ? props.cartItem.currencySignEur
+                            : actCurrency === "RUB"
+                            ? props.cartItem.currencySignRub
+                            : actCurrency === "USD"
+                            ? props.cartItem.currencySignUsd
+                            : null}
+                        </Typography>
+                      </div>
                     </Grid>
                   </Grid>
                   <Grid item style={{ marginRight: "5%" }}>

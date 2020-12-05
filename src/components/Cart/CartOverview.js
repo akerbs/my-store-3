@@ -139,7 +139,7 @@ export default function Cart(props) {
                   variant="body2"
                   align="right"
                   color="textPrimary"
-                  style={{ marginRight: 10 }}
+                  style={{ textAlign: "center" }}
                 >
                   {actLanguage === "DEU"
                     ? "Zwischensumme"
