@@ -14,9 +14,15 @@ const useStyles = makeStyles(theme => ({
 
     margin: 0,
   },
-  icon: {
-    padding: 0,
+  select: {
+    "& .MuiSelect-icon": {
+      // color: theme.palette.primary.dark,
+      width: "inherit",
+    },
   },
+  // icon: {
+  //   padding: 0,
+  // },
 }))
 
 export default function SelectCurrency() {
@@ -30,9 +36,10 @@ export default function SelectCurrency() {
     <>
       <FormControl variant="standard" className={classes.formControl}>
         <Select
-          classes={{
-            icon: classes.icon,
-          }}
+          className={classes.select}
+          // classes={{
+          //   icon: classes.icon,
+          // }}
           disableUnderline={true}
           // autoWidth
           labelId="demo-simple-select-outlined-label"

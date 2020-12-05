@@ -12,9 +12,15 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
     paddingRight: 5,
   },
-  icon: {
-    padding: 0,
+  select: {
+    "& .MuiSelect-icon": {
+      // color: theme.palette.primary.dark,
+      width: "inherit",
+    },
   },
+  // icon: {
+  //   padding: 0,
+  // },
 }))
 
 export default function SelectLanguage() {
@@ -26,9 +32,10 @@ export default function SelectLanguage() {
     <>
       <FormControl variant="standard" className={classes.formControl}>
         <Select
-          classes={{
-            icon: classes.icon,
-          }}
+          className={classes.select}
+          // classes={{
+          //   icon: classes.icon,
+          // }}
           disableUnderline={true}
           // autoWidth
           labelId="demo-simple-select-outlined-label"
