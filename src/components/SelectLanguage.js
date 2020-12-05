@@ -46,7 +46,7 @@ export default function SelectLanguage() {
             handleLanguageChange(e)
           }}
           // onChange={handleCurrencyChange}
-          style={{ color: "white", maxWidth: 51 }}
+          style={{ color: "white", maxWidth: "2.7rem" }}
         >
           <MenuItem value={"ENG"}>EN</MenuItem>
           <MenuItem value={"DEU"}>DE</MenuItem>
