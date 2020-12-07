@@ -41,7 +41,7 @@ export default function IndexPage(props) {
   const { actCurrency } = useContext(CurrencyContext)
   const [show1, setShow1] = useState(false)
   const [show2, setShow2] = useState(false)
-  const [openSubscribeWindow, setOpenSubscribeWindow] = useState(false)
+  const [openSubscribeWindow, setOpenSubscribeWindow] = useState(true)
   const [visited, setVisited] = useState(false)
   // console.log("COOKIES:", document.cookie.indexOf("visited"))
 
@@ -62,7 +62,7 @@ export default function IndexPage(props) {
       )
     } else {
       const expiry = new Date()
-      expiry.setTime(expiry.getTime() + 5 * 365 * 24 * 60 * 60 * 1000) // Five years
+      expiry.setTime(expiry.getTime() + 5 * 365 * 24 * 60 * 60 * 1000) // Five years  5 * 365 * 24 * 60 * 60 * 1000
       document.cookie = "visited=yes; expires=" + expiry.toUTCString()
       // alert("this is your first time")
 

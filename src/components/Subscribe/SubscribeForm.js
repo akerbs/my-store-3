@@ -21,6 +21,14 @@ const useStyles = makeStyles(theme => ({
   },
   formElement: {
     marginTop: "3px ",
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "#c4c4c4",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: theme.palette.primary.main,
+      },
+    },
   },
   btn: {
     marginTop: "3px ",
@@ -29,27 +37,69 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const schema = yup.object().shape({
+const schemaEng = yup.object().shape({
   name: yup
     .string()
-    .required("Field is required")
-    .min(3, "Name must be at-least 3 characters")
-    .max(20, "Name must be 20 characters or less"),
+    .required("Name field is incomplete.")
+    .min(3, "Name field is incomplete.")
+    .max(30, "Name field is incomplete."),
   email: yup
     .string()
-    .required("Feld ist erforderlich")
+    .required("Email field is incomplete.")
     .matches(
       /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-      "Please enter a valid email address"
+      "Email field is incomplete."
     ),
   // .email('Please check your email')
 })
 
-export default function () {
+const schemaDeu = yup.object().shape({
+  name: yup
+    .string()
+    .required("Der Name ist unvollständig.")
+    .min(3, "Der Name ist unvollständig.")
+    .max(30, "Der Name ist unvollständig."),
+  email: yup
+    .string()
+    .required("Die E-Mail-Adresse ist unvollständig.")
+    .matches(
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+      "Die E-Mail-Adresse ist unvollständig."
+    ),
+  // .email('Please check your email')
+})
+
+const schemaRus = yup.object().shape({
+  name: yup
+    .string()
+    .required("Имя указано не полностью.")
+    .min(3, "Имя указано не полностью.")
+    .max(30, "Имя указано не полностью."),
+  email: yup
+    .string()
+    .required("Адрес эл. почты введен не полностью.")
+    .matches(
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+      "Адрес эл. почты введен не полностью."
+    ),
+  // .email('Please check your email')
+})
+
+export default function (props) {
   const { executeRecaptcha } = useGoogleReCaptcha()
   const [token, setToken] = useState("")
   const { actLanguage } = useContext(LanguageContext)
   const classes = useStyles()
+
+  const schema =
+    actLanguage === "DEU"
+      ? schemaDeu
+      : actLanguage === "RUS"
+      ? schemaRus
+      : actLanguage === "ENG"
+      ? schemaEng
+      : schemaEng
+
   const { register, handleSubmit, reset, errors } = useForm({
     resolver: yupResolver(schema),
   })
@@ -72,7 +122,7 @@ export default function () {
       ? "Спасибо!!! Вы успешно подписались :-)"
       : actLanguage === "ENG"
       ? "Thank You!!! You have successfully subscribed :-)"
-      : null
+      : "Thank You!!! You have successfully subscribed :-)"
 
   async function onSubmit(data) {
     if (!executeRecaptcha) {
@@ -84,6 +134,8 @@ export default function () {
       setToken(result) //--> grab the generated token by the reCAPTCHA
       handleLoadingOn()
 
+      data = { data, actLanguage }
+
       let response = await fetch(
         "https://my-store-1-mailer.herokuapp.com/subscribe",
         // "http://localhost:3000/subscribe",
@@ -92,16 +144,17 @@ export default function () {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(data), // body === body.form (on server)
         }
       )
       if (response.ok) {
         alert(alertMessage)
-        //  await navigate("/")
-        await reset(response)
-
-        let responseJson = await response.json()
         handleLoadingOff()
+        reset(response)
+
+        props.onClose()
+        window.scrollTo(0, 0)
+        let responseJson = await response.json()
         return responseJson
       }
     } catch (error) {
@@ -130,7 +183,7 @@ export default function () {
             ? "Ваше имя"
             : actLanguage === "ENG"
             ? "Your name"
-            : null
+            : "Your name"
         }
         variant="outlined"
         size="small"
@@ -158,7 +211,7 @@ export default function () {
             ? "Ваш электронный адрес..."
             : actLanguage === "ENG"
             ? "Your email address..."
-            : null
+            : "Your email address..."
         }
         variant="outlined"
         size="small"

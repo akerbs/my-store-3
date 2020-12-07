@@ -13,6 +13,7 @@ import { yupResolver } from "@hookform/resolvers"
 import { LanguageContext } from "../layout"
 import { navigate } from "gatsby"
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
+import clsx from "clsx"
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -39,6 +40,17 @@ const useStyles = makeStyles(theme => ({
       flexDirection: "column",
     },
   },
+  formElement: {
+    marginTop: "3px ",
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "#c4c4c4",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: theme.palette.primary.main,
+      },
+    },
+  },
   nameField: {
     marginRight: "1%",
     marginTop: 0,
@@ -54,7 +66,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const schema = yup.object().shape({
+const schemaEng = yup.object().shape({
   // rating: yup
   //   .string()
   //   .nullable()
@@ -62,13 +74,13 @@ const schema = yup.object().shape({
   title: yup
     .string()
     .required("Review's title can't be empty")
-    .min(5, "Title must be at-least 5 characters")
+    .min(3, "Title must be at-least 3 characters")
     .max(20, "Name must be 20 characters or less"),
   review: yup
     .string()
     .required("Review's  body can't be empty")
-    .min(5, "Review must be at-least 5 characters")
-    .max(30, "Name must be 30 characters or less"),
+    .min(3, "Review must be at-least 3 characters")
+    .max(40, "Name must be 40 characters or less"),
   name: yup
     .string()
     .required("Name field can't be empty")
@@ -84,12 +96,82 @@ const schema = yup.object().shape({
   // .email('Please check your email')
 })
 
+const schemaDeu = yup.object().shape({
+  // rating: yup
+  //   .string()
+  //   .nullable()
+  //   .required("Please enter a star rating for this review"),
+  title: yup
+    .string()
+    .required("Titel der Bewertung darf nicht leer sein.")
+    .min(3, "Der Titel muss mindestens 3 Zeichen lang sein.")
+    .max(20, "Der Titel darf maximal 20 Zeichen lang sein."),
+  review: yup
+    .string()
+    .required("Bewertung Feld darf nicht leer sein.")
+    .min(3, "Die Bewertung muss mindestens 3 Zeichen lang sein.")
+    .max(40, " Die Bewertung darf maximal 40 Zeichen lang sein."),
+  name: yup
+    .string()
+    .required("Feld Name darf nicht leer sein.")
+    .min(3, "Der Name muss mindestens 3 Zeichen lang sein.")
+    .max(20, "Der Name darf maximal 20 Zeichen lang sein."),
+  email: yup
+    .string()
+    .required("Das E-Mail-Feld darf nicht leer sein.")
+    .matches(
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+      "Ungültige E-Mail-Adresse."
+    ),
+  // .email('Please check your email')
+})
+
+const schemaRus = yup.object().shape({
+  // rating: yup
+  //   .string()
+  //   .nullable()
+  //   .required("Please enter a star rating for this review"),
+  title: yup
+    .string()
+    .required("Заголовок отзыва не может быть пустым.")
+    .min(3, "Заголовок должен содержать не менее 3 символов.")
+    .max(20, "Заголовок должен содержать не более 20 символов."),
+  review: yup
+    .string()
+    .required("Поле отзыва не может быть пустым.")
+    .min(3, "Поле отзыва  должно содержать не менее 3 символов.")
+    .max(40, "Поле отзыва  должно содержать не более 40 символов."),
+  name: yup
+    .string()
+    .required("Поле имени не может быть пустым.")
+    .min(3, "Поле имени  должно содержать не менее 3 символов.")
+    .max(20, "Поле имени должно содержать не более 20 символов."),
+  email: yup
+    .string()
+    .required("Поле электронной почты не может быть пустым.")
+    .matches(
+      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+      "Неверный адрес электронной почты."
+    ),
+  // .email('Please check your email')
+})
+
 export default function (props) {
   const { executeRecaptcha } = useGoogleReCaptcha()
   const [token, setToken] = useState("")
   const { actLanguage } = useContext(LanguageContext)
   const classes = useStyles()
   const [rating, setRating] = useState(0)
+
+  const schema =
+    actLanguage === "DEU"
+      ? schemaDeu
+      : actLanguage === "RUS"
+      ? schemaRus
+      : actLanguage === "ENG"
+      ? schemaEng
+      : schemaEng
+
   const { register, handleSubmit, errors, control, reset } = useForm({
     resolver: yupResolver(schema),
   })
@@ -156,7 +238,7 @@ export default function (props) {
       ? "Спасибо!!! Ваш отзыв будет проверен и опубликован :-)"
       : actLanguage === "ENG"
       ? "Thank You!!! Your review will be checked and published  :-)"
-      : null
+      : "Thank You!!! Your review will be checked and published  :-)"
 
   async function onSubmit(data) {
     // e.preventDefault() //--> prevent the page from reloading on form submit
@@ -175,6 +257,8 @@ export default function (props) {
         setToken(result) //--> grab the generated token by the reCAPTCHA
         handleLoadingOn()
 
+        data = { data, actLanguage }
+
         let response = await fetch(
           "https://my-store-1-mailer.herokuapp.com/review",
           // "http://localhost:3000/review",
@@ -187,17 +271,16 @@ export default function (props) {
           }
         )
         if (response.ok) {
-          console.log(JSON.stringify(data))
-          alert(JSON.stringify(data))
-          // alert(alertMessage)
+          // console.log(JSON.stringify(data))
+          // alert("data:", data)
 
-          await reset(response)
-          await props.handleAccClose()
-          await navigate(`/products/${props.itemInfo.linkId}`)
-
-          let responseJson = await response.json()
+          alert(alertMessage)
           handleLoadingOff()
-
+          reset(response)
+          props.handleAccClose()
+          window.scrollTo(0, 0)
+          //  navigate(`/products/${props.itemInfo.linkId}`)
+          let responseJson = await response.json()
           return responseJson
         }
       } catch (error) {
@@ -214,8 +297,8 @@ export default function (props) {
           : actLanguage === "RUS"
           ? "НАПИСАТЬ ОТЗЫВ"
           : actLanguage === "ENG"
-          ? " WRITE A REVIEW"
-          : null}
+          ? "WRITE A REVIEW"
+          : "WRITE A REVIEW"}
       </Typography>
       <br />
       <Typography variant="caption" style={{ color: "tomato" }}>
@@ -228,7 +311,7 @@ export default function (props) {
           ? "Обозначает обязательное поле"
           : actLanguage === "ENG"
           ? "Indicates a required field"
-          : null}
+          : "Indicates a required field"}
       </Typography>
       <br /> <br />
       <form
@@ -246,7 +329,7 @@ export default function (props) {
             ? "Оценка:"
             : actLanguage === "ENG"
             ? "Score:"
-            : null}
+            : "Score:"}
         </Typography>
         <br />
         <span
@@ -259,7 +342,13 @@ export default function (props) {
             marginLeft: "-4.8%",
           }}
         >
-          Please enter a star rating for this review
+          {actLanguage === "DEU"
+            ? "Bitte wählen Sie eine Sternebewertung für diese Bewertung."
+            : actLanguage === "RUS"
+            ? "Пожалуйста, выберите колличество звёзд для этого обзора."
+            : actLanguage === "ENG"
+            ? "Please select a star rating for this review."
+            : "Please select a star rating for this review."}
         </span>
         <FormControlLabel
           control={
@@ -310,10 +399,11 @@ export default function (props) {
             ? "Заголовок:"
             : actLanguage === "ENG"
             ? "Title:"
-            : null}
+            : "Title:"}
         </Typography>
         <br />
         <TextField
+          className={classes.formElement}
           id="title"
           variant="outlined"
           // margin="normal"
@@ -336,10 +426,11 @@ export default function (props) {
             ? "Отзыв:"
             : actLanguage === "ENG"
             ? "Review:"
-            : null}
+            : "Review:"}
         </Typography>
         <br />
         <TextField
+          className={classes.formElement}
           id="review"
           variant="outlined"
           // margin="normal"
@@ -366,12 +457,13 @@ export default function (props) {
                 ? "Ваше имя:"
                 : actLanguage === "ENG"
                 ? "Your name:"
-                : null}
+                : "Your name:"}
             </Typography>
             <br />
             <TextField
+              className={clsx(classes.formElement, classes.nameField)}
               id="name"
-              className={classes.nameField}
+              style={{}}
               variant="outlined"
               margin="normal"
               size="small"
@@ -393,11 +485,12 @@ export default function (props) {
                 ? "Эл. адрес:"
                 : actLanguage === "ENG"
                 ? "Email:"
-                : null}
+                : "Email:"}
             </Typography>
             <br />
             <TextField
-              className={classes.emailField}
+              className={clsx(classes.formElement, classes.emailField)}
+              style={{}}
               id="email"
               variant="outlined"
               margin="normal"

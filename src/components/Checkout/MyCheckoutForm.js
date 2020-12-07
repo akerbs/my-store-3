@@ -346,7 +346,7 @@ export default function MyCheckoutForm(props) {
       setErrorFormMsg({
         email:
           actLanguage === "DEU"
-            ? "Die E-Mail-Adresse ist unvollständig"
+            ? "Die E-Mail-Adresse ist unvollständig."
             : actLanguage === "RUS"
             ? "Адрес эл. почты введен не полностью."
             : actLanguage === "ENG"
@@ -394,7 +394,7 @@ export default function MyCheckoutForm(props) {
       setErrorFormMsg({
         line1:
           actLanguage === "DEU"
-            ? "Die Adresse ist unvollständig"
+            ? "Die Adresse ist unvollständig."
             : actLanguage === "RUS"
             ? "Адрес указан не полностью."
             : actLanguage === "ENG"
@@ -411,7 +411,7 @@ export default function MyCheckoutForm(props) {
       setErrorFormMsg({
         line2:
           actLanguage === "DEU"
-            ? "Die Adresse ist unvollständig"
+            ? "Die Adresse ist unvollständig."
             : actLanguage === "RUS"
             ? "Адрес указан не полностью."
             : actLanguage === "ENG"
@@ -426,7 +426,7 @@ export default function MyCheckoutForm(props) {
       setErrorFormMsg({
         postal_code:
           actLanguage === "DEU"
-            ? "Die Postleitzahl ist unvollständig"
+            ? "Die Postleitzahl ist unvollständig."
             : actLanguage === "RUS"
             ? "Почтовый индекс указан не полностью."
             : actLanguage === "ENG"
@@ -443,7 +443,7 @@ export default function MyCheckoutForm(props) {
       setErrorFormMsg({
         city:
           actLanguage === "DEU"
-            ? "Der Ort ist unvollständig"
+            ? "Der Ort ist unvollständig."
             : actLanguage === "RUS"
             ? "Город указан не полностью."
             : actLanguage === "ENG"

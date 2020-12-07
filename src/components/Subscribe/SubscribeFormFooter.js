@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
@@ -12,6 +12,14 @@ const useStyles = makeStyles(theme => ({
   textFieldEmail: {
     marginRight: 5,
     marginBottom: 3,
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "#135aa1",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#135aa1",
+      },
+    },
   },
   btnSubscribe: {
     marginBottom: 30,
@@ -74,18 +82,40 @@ export default function () {
     setLoading(false)
   }
 
-  const emailValue = form.email
+  // useEffect(() => {
+  //   console.log("form.email:", form.email)
+  //   console.log("emailValue:", emailValue)
+  // }, [form.email])
 
   const onSubmit = async event => {
     event.preventDefault()
+    // alert("emailValue:", emailValue)
     // if (!executeRecaptcha) {
     //   return
     // }
+    // console.log("here1:", form.email)
+    // console.log("here2:", emailValue)
 
     if (form.email === "") {
-      setErrorMsg("field is requred")
+      setErrorMsg(
+        actLanguage === "ENG"
+          ? "Email field is incomplete."
+          : actLanguage === "DEU"
+          ? "Die E-Mail-Adresse ist unvollständig."
+          : actLanguage === "RUS"
+          ? "Адрес эл. почты введен не полностью."
+          : "Email field is incomplete."
+      )
     } else if (!form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)) {
-      setErrorMsg("email is wrong")
+      setErrorMsg(
+        actLanguage === "ENG"
+          ? "Email field is incomplete."
+          : actLanguage === "DEU"
+          ? "Die E-Mail-Adresse ist unvollständig."
+          : actLanguage === "RUS"
+          ? "Адрес эл. почты введен не полностью."
+          : "Email field is incomplete."
+      )
     } else {
       try {
         //   This is the same as grecaptcha.execute on traditional html script tags
@@ -93,31 +123,41 @@ export default function () {
         // setTokenRecapcha(result) //--> grab the generated token by the reCAPTCHA
         handleLoadingOn()
 
-        const data = JSON.stringify({
-          emailValue,
+        const data = form
+
+        const dataToServer = JSON.stringify({
+          data,
+          actLanguage,
+          // form,
           // , tokenRecapcha
         })
 
         let response = await fetch(
-          // "https://my-store-1-mailer.herokuapp.com/subscribe",
-          // "http://localhost:5000/subscribe",
-          "/subscribe",
+          "https://my-store-1-mailer.herokuapp.com/subscribe",
+          // "http://localhost:3000/subscribe",
+          // "/subscribe",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: data,
+            body: dataToServer, //  body === body (on server)
           }
         )
         if (response.ok) {
-          alert("Thank You!!! You have successfully subscribed :-)")
-
-          let responseJson = await response.json()
+          alert(
+            actLanguage === "ENG"
+              ? "Thank You!!! You have successfully subscribed :-)"
+              : actLanguage === "DEU"
+              ? "Vielen Dank!!! Sie haben erfolgreich abonniert  :-)"
+              : actLanguage === "RUS"
+              ? "Спасибо!!! Вы успешно подписались :-)"
+              : "Thank You!!! You have successfully subscribed :-)"
+          )
           resetHandler()
-
           handleLoadingOff()
-
+          window.scrollTo(0, 0)
+          let responseJson = await response.json()
           return responseJson
         }
       } catch (error) {
@@ -140,7 +180,15 @@ export default function () {
           <TextField
             type="email"
             name="email"
-            placeholder="Your email address..."
+            placeholder={
+              actLanguage === "DEU"
+                ? "Ihre Emailadresse..."
+                : actLanguage === "RUS"
+                ? "Ваш электронный адрес..."
+                : actLanguage === "ENG"
+                ? "Your email address..."
+                : "Your email address..."
+            }
             variant="outlined"
             size="small"
             value={form.email}

@@ -119,7 +119,7 @@ export default function Impressum(props) {
               <br /> you subscribe to our mailing list.
             </Box>
             <Box>
-              <SubscribeForm />
+              <SubscribeForm open={props.open} onClose={props.onClose} />
             </Box>
             <Box className={classes.font3}>
               For more information please read our privacy policy.
