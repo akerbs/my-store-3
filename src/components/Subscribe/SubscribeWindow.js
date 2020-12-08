@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import Typography from "@material-ui/core/Typography"
 import Modal from "@material-ui/core/Modal"
 import Grid from "@material-ui/core/Grid"
@@ -10,6 +10,7 @@ import Picture from "../../images/products/funny_bunny/funny_bunny_2.jpg"
 import Paper from "@material-ui/core/Paper"
 import theme from "../theme"
 import SubscribeForm from "./SubscribeForm"
+import { LanguageContext } from "../layout"
 
 const window = require("global/window")
 
@@ -96,6 +97,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Impressum(props) {
   const classes = useStyles()
+  const { actLanguage } = useContext(LanguageContext)
 
   return (
     <Modal
@@ -111,18 +113,59 @@ export default function Impressum(props) {
         <Grid container spacing={0}>
           <Grid item xs={5} className={classes.picture}></Grid>
           <Grid item xs={6} className={classes.contentRight}>
-            <Box className={classes.font1}>
-              Hey there, thanks for <br /> checking us out!
-            </Box>
-            <Box className={classes.font2}>
-              Enjoy <b>10%</b> off your first order when
-              <br /> you subscribe to our mailing list.
-            </Box>
+            {actLanguage === "DEU" ? (
+              <Box className={classes.font1}>
+                Hallo! Wir freuen uns,
+                <br /> dass Sie hier sind!
+              </Box>
+            ) : actLanguage === "RUS" ? (
+              <Box className={classes.font1}>
+                Привет! Мы рады, <br /> что вы здесь!
+              </Box>
+            ) : actLanguage === "ENG" ? (
+              <Box className={classes.font1}>
+                Hey there, thanks for <br /> checking us out!
+              </Box>
+            ) : (
+              <Box className={classes.font1}>
+                Hey there, thanks for <br /> checking us out!
+              </Box>
+            )}
+
+            {actLanguage === "DEU" ? (
+              <Box className={classes.font2}>
+                Genießen Sie <b> 10% </b> Rabatt auf Ihre erste Bestellung,
+                <br />
+                wenn Sie abonnieren unsere Mailingliste.
+              </Box>
+            ) : actLanguage === "RUS" ? (
+              <Box className={classes.font2}>
+                Получите скидку <b> 10% </b> на свой первый заказ,
+                <br /> подписавшись на нашу рассылку.
+              </Box>
+            ) : actLanguage === "ENG" ? (
+              <Box className={classes.font2}>
+                Enjoy <b>10%</b> off your first order when
+                <br /> you subscribe to our mailing list.
+              </Box>
+            ) : (
+              <Box className={classes.font2}>
+                Enjoy <b>10%</b> off your first order when
+                <br /> you subscribe to our mailing list.
+              </Box>
+            )}
+
             <Box>
               <SubscribeForm open={props.open} onClose={props.onClose} />
             </Box>
             <Box className={classes.font3}>
-              For more information please read our privacy policy.
+              {actLanguage === "DEU"
+                ? "Informationen über unsere Datenschutzerklärung."
+                : actLanguage === "RUS"
+                ? "Информация о нашей политике конфиденциальности."
+                : actLanguage === "ENG"
+                ? "For more information please read our privacy policy."
+                : "For more information please read our privacy policy."}
             </Box>
           </Grid>
           <Grid

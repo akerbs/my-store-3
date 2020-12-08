@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 // import { useShoppingCart } from "use-shopping-cart"
 import CartItem from "./CartItem"
@@ -49,13 +49,37 @@ export default function Cart(props) {
 
   // console.log("cartDetails:", cartDetails)
 
+  const [paypalPaymentData, setPaypalPaymentData] = useState({})
+
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const onSuccess = payment => {
+  const onSuccess = async payment => {
     // Congratulation, it came here means everything's fine!
     console.log("The payment was succeeded!", payment)
-    handleDrawerCartClose()
-    clearCart()
-    navigate("/success")
+
+    try {
+      let response = await fetch(
+        // `${process.env.GATSBY_MAILER_URL}/pppdate`,
+        "https://my-store-1-mailer.herokuapp.com/pppdate",
+        // "http://localhost:3000/pppdate",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payment),
+        }
+      )
+      if (response.ok) {
+        handleDrawerCartClose()
+        clearCart()
+        navigate("/success")
+        let responseJson = await response.json()
+        return responseJson
+      }
+    } catch (error) {
+      console.error(error)
+    }
+
     // You can bind the "payment" object's value to your state or props or whatever here, please see below for sample returned data
   }
 

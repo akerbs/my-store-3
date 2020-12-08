@@ -133,9 +133,10 @@ export default function () {
         })
 
         let response = await fetch(
+          // `${process.env.GATSBY_MAILER_URL}/subscribe`,
           "https://my-store-1-mailer.herokuapp.com/subscribe",
           // "http://localhost:3000/subscribe",
-          // "/subscribe",
+
           {
             method: "POST",
             headers: {

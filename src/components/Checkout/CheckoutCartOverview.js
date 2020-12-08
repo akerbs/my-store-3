@@ -57,6 +57,7 @@ const useStyles = makeStyles(theme => ({
 
     "&:hover": {
       backgroundColor: "transparent",
+      margin: "0 2% 0 3%",
     },
   },
   storeBtnNoHovered: {
@@ -108,7 +109,12 @@ export default function (props) {
           >
             {hovered ? (
               <Typography
-                style={{ color: "#303030", fontSize: 14, fontWeight: 600 }}
+                style={{
+                  color: "#303030",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  marginLeft: "20%",
+                }}
               >
                 {actLanguage === "DEU"
                   ? "Zurück"

@@ -64,13 +64,37 @@ export default function () {
 
   function handleCoupon() {
     if (couponValue !== false && couponValue !== "10%OFF") {
-      setCouponMsg("discount is incorrect ")
+      setCouponMsg(
+        actLanguage === "DEU"
+          ? "Code ist ungültig"
+          : actLanguage === "RUS"
+          ? "Код недействителен"
+          : actLanguage === "ENG"
+          ? "Code is invalid"
+          : "Code is invalid"
+      )
     } else if (couponUsed === true) {
-      setCouponMsg("discount was already used")
+      setCouponMsg(
+        actLanguage === "DEU"
+          ? "Rabatt wurde bereits verwendet"
+          : actLanguage === "RUS"
+          ? "Скидка уже использовалась"
+          : actLanguage === "ENG"
+          ? "Discount was already used"
+          : "Discount was already used"
+      )
     } else if (couponUsed === false && couponValue === "10%OFF") {
       changeTtlPriceFormattedWithCoupon(10)
       // alert("10%OFF")
-      setCouponMsg("discount is successful :)")
+      setCouponMsg(
+        actLanguage === "DEU"
+          ? "Rabatt erfolgreich angewendet :)"
+          : actLanguage === "RUS"
+          ? "Скидка успешно применена :)"
+          : actLanguage === "ENG"
+          ? "Discount applied successfully :)"
+          : "Discount applied successfully :)"
+      )
     }
   }
 
@@ -92,7 +116,15 @@ export default function () {
               width: "330px",
             },
           }}
-          placeholder={"Gift card or discount code"}
+          placeholder={
+            actLanguage === "DEU"
+              ? "Geschenkkarte oder Rabattcode"
+              : actLanguage === "RUS"
+              ? "Подарочная карта или код скидки"
+              : actLanguage === "ENG"
+              ? "Gift card or discount code"
+              : "Gift card or discount code"
+          }
           // id="outlined-basic"
 
           variant="outlined"
@@ -106,7 +138,13 @@ export default function () {
           onClick={handleCoupon}
           disabled={!couponValue}
         >
-          Apply
+          {actLanguage === "DEU"
+            ? "Anwenden"
+            : actLanguage === "RUS"
+            ? "Применить"
+            : actLanguage === "ENG"
+            ? "Apply"
+            : "Apply"}
         </Button>
       </div>
       <span className={classes.couponMsg}>{couponMsg}</span>
