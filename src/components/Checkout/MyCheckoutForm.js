@@ -405,7 +405,7 @@ export default function MyCheckoutForm(props) {
       form.line2 !== null &&
       form.line2 !== "" &&
       form.line2 !== "undefined" &&
-      !form.line2.match(/([a-z ]{2,}\s{0,1})(\d{0,3})(\s{0,1}\S{2,})?/i)
+      !form.line2.match(/[\w\d., ]+/i)
     ) {
       setErrorForm({ line2: true })
       setErrorFormMsg({

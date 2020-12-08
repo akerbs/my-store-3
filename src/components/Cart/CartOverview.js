@@ -49,8 +49,6 @@ export default function Cart(props) {
 
   // console.log("cartDetails:", cartDetails)
 
-  const [paypalPaymentData, setPaypalPaymentData] = useState({})
-
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const onSuccess = async payment => {
     // Congratulation, it came here means everything's fine!

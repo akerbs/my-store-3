@@ -134,7 +134,7 @@ export default function () {
         <Button
           size="small"
           variant="contained"
-          style={{ marginLeft: "5%", textTransform: "none" }}
+          style={{ marginLeft: "5%", textTransform: "none", fontSize: 14 }}
           onClick={handleCoupon}
           disabled={!couponValue}
         >
