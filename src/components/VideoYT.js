@@ -80,13 +80,17 @@ export default function (props) {
   }
 
   async function onPlay() {
-    await window.YTPlayer.playVideo()
-    console.log(" onPlay")
+    if (window.YTPlayer !== "undefined") {
+      await window.YTPlayer.playVideo()
+      console.log(" onPlay")
+    }
   }
 
   async function onPause() {
-    await window.YTPlayer.pauseVideo()
-    console.log(" onPause")
+    if (window.YTPlayer !== "undefined") {
+      await window.YTPlayer.pauseVideo()
+      console.log(" onPause")
+    }
   }
 
   return (
