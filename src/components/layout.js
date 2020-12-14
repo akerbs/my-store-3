@@ -28,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 }))
 export const CurrencyContext = createContext()
 export const LanguageContext = createContext()
+export const HeaderHeightContext = createContext()
 
 function Layout({ children }) {
   const classes = useStyles()
@@ -191,6 +192,12 @@ function Layout({ children }) {
     setActLanguage(event.target.value)
   }
 
+  const [headerHeight, setHeaderHeight] = useState(null)
+
+  function handleHeaderHeightChange(value) {
+    if (!!value) setHeaderHeight(value)
+  }
+
   return (
     <div className={classes.root}>
       <GoogleReCaptchaProvider reCaptchaKey={process.env.GATSBY_RECAPTCHA_KEY}>
@@ -211,15 +218,22 @@ function Layout({ children }) {
             <ItemsContextProvider>
               <CartContextProvider>
                 <CssBaseline />
-                <ThemeProvider theme={theme}>
-                  <SimpleReactLightbox>
-                    <DrawerMenuContextProvider>
-                      <DrawerCartContextProvider>
-                        {children}
-                      </DrawerCartContextProvider>
-                    </DrawerMenuContextProvider>
-                  </SimpleReactLightbox>
-                </ThemeProvider>
+                <HeaderHeightContext.Provider
+                  value={{
+                    headerHeight,
+                    handleHeaderHeightChange,
+                  }}
+                >
+                  <ThemeProvider theme={theme}>
+                    <SimpleReactLightbox>
+                      <DrawerMenuContextProvider>
+                        <DrawerCartContextProvider>
+                          {children}
+                        </DrawerCartContextProvider>
+                      </DrawerMenuContextProvider>
+                    </SimpleReactLightbox>
+                  </ThemeProvider>
+                </HeaderHeightContext.Provider>
               </CartContextProvider>
             </ItemsContextProvider>
           </LanguageContext.Provider>

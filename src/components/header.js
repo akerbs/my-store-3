@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useCallback } from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import clsx from "clsx"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
@@ -17,6 +17,8 @@ import { CartContext } from "../context/CartContext"
 import { Link } from "gatsby"
 import { DrawerCartContext } from "../context/DrawerCartContext"
 import { DrawerMenuContext } from "../context/DrawerMenuContext"
+import { HeaderHeightContext } from "./layout"
+
 import SelectCurrency from "./SelectCurrency"
 import SelectLanguage from "./SelectLanguage"
 import "./header.css"
@@ -90,6 +92,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Header(props) {
+  const { handleHeaderHeightChange } = useContext(HeaderHeightContext)
+  const measuredRef = React.useCallback(node => {
+    if (node !== null) {
+      handleHeaderHeightChange(node.getBoundingClientRect().height)
+    }
+  }, [])
   const classes = useStyles()
   const theme = useTheme()
   const { cart } = useContext(CartContext)

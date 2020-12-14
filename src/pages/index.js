@@ -4,13 +4,7 @@ import { Link } from "gatsby"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import SEO from "../components/seo"
-
-// import products from "../components/Products/data/products"
-// import products from "../components/Products/data/products"
 import Items from "../components/AllProductsPage/Items"
-// import SkusEur from "../components/Products/SkusEur"
-// import SkusUsd from "../components/Products/SkusUsd"
-// import SkusRub from "../components/Products/SkusRub"
 import Container from "@material-ui/core/Container"
 import { makeStyles } from "@material-ui/core/styles"
 import { CurrencyContext } from "../components/layout"
@@ -20,23 +14,107 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import inView from "in-view"
 import SubscribeWindow from "../components/Subscribe/SubscribeWindow"
+import cloud1 from "../images/cloud1.png"
+import cloud2 from "../images/cloud2.png"
+import cloud3 from "../images/cloud3.png"
+import cloud4 from "../images/cloud4.png"
+import cloud5 from "../images/cloud5.png"
+import bgImg from "../images/bg.jpg"
+import { HeaderHeightContext } from "../components/layout"
 
 const document = require("global/document")
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "100vh",
+    // display: "flex",
+    // flexDirection: "column",
+    // minHeight: "100vh",
   },
   contentWrapper: {
-    flex: "1 0 auto",
-    marginTop: "10vh",
+    // flex: "1 0 auto",
+    // marginTop: "10vh",
+    margin: 0,
+    padding: 0,
+    boxSizing: "border-box",
+    fontFamily: `"Poppins", sans-serif`,
+  },
+  banner: {
+    position: "relative",
+    width: "100vw",
+    height: "100vh",
+    background: `url(${bgImg})`,
+    backgroundPosition: "bottom",
+    // backgroundSize: "cover",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title1: {
+    position: "relative",
+    color: "#fff",
+    fontSize: "12em",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "5em",
+    },
+  },
+  clouds: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
+    pointerEvents: "none",
+  },
+  cloudsImg: {
+    position: "absolute",
+    bottom: -20,
+    maxWidth: "100%",
+    animation: "$animate calc(3s * var(--i)) linear infinite",
+  },
+  "@keyframes animate": {
+    // "0%": {
+    //   opacity: 0,
+    //   transform: "scale(1)",
+    // },
+    // '25%", "75%': {
+    //   opacity: 1,
+    // },
+    // "100%": {
+    //   opacity: 0,
+    //   transform: "scale(3)",
+    // },
+    "0% ": {
+      transform: "translateX(-100%)",
+    },
+    "100%": {
+      transform: "translateX(100%)",
+    },
+  },
+  section: {
+    position: "relative",
+    padding: "7%",
+    [theme.breakpoints.down("sm")]: {
+      padding: "10%",
+    },
+  },
+  title2: {
+    position: "relative",
+
+    marginBottom: "5%",
+    // display: "flex",
+    textAlign: "center",
+    fontSize: "2.5em",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1.8em",
+    },
   },
 }))
 
 export default function IndexPage(props) {
   // console.log("DATA:", products)
+  const { headerHeight } = useContext(HeaderHeightContext)
+
   const classes = useStyles()
   const { actCurrency } = useContext(CurrencyContext)
   const [show1, setShow1] = useState(false)
@@ -109,8 +187,76 @@ export default function IndexPage(props) {
       <CssBaseline />
       <Header />
       <Scroll showBelow={250} />
-      <Container maxWidth="md" className={classes.contentWrapper}>
-        <div style={{ overflow: "hidden" }} className="selector1">
+      <Container
+        // maxWidth="md"
+        className={classes.contentWrapper}
+        style={{ marginTop: headerHeight }}
+      >
+        <div className={classes.banner}>
+          <h2 className={classes.title1}>Heaven</h2>
+          <div className={classes.clouds}>
+            <img
+              src={cloud1}
+              className={classes.cloudsImg}
+              style={{ ["--i"]: 1 }}
+              // {...{ [i]: 1 }}
+            />
+            <img
+              src={cloud2}
+              className={classes.cloudsImg}
+              style={{ ["--i"]: 2 }}
+            />
+            <img
+              src={cloud3}
+              className={classes.cloudsImg}
+              style={{ ["--i"]: 3 }}
+            />
+            <img
+              src={cloud4}
+              className={classes.cloudsImg}
+              style={{ ["--i"]: 4 }}
+            />
+            <img
+              src={cloud5}
+              className={classes.cloudsImg}
+              style={{ ["--i"]: 5 }}
+            />
+          </div>
+        </div>
+        <div className={classes.section}>
+          <h2 className={classes.title2}>Cloud Parallax Banner</h2>
+
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae
+            beatae cupiditate dolorem voluptatem itaque minima quod, velit
+            obcaecati unde asperiores temporibus deleniti magni, impedit aliquid
+            quidem sequi quis omnis excepturi illo qui inventore dolores?
+            Nesciunt nobis unde, ad dolorum possimus quasi molestias numquam
+            ullam at impedit enim aliquid? Assumenda esse explicabo totam
+            excepturi corrupti accusantium aliquam vel ducimus mollitia dolor
+            voluptas dolorum pariatur quia commodi dolores, impedit amet ipsa
+            quo corporis? Odit officia praesentium exercitationem aliquam vero
+            quod neque. Debitis perferendis illo non deserunt quisquam, quidem a
+            deleniti eius corporis ut voluptates labore vel eaque, ratione
+            libero assumenda rerum! Odit! dolorum possimus quasi molestias
+            numquam ullam at impedit enim aliquid? Assumenda esse explicabo
+            totam excepturi corrupti accusantium aliquam vel ducimus mollitia
+            dolor voluptas dolorum pariatur quia commodi dolores, impedit amet
+            ipsa quo corporis? Odit officia praesentium exercitationem aliquam
+            vero quod neque. Debitis perferendis illo non deserunt quisquam,
+            quidem a deleniti eius corporis ut voluptates labore vel eaque,
+            ratione libero assumenda rerum! Odit! dolorum possimus quasi
+            molestias numquam ullam at impedit enim aliquid? Assumenda esse
+            explicabo totam excepturi corrupti accusantium aliquam vel ducimus
+            mollitia dolor voluptas dolorum pariatur quia commodi dolores,
+            impedit amet ipsa quo corporis? Odit officia praesentium
+            exercitationem aliquam vero quod neque. Debitis perferendis illo non
+            deserunt quisquam, quidem a deleniti eius corporis ut voluptates
+            labore vel eaque, ratione libero assumenda rerum! Odit!
+          </p>
+        </div>
+
+        {/* <div style={{ overflow: "hidden" }} className="selector1">
           <Slide in={show1} timeout={1000} direction="up">
             <div>
               <h1>Home page</h1>
@@ -155,7 +301,7 @@ export default function IndexPage(props) {
           recusandae quibusdam asperiores eligendi, incidunt amet. Ipsa qui
           consequatur laboriosam libero omnis. Magnam omnis, soluta ipsam
           quaerat ut, impedit reprehenderit placeat ipsum repudiandae maxime aut
-        </p>
+        </p> */}
 
         {/* <Items /> */}
       </Container>

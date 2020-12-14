@@ -8,7 +8,7 @@ import CardContent from "@material-ui/core/CardContent"
 import { LanguageContext } from "../layout"
 import { CurrencyContext } from "../layout"
 import { DrawerCartContext } from "../../context/DrawerCartContext"
-import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
+
 import Button from "@material-ui/core/Button"
 import inView from "in-view"
 import Slide from "@material-ui/core/Slide"
@@ -55,7 +55,7 @@ const useStyles = makeStyles({
 
 export default function (props) {
   const classes = useStyles()
-  const { addItem } = useShoppingCart()
+
   const { handleDrawerCartOpen } = useContext(DrawerCartContext)
 
   const [show, setShow] = useState(false)

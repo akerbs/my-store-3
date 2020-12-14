@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react"
 import { ItemsContext } from "../../context/ItemsContext"
 import { LanguageContext } from "../layout"
 import { CurrencyContext } from "../layout"
-import { useShoppingCart, formatCurrencyString } from "use-shopping-cart"
+
 import Button from "@material-ui/core/Button"
 import { makeStyles } from "@material-ui/core/styles"
 import ItemCard from "./ItemCard"
@@ -15,7 +15,6 @@ export default function () {
   const { products, changeHover } = useContext(ItemsContext)
   const { actCurrency } = useContext(CurrencyContext)
   const { actLanguage } = useContext(LanguageContext)
-  const { addItem } = useShoppingCart()
 
   return (
     <>

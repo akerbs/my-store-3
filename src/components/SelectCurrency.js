@@ -5,7 +5,6 @@ import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
 import { CurrencyContext } from "../components/layout"
-import { useShoppingCart } from "use-shopping-cart"
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -31,8 +30,6 @@ export default function SelectCurrency() {
 
   const { actCurrency, handleCurrencyChange } = useContext(CurrencyContext)
 
-  const { clearCart } = useShoppingCart()
-
   return (
     <>
       <FormControl variant="standard" className={classes.formControl}>
@@ -48,7 +45,6 @@ export default function SelectCurrency() {
           value={actCurrency}
           onChange={e => {
             handleCurrencyChange(e)
-            clearCart()
           }}
           // onChange={handleCurrencyChange}
           style={{ color: "white", maxWidth: "3.5rem" }}
