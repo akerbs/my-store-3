@@ -21,7 +21,7 @@ import { HeaderHeightContext } from "./layout"
 
 import SelectCurrency from "./SelectCurrency"
 import SelectLanguage from "./SelectLanguage"
-import "./header.css"
+// import "./header.css"
 
 const window = require("global/window")
 
@@ -39,6 +39,10 @@ function HideOnScroll(props) {
 }
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexGrow: 1,
+  },
   appBar: {
     backgroundColor: theme.palette.primary.main,
     transition: theme.transitions.create(["margin", "width"], {
@@ -65,30 +69,30 @@ const useStyles = makeStyles(theme => ({
   // menuLeftButton: {
   //   // marginRight: theme.spacing(1),
   // },
-  // menuRightButton: {
-  //   paddingLeft: "0.5%",
-  // },
+  menuRightButton: {
+    paddingLeft: "0.5%",
+  },
 
-  // hide: {
-  //   display: "none",
-  // },
-  // title: {
-  //   flexGrow: 1,
-  //   display: "inline",
-  // },
-  // toolbar: {
-  //   display: "flex",
-  //   justifyContent: "space-between",
-  // },
-  // link: {
-  //   textDecoration: "none",
-  //   "&:visited": {
-  //     color: "white",
-  //   },
-  //   "&:active": {
-  //     color: theme.palette.primary.light,
-  //   },
-  // },
+  hide: {
+    display: "none",
+  },
+  title: {
+    flexGrow: 1,
+    display: "inline",
+  },
+  toolbar: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  link: {
+    textDecoration: "none",
+    "&:visited": {
+      color: "white",
+    },
+    "&:active": {
+      color: theme.palette.primary.light,
+    },
+  },
 }))
 
 export default function Header(props) {
@@ -116,7 +120,7 @@ export default function Header(props) {
   } = useContext(DrawerMenuContext)
 
   return (
-    <div className="root">
+    <div className={classes.root}>
       <CssBaseline />
       <HideOnScroll {...props}>
         <AppBar
@@ -126,7 +130,7 @@ export default function Header(props) {
             [classes.appBarShiftToRight]: openDrawerMenu,
           })}
         >
-          <Toolbar className="toolbar">
+          <Toolbar className={classes.toolbar}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <IconButton
                 color="inherit"
@@ -138,8 +142,8 @@ export default function Header(props) {
                 <MenuIcon />
               </IconButton>
 
-              <Typography variant="h6" className="title">
-                <Link to="/" className="link">
+              <Typography variant="h6" className={classes.title}>
+                <Link to="/" className={classes.link}>
                   LOGO
                 </Link>
               </Typography>
@@ -159,7 +163,10 @@ export default function Header(props) {
                 aria-label="open drawer"
                 onClick={handleDrawerCartOpen}
                 edge="end"
-                className={clsx("menuRightButton", openDrawerCart && "hide")}
+                className={clsx(
+                  classes.menuRightButton,
+                  openDrawerCart && classes.hide
+                )}
               >
                 <Badge badgeContent={cartCount} color="secondary" variant="dot">
                   <ShoppingCartIcon />
