@@ -21,94 +21,94 @@ import cloud4 from "../images/cloud4.png"
 import cloud5 from "../images/cloud5.png"
 import bgImg from "../images/bg.jpg"
 import { HeaderHeightContext } from "../components/layout"
-// import "./index.css"
+import "./index.css"
 
 const document = require("global/document")
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    // minHeight: "100vh",
-  },
-  contentWrapper: {
-    // flex: "1 0 auto",
-    // marginTop: "10vh",
-    margin: 0,
-    padding: 0,
-    boxSizing: "border-box",
-    fontFamily: `"Poppins", sans-serif`,
-  },
-  banner: {
-    position: "relative",
-    width: "100vw",
-    height: "100vh",
-    background: `url(${bgImg})`,
-    backgroundPosition: "bottom",
-    // backgroundSize: "cover",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title1: {
-    position: "relative",
-    color: "#fff",
-    fontSize: "12em",
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "5em",
-    },
-  },
-  clouds: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-    pointerEvents: "none",
-  },
-  cloudsImg: {
-    position: "absolute",
-    bottom: -20,
-    maxWidth: "100%",
-    animation: "$animate calc(3s * var(--i)) linear infinite",
-  },
-  "@keyframes animate": {
-    // "0%": {
-    //   opacity: 0,
-    //   transform: "scale(1)",
-    // },
-    // '25%", "75%': {
-    //   opacity: 1,
-    // },
-    // "100%": {
-    //   opacity: 0,
-    //   transform: "scale(3)",
-    // },
-    "0% ": {
-      transform: "translateX(-100%)",
-    },
-    "100%": {
-      transform: "translateX(100%)",
-    },
-  },
-  section: {
-    position: "relative",
-    padding: "7%",
-    [theme.breakpoints.down("sm")]: {
-      padding: "10%",
-    },
-  },
-  title2: {
-    position: "relative",
-    marginBottom: "5%",
-    // display: "flex",
-    textAlign: "center",
-    fontSize: "2.5em",
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "1.8em",
-    },
-  },
+  // root: {
+  //   // display: "flex",
+  //   // flexDirection: "column",
+  //   // minHeight: "100vh",
+  // },
+  // contentWrapper: {
+  //   // flex: "1 0 auto",
+  //   // marginTop: "10vh",
+  //   margin: 0,
+  //   padding: 0,
+  //   boxSizing: "border-box",
+  //   fontFamily: `"Poppins", sans-serif`,
+  // },
+  // banner: {
+  //   position: "relative",
+  //   width: "100vw",
+  //   height: "100vh",
+  //   background: `url(${bgImg})`,
+  //   backgroundPosition: "bottom",
+  //   // backgroundSize: "cover",
+  //   display: "flex",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // title1: {
+  //   position: "relative",
+  //   color: "#fff",
+  //   fontSize: "12em",
+  //   [theme.breakpoints.down("sm")]: {
+  //     fontSize: "5em",
+  //   },
+  // },
+  // clouds: {
+  //   position: "absolute",
+  //   top: 0,
+  //   left: 0,
+  //   width: "100%",
+  //   height: "100%",
+  //   overflow: "hidden",
+  //   pointerEvents: "none",
+  // },
+  // cloudsImg: {
+  //   position: "absolute",
+  //   bottom: -20,
+  //   maxWidth: "100%",
+  //   animation: "$animate calc(3s * var(--i)) linear infinite",
+  // },
+  // "@keyframes animate": {
+  //   // "0%": {
+  //   //   opacity: 0,
+  //   //   transform: "scale(1)",
+  //   // },
+  //   // '25%", "75%': {
+  //   //   opacity: 1,
+  //   // },
+  //   // "100%": {
+  //   //   opacity: 0,
+  //   //   transform: "scale(3)",
+  //   // },
+  //   "0% ": {
+  //     transform: "translateX(-100%)",
+  //   },
+  //   "100%": {
+  //     transform: "translateX(100%)",
+  //   },
+  // },
+  // section: {
+  //   position: "relative",
+  //   padding: "7%",
+  //   [theme.breakpoints.down("sm")]: {
+  //     padding: "10%",
+  //   },
+  // },
+  // title2: {
+  //   position: "relative",
+  //   marginBottom: "5%",
+  //   // display: "flex",
+  //   textAlign: "center",
+  //   fontSize: "2.5em",
+  //   [theme.breakpoints.down("sm")]: {
+  //     fontSize: "1.8em",
+  //   },
+  // },
 }))
 
 export default function IndexPage(props) {
@@ -196,49 +196,33 @@ export default function IndexPage(props) {
   // }, [])
 
   return (
-    <div className={classes.root}>
+    <div className="root">
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
       <CssBaseline />
       <Header />
       <Scroll showBelow={250} />
       <div
         // maxWidth="md"
-        className={classes.contentWrapper}
+        className="contentWrapper"
         style={{ marginTop: headerHeight }}
       >
-        <div className={classes.banner}>
-          <h2 className={classes.title1}>Heaven</h2>
-          <div className={classes.clouds}>
+        <div className="banner">
+          <h2 className="title1">Heaven</h2>
+          <div className="clouds">
             <img
               src={cloud1}
-              className={classes.cloudsImg}
+              className="cloudsImg"
               style={{ ["--i"]: 1 }}
               // {...{ [i]: 1 }}
             />
-            <img
-              src={cloud2}
-              className={classes.cloudsImg}
-              style={{ ["--i"]: 2 }}
-            />
-            <img
-              src={cloud3}
-              className={classes.cloudsImg}
-              style={{ ["--i"]: 3 }}
-            />
-            <img
-              src={cloud4}
-              className={classes.cloudsImg}
-              style={{ ["--i"]: 4 }}
-            />
-            <img
-              src={cloud5}
-              className={classes.cloudsImg}
-              style={{ ["--i"]: 5 }}
-            />
+            <img src={cloud2} className="cloudsImg" style={{ ["--i"]: 2 }} />
+            <img src={cloud3} className="cloudsImg" style={{ ["--i"]: 3 }} />
+            <img src={cloud4} className="cloudsImg" style={{ ["--i"]: 4 }} />
+            <img src={cloud5} className="cloudsImg" style={{ ["--i"]: 5 }} />
           </div>
         </div>
-        <div className={classes.section}>
-          <h2 className={classes.title2} id="title2">
+        <div className="section">
+          <h2 className="title2" id="title2">
             Cloud Parallax Banner
           </h2>
 
