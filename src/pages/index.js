@@ -182,6 +182,24 @@ export default function IndexPage(props) {
     inView.threshold(0.5)
   })
 
+  const [scrollY, setScrollY] = useState(0)
+
+  function handleScroll() {
+    let text = document.getElementById("title1")
+    setScrollY(window.pageYOffset)
+    text.style.marginBottom = scrollY * 2 + "px"
+  }
+
+  useEffect(() => {
+    function watchScroll() {
+      window.addEventListener("scroll", handleScroll)
+    }
+    watchScroll()
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  })
+
   return (
     <div className={classes.root}>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
@@ -194,7 +212,9 @@ export default function IndexPage(props) {
         style={{ marginTop: headerHeight }}
       >
         <div className={classes.banner}>
-          <h2 className={classes.title1}>Heaven</h2>
+          <h2 className={classes.title1} id="title1">
+            Heaven
+          </h2>
           <div className={classes.clouds}>
             <img
               src={cloud1}
