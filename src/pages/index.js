@@ -183,15 +183,12 @@ export default function IndexPage(props) {
   })
 
   const ref = useRef()
-
   const [scrollY, setScrollY] = useState(0)
-
   function handleScroll() {
     let text = document.getElementById("title1")
     setScrollY(window.pageYOffset)
-    text.style.marginBottom = scrollY * 0.4 + "px"
+    text.style.marginBottom = scrollY * 2 + "px"
   }
-
   useEffect(() => {
     function watchScroll() {
       window.addEventListener("scroll", handleScroll)
