@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useContext, useState, useEffect, useRef } from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { Link } from "gatsby"
 import Header from "../components/header"
@@ -182,12 +182,14 @@ export default function IndexPage(props) {
     inView.threshold(0.5)
   })
 
+  const ref = useRef()
+
   const [scrollY, setScrollY] = useState(0)
 
   function handleScroll() {
     let text = document.getElementById("title1")
     setScrollY(window.pageYOffset)
-    text.style.marginBottom = scrollY * 2 + "px"
+    text.style.marginBottom = scrollY * 0.4 + "px"
   }
 
   useEffect(() => {
@@ -212,7 +214,7 @@ export default function IndexPage(props) {
         style={{ marginTop: headerHeight }}
       >
         <div className={classes.banner}>
-          <h2 className={classes.title1} id="title1">
+          <h2 className={classes.title1} id="title1" ref={ref}>
             Heaven
           </h2>
           <div className={classes.clouds}>
