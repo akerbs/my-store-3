@@ -192,7 +192,11 @@ function Layout({ children }) {
     setActLanguage(event.target.value)
   }
 
-  const [headerHeight, setHeaderHeight] = useState(null)
+  const [headerHeight, setHeaderHeight] = useState(0)
+
+  useEffect(() => {
+    console.log(`headerHeight:   ${Math.round(headerHeight)}px`)
+  }, [headerHeight])
 
   function handleHeaderHeightChange(value) {
     if (!!value) setHeaderHeight(value)

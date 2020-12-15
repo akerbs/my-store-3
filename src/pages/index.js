@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     height: "100vh",
     background: `url(${bgImg})`,
     backgroundPosition: "bottom",
-    // backgroundSize: "cover",
+    backgroundSize: "cover",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

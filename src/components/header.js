@@ -124,6 +124,7 @@ export default function Header(props) {
       <CssBaseline />
       <HideOnScroll {...props}>
         <AppBar
+          ref={measuredRef}
           position="fixed"
           className={clsx(classes.appBar, {
             [classes.appBarShiftToLeft]: openDrawerCart,
