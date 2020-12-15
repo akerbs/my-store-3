@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
   },
   cloudsImg: {
     position: "absolute",
-    bottom: -20,
+    bottom: "-3%", //-20
     maxWidth: "100%",
     animation: "$animate calc(3s * var(--i)) linear infinite",
   },
