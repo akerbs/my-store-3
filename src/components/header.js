@@ -127,34 +127,39 @@ export default function Header(props) {
           })}
         >
           <Toolbar className="toolbar">
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerMenuOpen}
-              edge="start"
-              className={clsx("menuLeftButton", openDrawerMenu && "hide")}
-            >
-              <MenuIcon />
-            </IconButton>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerMenuOpen}
+                edge="start"
+                className={clsx("menuLeftButton", openDrawerMenu && "hide")}
+              >
+                <MenuIcon />
+              </IconButton>
 
-            <Typography variant="h6" className="title">
-              <Link to="/" className="link">
-                LOGO
-              </Link>
-            </Typography>
-            <SelectLanguage />
-            <SelectCurrency />
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerCartOpen}
-              edge="end"
-              className={clsx("menuRightButton", openDrawerCart && "hide")}
-            >
-              <Badge badgeContent={cartCount} color="secondary" variant="dot">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
+              <Typography variant="h6" className="title">
+                <Link to="/" className="link">
+                  LOGO
+                </Link>
+              </Typography>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <SelectLanguage />
+              <SelectCurrency />
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerCartOpen}
+                edge="end"
+                className={clsx("menuRightButton", openDrawerCart && "hide")}
+              >
+                <Badge badgeContent={cartCount} color="secondary" variant="dot">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </div>
           </Toolbar>
         </AppBar>
       </HideOnScroll>
