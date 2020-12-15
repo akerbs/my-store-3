@@ -69,9 +69,9 @@ const useStyles = makeStyles(theme => ({
   // menuLeftButton: {
   //   // marginRight: theme.spacing(1),
   // },
-  menuRightButton: {
-    paddingLeft: "0.5%",
-  },
+  // menuRightButton: {
+  //   paddingLeft: "0.5%",
+  // },
 
   hide: {
     display: "none",
@@ -137,7 +137,10 @@ export default function Header(props) {
                 aria-label="open drawer"
                 onClick={handleDrawerMenuOpen}
                 edge="start"
-                className={clsx("menuLeftButton", openDrawerMenu && "hide")}
+                className={clsx(
+                  classes.menuLeftButton,
+                  openDrawerMenu && classes.hide
+                )}
               >
                 <MenuIcon />
               </IconButton>
@@ -164,7 +167,7 @@ export default function Header(props) {
                 onClick={handleDrawerCartOpen}
                 edge="end"
                 className={clsx(
-                  classes.menuRightButton,
+                  // classes.menuRightButton,
                   openDrawerCart && classes.hide
                 )}
               >
