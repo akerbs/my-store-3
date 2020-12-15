@@ -144,7 +144,7 @@ function ProductPageTemplate(props) {
       <Scroll showBelow={250} />
 
       <Container className={classes.contentWrapper} id="wrapper">
-        <Hidden smDown>
+        {/* <Hidden smDown>
           <div id="content" className="clearfix">
             <div className={classes.boxLeft}>
               <SRLWrapper options={lightboxOptions}>
@@ -253,128 +253,122 @@ function ProductPageTemplate(props) {
             />
           </div>
           <br /> <br /> <br />
-        </Hidden>
+        </Hidden> */}
         {/* Middle up hide - but show for little viewport */}
-        <Hidden mdUp>
-          <MainSwiper data={props.item} />
-          <div
+        {/* <Hidden mdUp> */}
+        <MainSwiper data={props.item} />
+        <div
+          style={{
+            margin: "0% 5%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <BreadCrumbs item={props.item} />
+          <br />
+          <Typography variant="h4" align="center">
+            <b>
+              {actLanguage === "DEU"
+                ? props.item.nameDeu
+                : actLanguage === "RUS"
+                ? props.item.nameRus
+                : actLanguage === "ENG"
+                ? props.item.nameEng
+                : null}
+            </b>
+          </Typography>
+          <br />
+          <Typography variant="h5">
+            {actCurrency === "EUR"
+              ? props.item.currencySignEur
+              : actCurrency === "RUB"
+              ? props.item.currencySignRub
+              : actCurrency === "USD"
+              ? props.item.currencySignUsd
+              : null}{" "}
+            {formatPrice(
+              actCurrency === "EUR"
+                ? props.item.priceEur
+                : actCurrency === "RUB"
+                ? props.item.priceRub
+                : actCurrency === "USD"
+                ? props.item.priceUsd
+                : null
+            )}
+          </Typography>
+          <br />
+          <Link
+            to={`/products/${props.item.linkId}#reviews`}
             style={{
-              margin: "0% 5%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
+              cursor: "pointer",
+              textDecoration: "none",
+              color: "black",
             }}
           >
-            <BreadCrumbs item={props.item} />
-            <br />
-            <Typography variant="h4" align="center">
-              <b>
-                {actLanguage === "DEU"
-                  ? props.item.nameDeu
-                  : actLanguage === "RUS"
-                  ? props.item.nameRus
-                  : actLanguage === "ENG"
-                  ? props.item.nameEng
-                  : null}
-              </b>
-            </Typography>
-            <br />
-            <Typography variant="h5">
-              {actCurrency === "EUR"
-                ? props.item.currencySignEur
-                : actCurrency === "RUB"
-                ? props.item.currencySignRub
-                : actCurrency === "USD"
-                ? props.item.currencySignUsd
-                : null}{" "}
-              {formatPrice(
-                actCurrency === "EUR"
-                  ? props.item.priceEur
-                  : actCurrency === "RUB"
-                  ? props.item.priceRub
-                  : actCurrency === "USD"
-                  ? props.item.priceUsd
-                  : null
-              )}
-            </Typography>
-            <br />
-            <Link
-              to={`/products/${props.item.linkId}#reviews`}
-              style={{
-                cursor: "pointer",
-                textDecoration: "none",
-                color: "black",
-              }}
-            >
-              <RatingElBlack
-                ratingValue={averageRatingValue}
-                item={props.item}
-              />
-            </Link>
-            <br /> <br />
-            <Counter
-              incrementItem={increment}
-              decrementItem={decrement}
-              quantity={quantityOfItem}
-              sku={props.item}
-            />
-            <br />
-            <AddToCartBtn
-              addToCart={addToCart}
-              item={props.item}
-              quantityOfItem={quantityOfItem}
-              handleDrawerCartOpen={handleDrawerCartOpen}
-              resetCounter={resetCounter}
-            />
-            <BuyNowBtn
-              loading={loading}
-              handleSetLoading={handleSetLoading}
-              addToCart={addToCart}
-              item={props.item}
-              quantityOfItem={quantityOfItem}
-              clearCart={clearCart}
-            />
-            <br /> <br />
-            <Accordion data={props.item} />
-          </div>
+            <RatingElBlack ratingValue={averageRatingValue} item={props.item} />
+          </Link>
           <br /> <br />
-          <br /> <br /> <br />
-          <VideoYTmob itemInView={itemInView} itemInfo={props.item} />
+          <Counter
+            incrementItem={increment}
+            decrementItem={decrement}
+            quantity={quantityOfItem}
+            sku={props.item}
+          />
           <br />
+          <AddToCartBtn
+            addToCart={addToCart}
+            item={props.item}
+            quantityOfItem={quantityOfItem}
+            handleDrawerCartOpen={handleDrawerCartOpen}
+            resetCounter={resetCounter}
+          />
+          <BuyNowBtn
+            loading={loading}
+            handleSetLoading={handleSetLoading}
+            addToCart={addToCart}
+            item={props.item}
+            quantityOfItem={quantityOfItem}
+            clearCart={clearCart}
+          />
+          <br /> <br />
+          <Accordion data={props.item} />
+        </div>
+        <br /> <br />
+        <br /> <br /> <br />
+        <VideoYTmob itemInView={itemInView} itemInfo={props.item} />
+        <br />
+        <div
+          style={{
+            margin: 0,
+            padding: 0,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <div
+            id="reviews"
             style={{
+              width: "100vw",
               margin: 0,
               padding: 0,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
             }}
           >
-            <div
-              id="reviews"
-              style={{
-                width: "100vw",
-                margin: 0,
-                padding: 0,
-              }}
-            >
-              <Reviews
-                reviews={props.item.reviews}
-                itemInfo={props.item}
-                averageRatingValue={averageRatingValue}
-              />
-            </div>
+            <Reviews
+              reviews={props.item.reviews}
+              itemInfo={props.item}
+              averageRatingValue={averageRatingValue}
+            />
           </div>
-        </Hidden>
+        </div>
+        {/* </Hidden> */}
       </Container>
       <Footer />
     </div>
   )
 }
 
-ProductPageTemplate.propTypes = {
-  width: PropTypes.oneOf(["lg", "md", "sm", "xl", "xs"]).isRequired,
-}
-export default withWidth()(ProductPageTemplate)
+export default ProductPageTemplate

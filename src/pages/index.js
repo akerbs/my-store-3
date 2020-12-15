@@ -181,20 +181,6 @@ export default function IndexPage(props) {
     inView.threshold(0.5)
   })
 
-  // let onScroll = () => {
-  //   let title2 = document.getElementById("title2")
-  //   let value = window.scrollY
-  //   title2.style.marginBottom = value * 2 + "px"
-  // }
-  // useEffect(() => {
-  //   if (window) {
-  //     window.addEventListener("scroll", onScroll)
-  //   }
-  //   return () => {
-  //     window.removeEventListener("scroll", onScroll)
-  //   }
-  // }, [])
-
   return (
     <div className="root">
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
