@@ -61,23 +61,23 @@ function Checkout() {
         <CssBaseline />
         {/* <Container className={classes.contentWrapper} id="wrapper"> */}
 
-        {/* <Hidden smDown>
+        <Hidden smDown>
           <div className={classes.contentWrapper}>
             <div className={classes.boxLeft}>
               <CheckoutCartOverview />
             </div>
 
             <div className={classes.boxRight}>
-
+              {/* <SplitForm /> */}
               <MyCheckoutForm />
             </div>
           </div>
-        </Hidden> */}
+        </Hidden>
         {/* Middle up hide - but show for little viewport */}
-        {/* <Hidden mdUp> */}
-        <CheckoutCartOverview />
-        <MyCheckoutForm />
-        {/* </Hidden> */}
+        <Hidden mdUp>
+          <CheckoutCartOverview />
+          <MyCheckoutForm />
+        </Hidden>
         {/* </Container> */}
       </>
     </Elements>
