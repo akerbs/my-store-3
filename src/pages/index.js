@@ -181,13 +181,11 @@ export default function IndexPage(props) {
     inView(".selector2").once("enter", startInView2)
     inView.threshold(0.5)
   })
-
-  const ref = useRef()
-  const [scrollY, setScrollY] = useState(0)
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////
   function handleScroll() {
     let text = document.getElementById("title1")
-    setScrollY(window.pageYOffset)
-    text.style.marginBottom = scrollY * 2 + "px"
+    let value = window.scrollY
+    text.style.marginBottom = value * 2 + "px"
   }
   useEffect(() => {
     function watchScroll() {
@@ -198,7 +196,7 @@ export default function IndexPage(props) {
       window.removeEventListener("scroll", handleScroll)
     }
   })
-
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <div className={classes.root}>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
@@ -211,7 +209,7 @@ export default function IndexPage(props) {
         style={{ marginTop: headerHeight }}
       >
         <div className={classes.banner}>
-          <h2 className={classes.title1} id="title1" ref={ref}>
+          <h2 className={classes.title1} id="title1">
             Heaven
           </h2>
           <div className={classes.clouds}>
