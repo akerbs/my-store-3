@@ -145,7 +145,13 @@ export default function Header(props) {
               </Typography>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
               <SelectLanguage />
               <SelectCurrency />
               <IconButton
