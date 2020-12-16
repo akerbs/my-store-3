@@ -28,8 +28,9 @@ const useStyles = makeStyles(theme => ({
     // marginTop: "10%",
   },
   contentWrapper: {
+    minHeight: "80vh",
+    marginTop: "10vh",
     flex: "1 0 auto",
-    // marginTop: "10vh",
   },
   titleWrapper: {
     width: "100vw",
@@ -82,13 +83,13 @@ export default function () {
       <Header />
       <Scroll showBelow={250} />
       <div className={classes.contentWrapper}>
-        <div className={classes.titleWrapper}>
+        {/* <div className={classes.titleWrapper}>
           <Slide in={showTitle} timeout={700} direction="up">
             <div>
               <h1>Shop</h1>
             </div>
           </Slide>
-        </div>
+        </div> */}
 
         <Items />
       </div>

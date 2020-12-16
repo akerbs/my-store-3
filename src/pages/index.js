@@ -19,7 +19,7 @@ import cloud2 from "../images/cloud2.png"
 import cloud3 from "../images/cloud3.png"
 import cloud4 from "../images/cloud4.png"
 import cloud5 from "../images/cloud5.png"
-import bgImg from "../images/bg.jpg"
+import bgImg from "../images/castle7.jpg"
 import { HeaderHeightContext } from "../components/layout"
 // import "./index.css"
 
@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
     fontFamily: `"Poppins", sans-serif`,
   },
   banner: {
+    overflow: "hidden",
     position: "relative",
     width: "100vw",
     height: "100vh",
@@ -69,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
   cloudsImg: {
     position: "absolute",
-    bottom: "-3%", //-20
+    bottom: "-4%", //-20
     maxWidth: "100%",
     animation: "$animate calc(3s * var(--i)) linear infinite",
   },
@@ -176,9 +177,9 @@ export default function IndexPage(props) {
 
   useEffect(() => {
     // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
-    inView(".selector1").once("enter", startInView1)
+    inView("#banner").once("enter", startInView1)
     // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
-    inView(".selector2").once("enter", startInView2)
+    // inView(".selector2").once("enter", startInView2)
     inView.threshold(0.5)
   })
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -208,10 +209,12 @@ export default function IndexPage(props) {
         className={classes.contentWrapper}
         style={{ marginTop: headerHeight }}
       >
-        <div className={classes.banner}>
-          <h2 className={classes.title1} id="title1">
-            Heaven
-          </h2>
+        <div className={classes.banner} id="banner">
+          <Slide in={show1} timeout={1000} direction="up">
+            <h2 className={classes.title1} id="title1">
+              My Store
+            </h2>
+          </Slide>
           <div className={classes.clouds}>
             <img
               src={cloud1}
@@ -243,7 +246,7 @@ export default function IndexPage(props) {
         </div>
         <div className={classes.section}>
           <h2 className={classes.title2} id="title2">
-            Cloud Parallax Banner
+            Welcome to My Store
           </h2>
 
           <p>
@@ -275,55 +278,6 @@ export default function IndexPage(props) {
             labore vel eaque, ratione libero assumenda rerum! Odit!
           </p>
         </div>
-
-        {/* <div style={{ overflow: "hidden" }} className="selector1">
-          <Slide in={show1} timeout={1000} direction="up">
-            <div>
-              <h1>Home page</h1>
-            </div>
-          </Slide>
-        </div>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum modi
-          itaque ratione. Omnis, dolores voluptas quia recusandae similique
-          corrupti quae vero veniam id blanditiis beatae, nobis est totam. Dicta
-          voluptates illo ipsum excepturi ipsam saepe dolorum molestiae,
-          quisquam officia rerum illum, eaque in quaerat corporis omnis repellat
-          vero sint. Exercitationem, libero, nisi ab quod atque accusantium
-          voluptatum recusandae quibusdam asperiores eligendi, incidunt amet.
-          Ipsa qui consequatur laboriosam libero omnis. Magnam omnis, soluta
-          ipsam quaerat ut, impedit reprehenderit placeat ipsum repudiandae
-          maxime aut itaque molestias amet, et sit commodi nisi! Iusto ratione
-          distinctio et aperiam quaerat nisi aut odit optio impedit. vero sint.
-          Exercitationem, libero, nisi ab quod atque accusantium voluptatum
-          recusandae quibusdam asperiores eligendi, incidunt amet. Ipsa qui
-          quisquam officia rerum illum, eaque in quaerat corporis omnis repellat
-          vero sint. Exercitationem, libero, nisi ab quod atque accusantium
-          voluptatum recusandae quibusdam asperiores eligendi, incidunt amet.
-          Ipsa qui consequatur laboriosam libero omnis. Magnam omnis, soluta
-          ipsam quaerat ut, impedit reprehenderit placeat ipsum repudiandae
-          maxime aut itaque molestias amet, et sit commodi nisi! Iusto ratione
-          distinctio et aperiam quaerat nisi aut odit optio impedit. vero sint.
-          Exercitationem, libero, nisi ab quod atque accusantium voluptatum vero
-          sint. Exercitationem, libero, nisi ab quod atque accusantium
-          voluptatum recusandae quibusdam asperiores eligendi, incidunt amet.
-          Ipsa qui consequatur laboriosam libero omnis. Magnam omnis, soluta
-          ipsam quaerat ut, impedit reprehenderit placeat ipsum repudiandae
-          maxime aut itaque molestias amet, et sit commodi nisi! Iusto ratione
-          distinctio et aperiam quaerat nisi aut odit optio impedit. vero sint.
-          Exercitationem, libero, nisi ab quod atque accusantium voluptatum
-          recusandae quibusdam asperiores eligendi, incidunt amet. Ipsa qui
-          consequatur laboriosam libero omnis. Magnam omnis, soluta ipsam
-          quaerat ut, impedit reprehenderit placeat ipsum repudiandae maxime aut
-          itaque molestias amet, et sit commodi nisi! Iusto ratione distinctio
-          et aperiam quaerat nisi aut odit optio impedit. vero sint.
-          Exercitationem, libero, nisi ab quod atque accusantium voluptatum
-          recusandae quibusdam asperiores eligendi, incidunt amet. Ipsa qui
-          consequatur laboriosam libero omnis. Magnam omnis, soluta ipsam
-          quaerat ut, impedit reprehenderit placeat ipsum repudiandae maxime aut
-        </p> */}
-
-        {/* <Items /> */}
       </div>
 
       <Footer />
