@@ -85,7 +85,7 @@ export default function (props) {
         }
         style={{ overflow: "hidden" }}
       >
-        <Slide in={show} timeout={props.sku.timeoutShow} direction="up">
+        <Slide in={show} timeout={700 + props.id * 200} direction="up">
           <div>
             <Link to={`/products/${props.sku.linkId}`} className={classes.link}>
               <img
