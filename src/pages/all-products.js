@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     flex: "1 0 auto",
     marginTop: "4.5%",
     [theme.breakpoints.down("sm")]: {
-      marginTop: "17%",
+      marginTop: "16%",
     },
   },
   titleWrapper: {
