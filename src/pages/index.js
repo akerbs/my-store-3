@@ -171,10 +171,10 @@ export default function IndexPage(props) {
 
   useEffect(() => {
     // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
-    inView("#header").once("enter", startInView1)
+    inView("#banner").once("enter", startInView1)
     // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
     // inView(".selector2").once("enter", startInView2)
-    // inView.threshold(0.1)
+    inView.threshold(0.1)
   })
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
   function handleScroll() {
@@ -196,7 +196,7 @@ export default function IndexPage(props) {
     <div className={classes.root}>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
       <CssBaseline />
-      <Header id="header" />
+      <Header />
       <Scroll showBelow={250} />
       <div
         // maxWidth="md"
@@ -204,7 +204,7 @@ export default function IndexPage(props) {
         style={{ marginTop: headerHeight }}
       >
         <div className={classes.banner} id="banner">
-          <Slide in={show1} timeout={500} direction="up">
+          <Slide in={show1} timeout={1000} direction="up">
             <h2 className={classes.title1} id="title1">
               My Store
             </h2>
