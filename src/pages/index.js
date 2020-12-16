@@ -119,8 +119,7 @@ export default function IndexPage(props) {
 
   const classes = useStyles()
   const { actCurrency } = useContext(CurrencyContext)
-  const [show1, setShow1] = useState(false)
-  const [show2, setShow2] = useState(false)
+
   const [openSubscribeWindow, setOpenSubscribeWindow] = useState(true)
   const [visited, setVisited] = useState(false)
   // console.log("COOKIES:", document.cookie.indexOf("visited"))
@@ -161,6 +160,8 @@ export default function IndexPage(props) {
     setVisited(true)
   }
 
+  const [show1, setShow1] = useState(false)
+
   function startInView1() {
     setShow1(true)
   }
@@ -168,19 +169,12 @@ export default function IndexPage(props) {
     setShow1(false)
   }
 
-  function startInView2() {
-    setShow2(true)
-  }
-  function stopInView2() {
-    setShow2(false)
-  }
-
   useEffect(() => {
     // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
     inView("#banner").once("enter", startInView1)
     // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
     // inView(".selector2").once("enter", startInView2)
-    inView.threshold(0.5)
+    inView.threshold(0.1)
   })
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
   function handleScroll() {
