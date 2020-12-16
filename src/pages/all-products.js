@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   contentWrapper: {
     minHeight: "80vh",
     flex: "1 0 auto",
-    marginTop: "5%",
+    marginTop: "4.5%",
     [theme.breakpoints.down("sm")]: {
       marginTop: "17%",
     },
