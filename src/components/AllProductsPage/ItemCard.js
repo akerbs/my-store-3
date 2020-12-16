@@ -65,7 +65,7 @@ export default function (props) {
   }
   useEffect(() => {
     inView(`#${props.sku.linkId}`).once("enter", startInView)
-    inView.threshold(0)
+    inView.threshold(-0.1)
   })
 
   return (
