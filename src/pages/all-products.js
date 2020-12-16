@@ -29,8 +29,11 @@ const useStyles = makeStyles(theme => ({
   },
   contentWrapper: {
     minHeight: "80vh",
-    marginTop: "8vh",
     flex: "1 0 auto",
+    marginTop: "5%",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "17%",
+    },
   },
   titleWrapper: {
     width: "100vw",
