@@ -19,7 +19,7 @@ import cloud2 from "../images/cloud2.png"
 import cloud3 from "../images/cloud3.png"
 import cloud4 from "../images/cloud4.png"
 import cloud5 from "../images/cloud5.png"
-import bgImg from "../images/castle7.jpg"
+import bgImg from "../images/castle77.jpg"
 import { HeaderHeightContext } from "../components/layout"
 // import "./index.css"
 
