@@ -16,6 +16,7 @@ import Button from "@material-ui/core/Button"
 import inView from "in-view"
 import SubscribeWindow from "../components/Subscribe/SubscribeWindow"
 import { ItemsContext } from "../context/ItemsContext"
+import { HeaderHeightContext } from "../components/layout"
 
 const document = require("global/document")
 
@@ -30,10 +31,10 @@ const useStyles = makeStyles(theme => ({
   contentWrapper: {
     minHeight: "80vh",
     flex: "1 0 auto",
-    marginTop: "4.5%",
-    [theme.breakpoints.down("sm")]: {
-      marginTop: "16%",
-    },
+    // marginTop: "4.5%",
+    // [theme.breakpoints.down("sm")]: {
+    //   marginTop: "16%",
+    // },
   },
   titleWrapper: {
     width: "100vw",
@@ -47,6 +48,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function () {
   // console.log("DATA:", products)
+  const { headerHeight } = useContext(HeaderHeightContext)
+
   const classes = useStyles()
   const { actCurrency } = useContext(CurrencyContext)
   const { products, changeHover } = useContext(ItemsContext)
@@ -85,7 +88,10 @@ export default function () {
       <CssBaseline />
       <Header />
       <Scroll showBelow={250} />
-      <div className={classes.contentWrapper}>
+      <div
+        className={classes.contentWrapper}
+        style={{ marginTop: headerHeight }}
+      >
         <div className={classes.titleWrapper}>
           <Slide in={showTitle} timeout={700} direction="up">
             <div>
