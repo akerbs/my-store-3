@@ -94,13 +94,13 @@ export default function () {
         className={classes.contentWrapper}
         style={{ marginTop: headerHeight }}
       >
-        <div className={classes.titleWrapper}>
-          {/* <Slide in={showTitle} timeout={700} direction="up">
-            <div> */}
+        {/* <div className={classes.titleWrapper}>
+          <Slide in={showTitle} timeout={700} direction="up">
+            <div>
           <h1>Shop now</h1>
-          {/* </div>
-          </Slide> */}
-        </div>
+          </div>
+          </Slide>
+        </div> */}
 
         <Items />
       </div>
