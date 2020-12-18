@@ -51,33 +51,33 @@ export default function () {
   const { actCurrency } = useContext(CurrencyContext)
   const { products, changeHover } = useContext(ItemsContext)
 
-  // const [showTitle, setShowTitle] = useState(false)
+  const [showTitle, setShowTitle] = useState(false)
   // const [show2, setShow2] = useState(false)
 
   // // setTimeout(() => {
   // //   handleOpenSubscribeWindow()
   // // }, 3000)
 
-  // function startShowTitleInView() {
-  //   setShowTitle(true)
-  // }
+  function startShowTitleInView() {
+    setShowTitle(true)
+  }
   // function stopInView1() {
   //   setShow1(false)
   // }
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setShowTitle(true)
-  //   }, 100)
-  // })
+  useEffect(() => {
+    setTimeout(() => {
+      setShowTitle(true)
+    }, 100)
+  })
 
-  // useEffect(() => {
-  //   // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
-  //   inView("#selector1").once("enter", startShowTitleInView)
-  //   // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
-  //   // inView(".selector2").once("enter", startInView2)
-  //   inView.threshold(0)
-  // })
+  useEffect(() => {
+    // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
+    inView("#selector1").once("enter", startShowTitleInView)
+    // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
+    // inView(".selector2").once("enter", startInView2)
+    inView.threshold(0)
+  })
 
   return (
     <div className={classes.root}>
@@ -86,13 +86,13 @@ export default function () {
       <Header />
       <Scroll showBelow={250} />
       <div className={classes.contentWrapper}>
-        {/* <div className={classes.titleWrapper}>
+        <div className={classes.titleWrapper}>
           <Slide in={showTitle} timeout={700} direction="up">
             <div>
               <h1>Shop</h1>
             </div>
           </Slide>
-        </div> */}
+        </div>
 
         <Items />
       </div>
