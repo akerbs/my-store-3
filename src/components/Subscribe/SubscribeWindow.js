@@ -120,7 +120,7 @@ export default function Impressum(props) {
               </Box>
             ) : actLanguage === "RUS" ? (
               <Box className={classes.font1}>
-                Привет! Мы рады, <br /> что вы здесь!
+                Привет! Мы рады, <br /> что Вы здесь!
               </Box>
             ) : actLanguage === "ENG" ? (
               <Box className={classes.font1}>

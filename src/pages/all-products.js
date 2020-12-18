@@ -90,15 +90,15 @@ export default function () {
       <Scroll showBelow={250} />
       <div
         className={classes.contentWrapper}
-        style={{ marginTop: headerHeight }}
+        style={{ marginTop: headerHeight * 3 }}
       >
-        <div className={classes.titleWrapper}>
+        {/* <div className={classes.titleWrapper}>
           <Slide in={showTitle} timeout={700} direction="up">
             <div>
               <h1>Shop</h1>
             </div>
           </Slide>
-        </div>
+        </div> */}
 
         <Items />
       </div>
