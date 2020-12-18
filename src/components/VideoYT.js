@@ -33,32 +33,27 @@ const useStyles = makeStyles(theme => ({
 export default function (props) {
   const classes = useStyles()
 
-  // const [ready, setReady] = useState(0)
   const [showSpinner, setShowSpinner] = useState(false)
-
-  // useEffect(() => {
-  //   if (ready === 1) {
-  //     console.log("!!!!! is READY")
-  //   } else if (ready === 0) {
-  //     console.log("!!!!! is NOT ReAdY")
-  //   } else {
-  //     console.log("!!!!!WTFF")
-  //   }
-  // }, [ready])
 
   useEffect(() => {
     console.log("IN VIEW WORKS")
-    inView("#videoWrapper").on("enter", onPlay).on("exit", onPause)
+    inView("#videoWrapper")
+      .on("enter", startInViewShowVideo)
+      .on("exit", stopInViewShowVideo)
     inView.threshold(0.5)
   }, [props.itemInView])
 
-  // function startInViewShowVideo() {
-  //   onPlay()
-  // }
+  function startInViewShowVideo() {
+    setTimeout(function () {
+      onPlay()
+    }, 500)
+  }
 
-  // function stopInViewShowVideo() {
-  //   onPause()
-  // }
+  function stopInViewShowVideo() {
+    setTimeout(function () {
+      onPause()
+    }, 500)
+  }
 
   const opts = {
     width: "100%",
@@ -82,37 +77,67 @@ export default function (props) {
     window.YTPlayer = event.target
     window.YTPlayer.mute()
     window.YTPlayer.setPlaybackQuality("hd1080")
-    // alert("READY!!!")
-    console.log("onReady")
-    // setReady(1)
+    console.log(" onReady")
   }
 
   function onPlay() {
-    // setShowSpinner(true)
-    setTimeout(function () {
-      // setShowSpinner(false)
+    if (window.YTPlayer === "undefined") {
+      setShowSpinner(true)
+    } else {
+      setShowSpinner(false)
       window.YTPlayer.playVideo()
-      console.log(" onPlay 3000")
-    }, 3000)
+      console.log(" onPlay")
+    }
   }
 
   function onPause() {
-    setTimeout(function () {
-      window.YTPlayer.pauseVideo()
-      console.log(" onPause")
-    }, 1000)
+    window.YTPlayer.pauseVideo()
+    console.log(" onPause")
   }
 
   return (
-    <YouTube
-      className={classes.video}
-      videoId={props.itemInfo.videoId}
-      opts={opts}
-      onReady={onReady}
-      onPlay={onPlay}
-      onPause={onPause}
-      id="myVideo"
-    />
+    <div className={classes.videoWrapper} id="videoWrapper">
+      {/* <video
+              // onplay="handleFirstPlay()"
+              id="myVideo"
+              src={itemInfo.video}
+              type="video/mp4"
+              // controls
+              width="100%"
+              autoPlay
+              loop
+              muted
+              playsInline
+            /> */}
+      {showSpinner === true && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "50vh",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
+      <YouTube
+        className={classes.video}
+        videoId={props.itemInfo.videoId}
+        opts={opts}
+        onReady={onReady}
+        id="myVideo"
+      />
+      {/* <iframe
+              className="myVideo"
+              id="myVideo"
+              width="100%"
+              height="500px"
+              src="https://www.youtube.com/embed/-i_94tW_iSM?rel=0&controls=0&hd=1&showinfo=0&enablejsapi=1&autoplay=1"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe> */}
+    </div>
   )
 }
 
