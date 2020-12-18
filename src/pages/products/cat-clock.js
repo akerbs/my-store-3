@@ -1,8 +1,8 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import SEO from "../../components/seo"
 import ProductPageTemplate from "../../templates/ProductPageTemplate"
-import { ItemsContext, useEffect } from "../../context/ItemsContext"
+import { ItemsContext } from "../../context/ItemsContext"
 
 export default function () {
   useEffect(() => {
