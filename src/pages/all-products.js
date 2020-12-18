@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   titleWrapper: {
     width: "100vw",
     // padding: "50vh 0%",
-    padding: "1vh 0%",
+    padding: "2% auto",
 
     backgroundColor: theme.palette.primary.light,
     textAlign: "center",
@@ -53,36 +53,36 @@ export default function () {
   const { headerHeight } = useContext(HeaderHeightContext)
 
   const classes = useStyles()
-  // const { actCurrency } = useContext(CurrencyContext)
-  // const { products, changeHover } = useContext(ItemsContext)
+  const { actCurrency } = useContext(CurrencyContext)
+  const { products, changeHover } = useContext(ItemsContext)
 
-  // const [showTitle, setShowTitle] = useState(false)
+  const [showTitle, setShowTitle] = useState(false)
   // const [show2, setShow2] = useState(false)
 
   // // setTimeout(() => {
   // //   handleOpenSubscribeWindow()
   // // }, 3000)
 
-  // function startShowTitleInView() {
-  //   setShowTitle(true)
-  // }
+  function startShowTitleInView() {
+    setShowTitle(true)
+  }
   // function stopInView1() {
   //   setShow1(false)
   // }
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setShowTitle(true)
-  //   }, 100)
-  // })
+  useEffect(() => {
+    setTimeout(() => {
+      setShowTitle(true)
+    }, 100)
+  })
 
-  // useEffect(() => {
-  //   // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
-  //   inView("#selector1").once("enter", startShowTitleInView)
-  //   // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
-  //   // inView(".selector2").once("enter", startInView2)
-  //   inView.threshold(0)
-  // })
+  useEffect(() => {
+    // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
+    inView("#selector1").once("enter", startShowTitleInView)
+    // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
+    // inView(".selector2").once("enter", startInView2)
+    inView.threshold(0)
+  })
 
   return (
     <div className={classes.root}>
@@ -94,13 +94,13 @@ export default function () {
         className={classes.contentWrapper}
         style={{ marginTop: headerHeight }}
       >
-        {/* <div className={classes.titleWrapper}>
-          <Slide in={showTitle} timeout={700} direction="up">
-            <div>
-          <h1>Shop now</h1>
-          </div>
-          </Slide>
-        </div> */}
+        <div className={classes.titleWrapper}>
+          {/* <Slide in={showTitle} timeout={700} direction="up">
+            <div> */}
+          <h3>Shop now</h3>
+          {/* </div>
+          </Slide> */}
+        </div>
 
         <Items />
       </div>

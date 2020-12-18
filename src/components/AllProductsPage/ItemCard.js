@@ -69,46 +69,52 @@ export default function (props) {
   })
 
   return (
-    <Card
-      className={classes.card}
-      id={props.id}
-      onMouseOver={
-        props.onMouseOver !== null
-          ? () => props.onMouseOver(props.id, true)
-          : null
-      }
-      onMouseOut={
-        props.onMouseOver !== null
-          ? () => props.onMouseOut(props.id, false)
-          : null
-      }
-      style={{ overflow: "hidden" }}
-    >
-      <Slide in={show} timeout={700 + props.id * 200} direction="up">
-        <div>
-          <Link to={`/products/${props.sku.linkId}`} className={classes.link}>
-            <img
-              style={{ width: "100%" }}
-              className={
-                props.id !== 0 ? classes.img : classes.imgNoHoverEffect
-              }
-              src={props.sku.hovered ? props.sku.scndImg : props.sku.firstImg}
-              alt={props.sku.name}
-            />
-          </Link>
-          <Box textAlign="center" lineHeight={0.7} style={{ marginBottom: 30 }}>
-            {/* <Typography component="div"> */}
-            <Box fontSize="1rem" fontWeight="fontWeightBold">
-              {props.sku.name}
+    <div id={props.sku.linkId}>
+      <Card
+        className={classes.card}
+        id={props.id}
+        onMouseOver={
+          props.onMouseOver !== null
+            ? () => props.onMouseOver(props.id, true)
+            : null
+        }
+        onMouseOut={
+          props.onMouseOver !== null
+            ? () => props.onMouseOut(props.id, false)
+            : null
+        }
+        style={{ overflow: "hidden" }}
+      >
+        <Slide in={show} timeout={700 + props.id * 200} direction="up">
+          <div>
+            <Link to={`/products/${props.sku.linkId}`} className={classes.link}>
+              <img
+                style={{ width: "100%" }}
+                className={
+                  props.id !== 0 ? classes.img : classes.imgNoHoverEffect
+                }
+                src={props.sku.hovered ? props.sku.scndImg : props.sku.firstImg}
+                alt={props.sku.name}
+              />
+            </Link>
+            <Box
+              textAlign="center"
+              lineHeight={0.7}
+              style={{ marginBottom: 30 }}
+            >
+              {/* <Typography component="div"> */}
+              <Box fontSize="1rem" fontWeight="fontWeightBold">
+                {props.sku.name}
+              </Box>
+              <br />
+              <Box fontSize="0.8rem" fontWeight="fontWeightBold">
+                {props.sku.currencySign} {(props.sku.price / 100).toFixed(2)}
+              </Box>
+              {/* </Typography> */}
             </Box>
-            <br />
-            <Box fontSize="0.8rem" fontWeight="fontWeightBold">
-              {props.sku.currencySign} {(props.sku.price / 100).toFixed(2)}
-            </Box>
-            {/* </Typography> */}
-          </Box>
-        </div>
-      </Slide>
-    </Card>
+          </div>
+        </Slide>
+      </Card>
+    </div>
   )
 }
