@@ -66,7 +66,7 @@ export default function (props) {
   useEffect(() => {
     inView(
       // `#${props.sku.linkId}`
-      "#root"
+      "#yo"
     ).once("enter", startInView)
     inView.threshold(0.2)
   })
@@ -76,6 +76,7 @@ export default function (props) {
       // id={props.sku.linkId}
       id="root"
     >
+      <div id="yo"></div>
       <Card
         className={classes.card}
         id={props.id}
