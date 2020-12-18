@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles"
 import SEO from "../components/seo"
 import YouTube from "react-youtube"
 import inView from "in-view"
-import CircularProgress from "@material-ui/core/CircularProgress"
 
 const useStyles = makeStyles(theme => ({
   videoWrapper: {
@@ -33,8 +32,6 @@ const useStyles = makeStyles(theme => ({
 export default function (props) {
   const classes = useStyles()
 
-  const [showSpinner, setShowSpinner] = useState(false)
-
   useEffect(() => {
     console.log("IN VIEW WORKS")
     inView("#videoWrapper")
@@ -44,15 +41,17 @@ export default function (props) {
   }, [props.itemInView])
 
   function startInViewShowVideo() {
+    console.log(" videoWrapper in View!")
     setTimeout(function () {
       onPlay()
-    }, 500)
+    }, 1000)
   }
 
   function stopInViewShowVideo() {
+    console.log(" videoWrapper OUT of View!")
     setTimeout(function () {
       onPause()
-    }, 500)
+    }, 1000)
   }
 
   const opts = {
@@ -73,25 +72,20 @@ export default function (props) {
     },
   }
 
-  function onReady(event) {
+  async function onReady(event) {
     window.YTPlayer = event.target
-    window.YTPlayer.mute()
-    window.YTPlayer.setPlaybackQuality("hd1080")
+    await window.YTPlayer.mute()
+    await window.YTPlayer.setPlaybackQuality("hd1080")
     console.log(" onReady")
   }
 
-  function onPlay() {
-    if (window.YTPlayer === "undefined") {
-      setShowSpinner(true)
-    } else {
-      setShowSpinner(false)
-      window.YTPlayer.playVideo()
-      console.log(" onPlay")
-    }
+  async function onPlay() {
+    await window.YTPlayer.playVideo()
+    console.log(" onPlay")
   }
 
-  function onPause() {
-    window.YTPlayer.pauseVideo()
+  async function onPause() {
+    await window.YTPlayer.pauseVideo()
     console.log(" onPause")
   }
 
@@ -109,17 +103,6 @@ export default function (props) {
               muted
               playsInline
             /> */}
-      {showSpinner === true && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "50vh",
-          }}
-        >
-          <CircularProgress />
-        </div>
-      )}
       <YouTube
         className={classes.video}
         videoId={props.itemInfo.videoId}
