@@ -162,20 +162,26 @@ export default function IndexPage(props) {
 
   const [show1, setShow1] = useState(false)
 
-  function startInView1() {
-    setShow1(true)
-  }
-  function stopInView1() {
-    setShow1(false)
-  }
-
-  useEffect(() => {
-    // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
-    inView("#banner").once("enter", startInView1)
-    // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
-    // inView(".selector2").once("enter", startInView2)
-    inView.threshold(0.1)
+  useState(() => {
+    setTimeout(() => {
+      setShow1(true)
+    }, 1000)
   })
+
+  // function startInView1() {
+  //   setShow1(true)
+  // }
+  // function stopInView1() {
+  //   setShow1(false)
+  // }
+
+  // useEffect(() => {
+  //   // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
+  //   inView("#banner").once("enter", startInView1)
+  //   // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
+  //   // inView(".selector2").once("enter", startInView2)
+  //   inView.threshold(0.1)
+  // })
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
   function handleScroll() {
     let text = document.getElementById("title1")
