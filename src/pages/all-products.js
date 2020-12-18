@@ -51,7 +51,7 @@ export default function () {
   const { actCurrency } = useContext(CurrencyContext)
   const { products, changeHover } = useContext(ItemsContext)
 
-  const [showTitle, setShowTitle] = useState(false)
+  // const [showTitle, setShowTitle] = useState(false)
   // const [show2, setShow2] = useState(false)
 
   // // setTimeout(() => {
@@ -65,11 +65,11 @@ export default function () {
   //   setShow1(false)
   // }
 
-  useEffect(() => {
-    setTimeout(() => {
-      setShowTitle(true)
-    }, 100)
-  })
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setShowTitle(true)
+  //   }, 100)
+  // })
 
   // useEffect(() => {
   //   // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
