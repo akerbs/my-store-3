@@ -22,10 +22,12 @@ import RatingElBlack from "../components/Reviews/RatingElBlack"
 import Reviews from "../components/Reviews/Reviews"
 import Accordion from "../components/Accordion"
 import Tabs from "../components/Tabs"
-import VideoYT from "../components/VideoYT"
-import VideoYTmob from "../components/VideoYTmob"
+// import VideoYT from "../components/VideoYT"
+// import VideoYTmob from "../components/VideoYTmob"
 import Scroll from "../components/ScrollToTopBtn"
 import { AddToCartBtn, BuyNowBtn } from "../components/Buttons"
+import YouTube from "react-youtube"
+import inView from "in-view"
 
 const document = require("global/document")
 const window = require("global/window")
@@ -53,6 +55,23 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 0,
     display: "block",
     cursor: "pointer ",
+  },
+  videoWrapper: {
+    // margin: 0,
+    // padding: 0,
+    position: "relative",
+    overflow: "hidden",
+    width: "100%",
+    height: "100%",
+    paddingBottom: "56.25%",
+  },
+  video: {
+    position: "absolute",
+    top: "0px",
+    left: "0px",
+    bottom: "0px",
+    right: "0px",
+    border: "0px",
   },
 }))
 
@@ -85,23 +104,23 @@ function ProductPageTemplate(props) {
   const { handleDrawerCartOpen } = useContext(DrawerCartContext)
   const [quantityOfItem, setQuantityOfItem] = useState(1)
   const [loading, setLoading] = useState(false)
-  const [itemInView, setItemInView] = useState(null)
+  // const [itemInView, setItemInView] = useState(null)
 
   function handleSetLoading() {
     setLoading(true)
   }
 
-  function handleSetItemInView() {
-    setItemInView(props.item.productId)
-  }
+  // function handleSetItemInView() {
+  //   setItemInView(props.item.productId)
+  // }
 
   useEffect(() => {
     // console.log("BROWSING WORKS")
     window.onpageshow = function () {
       console.log("PAGE IS LOADED")
     }
-    handleSetItemInView()
-    console.log("ITEM", props.item.productId, "is BROWSING")
+    // handleSetItemInView()
+    // console.log("ITEM", props.item.productId, "is BROWSING")
   })
 
   function increment() {
@@ -135,6 +154,70 @@ function ProductPageTemplate(props) {
       let formPriceCorr = formPrice.toFixed(2)
       return formPriceCorr
     }
+  }
+
+  // function startInView() {
+  //   console.log("START")
+  // }
+
+  // function endInView() {
+  //   console.log("END")
+  // }
+
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    // console.log("IN VIEW WORKS")
+    inView("#videoWrapper")
+      .on("enter", () => {
+        onPlay()
+        console.log("ON_PLAY")
+      })
+      .on("exit", () => {
+        onPause()
+        console.log("ON_PAUSE")
+      })
+    inView.threshold(0.2)
+  })
+
+  const opts = {
+    width: "100%",
+    height: "100%",
+    playerVars: {
+      enablejsapi: 1,
+      rel: 0,
+      showinfo: 0,
+      controls: 0,
+    },
+  }
+
+  function onReady(event) {
+    window.YTPlayer = event.target
+    window.YTPlayer.mute()
+    window.YTPlayer.setPlaybackQuality("hd1080")
+    console.log("onReady")
+    setReady(true)
+  }
+
+  function onPlay() {
+    if (ready === true) {
+      setTimeout(function () {
+        window.YTPlayer.playVideo()
+        console.log(" onPlay 1000")
+      }, 1000)
+    } else {
+      setTimeout(function () {
+        window.YTPlayer.playVideo()
+        console.log(" onPlay 5000")
+      }, 5000)
+    }
+  }
+
+  function onPause() {
+    setTimeout(function () {
+      window.YTPlayer.pauseVideo()
+      console.log(" onPause 1000")
+    }, 1000)
   }
 
   return (
@@ -243,7 +326,17 @@ function ProductPageTemplate(props) {
               <br />
             </div>
           </div>
-          <VideoYT itemInView={itemInView} itemInfo={props.item} />
+          <div className={classes.videoWrapper} id="videoWrapper">
+            <YouTube
+              className={classes.video}
+              videoId={props.item.videoId}
+              opts={opts}
+              onReady={onReady}
+              onPlay={onPlay}
+              onPause={onPause}
+              id="myVideo"
+            />
+          </div>
           <br />
           <div id="reviews">
             <Reviews
@@ -340,7 +433,17 @@ function ProductPageTemplate(props) {
           </div>
           <br /> <br />
           <br /> <br /> <br />
-          <VideoYTmob itemInView={itemInView} itemInfo={props.item} />
+          {/* <div className={classes.videoWrapper} id="videoWrapper">
+            <YouTube
+              className={classes.video}
+              videoId={props.itemInfo.videoId}
+              opts={opts}
+              onReady={onReady}
+              onPlay={onPlay}
+              onPause={onPause}
+              id="myVideo"
+            />
+          </div> */}
           <br />
           <div
             style={{
