@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
   },
   contentWrapper: {
     minHeight: "80vh",
+
     flex: "1 0 auto",
     // marginTop: "4.5%",
     // [theme.breakpoints.down("sm")]: {
@@ -38,7 +39,8 @@ const useStyles = makeStyles(theme => ({
   },
   titleWrapper: {
     width: "100vw",
-    padding: "50vh 0%",
+    // padding: "50vh 0%",
+    padding: "1vh 0%",
 
     backgroundColor: theme.palette.primary.light,
     textAlign: "center",
@@ -93,11 +95,11 @@ export default function () {
         style={{ marginTop: headerHeight }}
       >
         <div className={classes.titleWrapper}>
-          <Slide in={showTitle} timeout={700} direction="up">
-            <div>
-              <h1>Shop</h1>
-            </div>
-          </Slide>
+          {/* <Slide in={showTitle} timeout={700} direction="up">
+            <div> */}
+          <h1>Shop now</h1>
+          {/* </div>
+          </Slide> */}
         </div>
 
         <Items />
