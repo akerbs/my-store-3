@@ -10,12 +10,13 @@ import { Link } from "gatsby"
 import payCard1 from "../images/payCards/visa.jpg"
 import payCard2 from "../images/payCards/mastercard.jpg"
 import payCard3 from "../images/payCards/amex.jpg"
-import payCard4 from "../images/payCards/ec.jpg"
-import payCard5 from "../images/payCards/giropay.jpg"
-import payCard6 from "../images/payCards/sepa.jpg"
-import payCard7 from "../images/payCards/sofort.jpg"
-import payCard8 from "../images/payCards/klarna.jpg"
-import payCard9 from "../images/payCards/paypal.jpg"
+import payCard4 from "../images/payCards/paypal.jpg"
+
+import payCard5 from "../images/payCards/ec.jpg"
+import payCard6 from "../images/payCards/giropay.jpg"
+import payCard7 from "../images/payCards/sepa.jpg"
+import payCard8 from "../images/payCards/sofort.jpg"
+import payCard9 from "../images/payCards/klarna.jpg"
 import payCard10 from "../images/payCards/google.jpg"
 import payCard11 from "../images/payCards/apple.jpg"
 
@@ -127,7 +128,7 @@ export default function () {
                     title="pay pal"
                     className={classes.payCardItem}
                   />
-                  <img
+                  {/* <img
                     src={payCard5}
                     title="american express"
                     className={classes.payCardItem}
@@ -166,7 +167,7 @@ export default function () {
                     src={payCard11}
                     // title="apple pay"
                     className={classes.payCardItem}
-                  />
+                  /> */}
                 </div>
               </Grid>
               <Grid item md={3}>
