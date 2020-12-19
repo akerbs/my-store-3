@@ -6,14 +6,8 @@ import { ItemsContext } from "../../context/ItemsContext"
 
 export default function () {
   useEffect(() => {
-    window.addEventListener("load", () => {
-      window.scrollTo(0, 0)
-    })
-
-    return () => {
-      window.removeEventListener("load", window.scrollTo(0, 0))
-    }
-  })
+    window.scrollTo(0, 0)
+  }, [])
 
   const { products } = useContext(ItemsContext)
 

@@ -129,14 +129,18 @@ export default function IndexPage(props) {
   // }, 3000)
 
   useEffect(() => {
-    window.addEventListener("load", () => {
-      window.scrollTo(0, 0)
-    })
+    window.scrollTo(0, 0)
+  }, [])
 
-    return () => {
-      window.removeEventListener("load", window.scrollTo(0, 0))
-    }
-  })
+  // useEffect(() => {
+  //   window.addEventListener("load", () => {
+  //     window.scrollTo(0, 0)
+  //   })
+
+  //   return () => {
+  //     window.removeEventListener("load", window.scrollTo(0, 0))
+  //   }
+  // })
 
   // window.onload = () => {
   //   window.scrollTo(0, 0)

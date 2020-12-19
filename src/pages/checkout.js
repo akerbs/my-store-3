@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 
 import { Link, navigate } from "gatsby"
 // import CardForm from "../components/Checkout/CardForm"
@@ -54,6 +54,10 @@ const useStyles = makeStyles(theme => ({
 
 function Checkout() {
   const classes = useStyles()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <Elements stripe={getStripe()}>
