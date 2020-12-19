@@ -10,14 +10,14 @@ import { Link } from "gatsby"
 import payCard1 from "../images/payCards/visa.jpg"
 import payCard2 from "../images/payCards/mastercard.jpg"
 import payCard3 from "../images/payCards/amex.jpg"
-import payCard4 from "../images/payCards/paypal.jpg"
-import payCard5 from "../images/payCards/google.jpg"
-import payCard6 from "../images/payCards/apple.jpg"
-import payCard7 from "../images/payCards/sepa.jpg"
-import payCard8 from "../images/payCards/ec.jpg"
-import payCard9 from "../images/payCards/giropay.jpg"
-import payCard10 from "../images/payCards/sofort.jpg"
-import payCard11 from "../images/payCards/klarna.jpg"
+import payCard4 from "../images/payCards/ec.jpg"
+import payCard5 from "../images/payCards/giropay.jpg"
+import payCard6 from "../images/payCards/sepa.jpg"
+import payCard7 from "../images/payCards/sofort.jpg"
+import payCard8 from "../images/payCards/klarna.jpg"
+import payCard9 from "../images/payCards/paypal.jpg"
+import payCard10 from "../images/payCards/google.jpg"
+import payCard11 from "../images/payCards/apple.jpg"
 
 import inView from "in-view"
 import Slide from "@material-ui/core/Slide"
@@ -53,8 +53,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: 20,
   },
   payCardItem: {
-    width: 46,
-    height: 30,
+    width: 40,
+    height: 25,
     marginRight: 5,
   },
   link: {
