@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { makeStyles } from "@material-ui/core/styles"
-import SEO from "../components/seo"
 import YouTube from "react-youtube"
 import inView from "in-view"
 

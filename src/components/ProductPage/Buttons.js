@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import Button from "@material-ui/core/Button"
 import { makeStyles } from "@material-ui/core/styles"
-import { LanguageContext } from "../components/layout"
+import { LanguageContext } from "../layout"
 import { navigate } from "gatsby"
 
 const useStyles = makeStyles(theme => ({

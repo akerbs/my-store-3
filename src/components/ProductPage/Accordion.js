@@ -5,7 +5,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary"
 import AccordionDetails from "@material-ui/core/AccordionDetails"
 import Typography from "@material-ui/core/Typography"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import { LanguageContext } from "../components/layout"
+import { LanguageContext } from "../layout"
 import Button from "@material-ui/core/Button"
 
 const useStyles = makeStyles(theme => ({

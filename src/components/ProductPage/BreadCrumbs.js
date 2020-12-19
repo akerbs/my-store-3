@@ -4,7 +4,7 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { makeStyles } from "@material-ui/core/styles"
 import { Link } from "gatsby"
-import { LanguageContext } from "../components/layout"
+import { LanguageContext } from "../layout"
 
 const useStyles = makeStyles(theme => ({
   root: {
