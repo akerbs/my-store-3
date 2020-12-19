@@ -50,11 +50,12 @@ const useStyles = makeStyles(theme => ({
   },
   payCards: {
     display: "flex",
+    flexWrap: "wrap",
     marginTop: 20,
   },
   payCardItem: {
-    width: 40,
-    height: 25,
+    width: 40, // 48 40 32
+    height: 25, // 30 25 20
     marginRight: 5,
   },
   link: {
@@ -89,8 +90,13 @@ export default function () {
         <Slide in={show} timeout={1000} direction="up">
           <div>
             {/* <Container maxWidth="md" className={classes.content}> */}
-            <Grid container className={classes.root} spacing={10}>
-              <Grid item md={4}>
+            <Grid
+              container
+              className={classes.root}
+              // spacing={10}
+              spacing={5}
+            >
+              <Grid item md={5}>
                 <Typography variant="body2" className={classes.title}>
                   CONTACTS
                 </Typography>
@@ -163,7 +169,7 @@ export default function () {
                   />
                 </div>
               </Grid>
-              <Grid item md={4}>
+              <Grid item md={3}>
                 <Typography variant="body2" className={classes.title}>
                   SERVICES
                 </Typography>
