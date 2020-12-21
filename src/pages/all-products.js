@@ -64,7 +64,7 @@ export default function () {
   // // }, 3000)
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 100)
   }, [])
 
   // useEffect(() => {
