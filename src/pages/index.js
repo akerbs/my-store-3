@@ -43,13 +43,16 @@ const useStyles = makeStyles(theme => ({
     overflow: "hidden",
     position: "relative",
     width: "100vw",
-    height: "100vh",
     background: `url(${bgImg})`,
     backgroundPosition: "bottom",
     backgroundSize: "cover",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    height: "100vh",
+    [theme.breakpoints.down("sm")]: {
+      height: "80vh",
+    },
   },
   title1: {
     position: "relative",
@@ -227,7 +230,11 @@ export default function IndexPage(props) {
         className={classes.contentWrapper}
         style={{ marginTop: headerHeight }}
       >
-        <div className={classes.banner} id="banner">
+        <div
+          className={classes.banner}
+          // style={{ maxHeight: "calc(80vh - headerHeight)" }}
+          id="banner"
+        >
           <Slide in={show1} timeout={1000} direction="up">
             <h2 className={classes.title1} id="title1">
               My Store
