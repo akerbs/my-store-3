@@ -56,7 +56,7 @@ export default function () {
   const { actCurrency } = useContext(CurrencyContext)
   const { products, changeHover } = useContext(ItemsContext)
 
-  const [showTitle, setShowTitle] = useState(false)
+  // const [showTitle, setShowTitle] = useState(false)
   // const [show2, setShow2] = useState(false)
 
   // // setTimeout(() => {
@@ -64,7 +64,7 @@ export default function () {
   // // }, 3000)
 
   useEffect(() => {
-    window.scrollTo(0, 100)
+    window.scrollTo(0, 5)
   }, [])
 
   // useEffect(() => {
@@ -81,26 +81,26 @@ export default function () {
   //   window.scrollTo(0, 0)
   // }
 
-  function startShowTitleInView() {
-    setShowTitle(true)
-  }
+  // function startShowTitleInView() {
+  //   setShowTitle(true)
+  // }
   // function stopInView1() {
   //   setShow1(false)
   // }
 
-  useEffect(() => {
-    setTimeout(() => {
-      setShowTitle(true)
-    }, 100)
-  })
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setShowTitle(true)
+  //   }, 100)
+  // })
 
-  useEffect(() => {
-    // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
-    inView("#selector1").once("enter", startShowTitleInView)
-    // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
-    // inView(".selector2").once("enter", startInView2)
-    inView.threshold(0)
-  })
+  // useEffect(() => {
+  //   // inView(".selector1").on("enter", startInView1).on("exit", stopInView1)
+  //   inView("#selector1").once("enter", startShowTitleInView)
+  //   // inView(".selector2").on("enter", startInView2).on("exit", stopInView2)
+  //   // inView(".selector2").once("enter", startInView2)
+  //   inView.threshold(0)
+  // })
 
   return (
     <div className={classes.root}>
@@ -112,13 +112,13 @@ export default function () {
         className={classes.contentWrapper}
         style={{ marginTop: headerHeight }}
       >
-        <div className={classes.titleWrapper}>
-          {/* <Slide in={showTitle} timeout={700} direction="up">
-            <div> */}
+        {/* <div className={classes.titleWrapper}>
+          <Slide in={showTitle} timeout={700} direction="up">
+            <div>
           <h3>Shop now</h3>
-          {/* </div>
-          </Slide> */}
-        </div>
+          </div>
+          </Slide>
+        </div> */}
 
         <Items />
       </div>
