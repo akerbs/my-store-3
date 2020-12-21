@@ -32,10 +32,10 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     maxWidth: "100%",
 
-    padding: "5% 2% 0% 7%",
+    padding: "4% 2% 0% 7%",
 
     [theme.breakpoints.down("sm")]: {
-      padding: "20% 5% 0% 5%",
+      padding: "15% 5% 5% 5%",
     },
   },
   // content: {
