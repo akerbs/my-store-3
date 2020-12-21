@@ -102,6 +102,7 @@ const useStyles = makeStyles(theme => ({
     padding: "7%",
     [theme.breakpoints.down("sm")]: {
       padding: "10%",
+      paddingTop: "20%",
     },
   },
   title2: {
