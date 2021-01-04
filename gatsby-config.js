@@ -50,6 +50,27 @@ module.exports = {
       },
     },
     `gatsby-plugin-material-ui`,
+    {
+      resolve: `gatsby-plugin-gdpr-cookies`,
+      options: {
+        googleAnalytics: {
+          trackingId: process.env.GATSBY_GA_TRACKING_ID,
+          cookieName: "gatsby-gdpr-google-analytics", // default
+          anonymize: true, // default
+        },
+        environments: ["production", "development"],
+        // googleTagManager: {
+        //   trackingId: "YOUR_GOOGLE_TAG_MANAGER_TRACKING_ID", // leave empty if you want to disable the tracker
+        //   cookieName: "gatsby-gdpr-google-tagmanager", // default
+        //   dataLayerName: "dataLayer", // default
+        // },
+        // facebookPixel: {
+        //   pixelId: "YOUR_FACEBOOK_PIXEL_ID", // leave empty if you want to disable the tracker
+        //   cookieName: "gatsby-gdpr-facebook-pixel", // default
+        // },
+        // defines the environments where the tracking should be available  - default is ["production"]
+      },
+    },
 
     // {
     //   resolve: "gatsby-plugin-transition-link",

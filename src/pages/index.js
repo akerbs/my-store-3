@@ -21,6 +21,7 @@ import cloud4 from "../images/cloud4.png"
 import cloud5 from "../images/cloud5.png"
 import bgImg from "../images/castle77.jpg"
 import { HeaderHeightContext } from "../components/layout"
+import CookiesBar from "../components/cookiesBar"
 // import "./index.css"
 
 const document = require("global/document")
@@ -124,13 +125,8 @@ export default function IndexPage(props) {
   const classes = useStyles()
   const { actCurrency } = useContext(CurrencyContext)
 
-  const [openSubscribeWindow, setOpenSubscribeWindow] = useState(true)
+  const [openSubscribeWindow, setOpenSubscribeWindow] = useState(false)
   const [visited, setVisited] = useState(false)
-  // console.log("COOKIES:", document.cookie.indexOf("visited"))
-
-  // setTimeout(() => {
-  //   handleOpenSubscribeWindow()
-  // }, 3000)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -311,6 +307,7 @@ export default function IndexPage(props) {
         open={openSubscribeWindow}
         onClose={handleCloseSubscribeWindow}
       />
+      <CookiesBar />
     </div>
   )
 }
