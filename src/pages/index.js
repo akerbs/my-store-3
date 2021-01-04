@@ -125,7 +125,7 @@ export default function IndexPage(props) {
   const classes = useStyles()
   const { actCurrency } = useContext(CurrencyContext)
 
-  const [openSubscribeWindow, setOpenSubscribeWindow] = useState(false)
+  const [openSubscribeWindow, setOpenSubscribeWindow] = useState(true)
   const [visited, setVisited] = useState(false)
 
   useEffect(() => {
