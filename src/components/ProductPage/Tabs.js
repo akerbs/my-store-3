@@ -125,7 +125,10 @@ export default function (props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          {props.data.description}
+          {/* {props.data.description} */}
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora
+          praesentium quaerat neque eos, veniam optio. Corporis placeat vero eum
+          cum.
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           – Print: 1-color overall screen print
