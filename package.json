@@ -1,7 +1,7 @@
 {
-  "name": "my_store_2",
+  "name": "ecommerce",
   "private": true,
-  "description": "Store",
+  "description": "shop yop",
   "version": "0.1.0",
   "author": "Anatol Kerbs <anker2702@gmail.com>",
   "dependencies": {

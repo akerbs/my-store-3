@@ -1,8 +1,8 @@
-import React, { useState, createContext, useEffect } from "react"
-import funnyBunny from "../images/products/funny_bunny/funny_bunny_2.jpg"
+import React, { createContext, useEffect, useState } from "react"
 import catClock from "../images/products/cat_clock/cat_clock_1.jpg"
-import magicHat from "../images/products/magic_hat/magic_hat_1.jpg"
 import funnyBunny2 from "../images/products/funny_bunny/funny_bunny_1.jpg"
+import funnyBunny from "../images/products/funny_bunny/funny_bunny_2.jpg"
+import magicHat from "../images/products/magic_hat/magic_hat_1.jpg"
 
 const ItemsContext = createContext()
 
@@ -26,7 +26,7 @@ const ItemsContextProvider = props => {
       currencyUsd: "USD",
       currencySignUsd: "$",
       skuEur: "price_1HGjcwHwITO0GSJrJEhUG0Aq",
-      priceEur: 100, // 1 euro
+      priceEur: 10000, 
       currencyEur: "EUR",
       currencySignEur: "€",
       skuRub: "price_1HNFbdHwITO0GSJr0cQgGhYQ",
@@ -73,7 +73,7 @@ const ItemsContextProvider = props => {
       currencyUsd: "USD",
       currencySignUsd: "$",
       skuEur: "price_1HH7DcHwITO0GSJrZz3vg6d9",
-      priceEur: 100, // 1 euro
+      priceEur: 2000, 
       currencyEur: "EUR",
       currencySignEur: "€",
       skuRub: "price_1HNFdwHwITO0GSJrpygU4AcI",
@@ -101,7 +101,7 @@ const ItemsContextProvider = props => {
       currencyUsd: "USD",
       currencySignUsd: "$",
       skuEur: "price_1HHUu9HwITO0GSJrsoWoL51O",
-      priceEur: 100, // 1 euro
+      priceEur: 4000, 
       currencyEur: "EUR",
       currencySignEur: "€",
       skuRub: "price_1HNFZ7HwITO0GSJrieVKbbte",
@@ -121,8 +121,8 @@ const ItemsContextProvider = props => {
       item.id === id
         ? {
             ...item,
-            priceUsd: Number((item.priceEur * eurUsdRate).toFixed(2)),
-            priceRub: Number((item.priceEur * eurRubRate).toFixed(2)),
+            priceUsd: Number((item.priceEur * 0.9724).toFixed(2)),
+            priceRub: Number((item.priceEur * 60.65).toFixed(2)),
           }
         : item
     )
@@ -152,10 +152,10 @@ const ItemsContextProvider = props => {
             return res.json()
           })
           .then(data => {
-            // console.log("data.rates.EUR:", data.rates.EUR)
-            // console.log("data.rates.RUB:", data.rates.RUB)
-            setEurRubRate(data.rates.RUB.toFixed(2))
-            setEurUsdRate(data.rates.USD.toFixed(2))
+            console.log("data.rates.EUR:", data?.rates?.EUR)
+            console.log("data.rates.RUB:", data?.rates?.RUB)
+            setEurRubRate(data?.rates?.RUB?.toFixed(2))
+            setEurUsdRate(data?.rates?.USD?.toFixed(2))
           })
       } catch (error) {
         console.log(error)

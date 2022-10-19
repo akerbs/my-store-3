@@ -1,22 +1,22 @@
-import React, { useContext, useCallback, useEffect, useState } from "react"
-import CssBaseline from "@material-ui/core/CssBaseline"
-import clsx from "clsx"
-import { makeStyles, useTheme } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
+import Badge from "@material-ui/core/Badge"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import IconButton from "@material-ui/core/IconButton"
+import Slide from "@material-ui/core/Slide"
+import { makeStyles, useTheme } from "@material-ui/core/styles"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
-import IconButton from "@material-ui/core/IconButton"
-import MenuIcon from "@material-ui/icons/Menu"
-import Badge from "@material-ui/core/Badge"
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
 import useScrollTrigger from "@material-ui/core/useScrollTrigger"
-import Slide from "@material-ui/core/Slide"
-import DrawerMenu from "./DrawerMenu"
-import DrawerCart from "./DrawerCart"
-import { CartContext } from "../context/CartContext"
+import MenuIcon from "@material-ui/icons/Menu"
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
+import clsx from "clsx"
 import { Link } from "gatsby"
+import React, { useContext } from "react"
+import { CartContext } from "../context/CartContext"
 import { DrawerCartContext } from "../context/DrawerCartContext"
 import { DrawerMenuContext } from "../context/DrawerMenuContext"
+import DrawerCart from "./DrawerCart"
+import DrawerMenu from "./DrawerMenu"
 import { HeaderHeightContext } from "./layout"
 
 import SelectCurrency from "./SelectCurrency"
@@ -148,7 +148,7 @@ export default function Header(props) {
 
               <Typography variant="h6" className={classes.title}>
                 <Link to="/" className={classes.link}>
-                  My Store
+                  Ecommerce
                 </Link>
               </Typography>
             </div>

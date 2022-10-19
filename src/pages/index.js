@@ -1,27 +1,20 @@
-import React, { useContext, useState, useEffect, useRef } from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
-import { Link } from "gatsby"
-import Header from "../components/header"
-import Footer from "../components/footer"
-import SEO from "../components/seo"
-import Items from "../components/AllProductsPage/Items"
-import Container from "@material-ui/core/Container"
-import { makeStyles } from "@material-ui/core/styles"
-import { CurrencyContext } from "../components/layout"
-import Scroll from "../components/ScrollToTopBtn"
 import Slide from "@material-ui/core/Slide"
-import Typography from "@material-ui/core/Typography"
-import Button from "@material-ui/core/Button"
-import inView from "in-view"
+import { makeStyles } from "@material-ui/core/styles"
+import React, { useContext, useEffect, useState } from "react"
+import CookiesBar from "../components/cookiesBar"
+import Footer from "../components/footer"
+import Header from "../components/header"
+import { CurrencyContext, HeaderHeightContext } from "../components/layout"
+import Scroll from "../components/ScrollToTopBtn"
+import SEO from "../components/seo"
 import SubscribeWindow from "../components/Subscribe/SubscribeWindow"
+import bgImg from "../images/castle77.jpg"
 import cloud1 from "../images/cloud1.png"
 import cloud2 from "../images/cloud2.png"
 import cloud3 from "../images/cloud3.png"
 import cloud4 from "../images/cloud4.png"
 import cloud5 from "../images/cloud5.png"
-import bgImg from "../images/castle77.jpg"
-import { HeaderHeightContext } from "../components/layout"
-import CookiesBar from "../components/cookiesBar"
 // import "./index.css"
 
 const document = require("global/document")
@@ -147,11 +140,8 @@ export default function IndexPage(props) {
   // }
 
   useEffect(() => {
-    if (
-      document.cookie.indexOf("visited") >= 0 ||
-      visited ||
-      (document.cookie.indexOf("visited") >= 0 && visited)
-    ) {
+    if (document.cookie.indexOf("visited") >= 0 || visited) {
+      setVisited(false)
       console.log(
         "Already visited",
         document.cookie.indexOf("visited"),
@@ -161,7 +151,7 @@ export default function IndexPage(props) {
       const expiry = new Date()
       expiry.setTime(expiry.getTime() + 5 * 365 * 24 * 60 * 60 * 1000) // Five years  5 * 365 * 24 * 60 * 60 * 1000
       document.cookie = "visited=yes; expires=" + expiry.toUTCString()
-      // alert("this is your first time")
+      console.log("this is your first time")
 
       const timer = setTimeout(() => {
         handleOpenSubscribeWindow()
@@ -234,7 +224,7 @@ export default function IndexPage(props) {
         >
           <Slide in={show1} timeout={1000} direction="up">
             <h2 className={classes.title1} id="title1">
-              My Store
+              Ecommerce
             </h2>
           </Slide>
           <div className={classes.clouds}>
@@ -268,7 +258,7 @@ export default function IndexPage(props) {
         </div>
         <div className={classes.section}>
           <h2 className={classes.title2} id="title2">
-            Welcome to My Store
+            Welcome
           </h2>
 
           <p>
@@ -303,10 +293,10 @@ export default function IndexPage(props) {
       </div>
 
       <Footer />
-      <SubscribeWindow
+      {!visited && <SubscribeWindow
         open={openSubscribeWindow}
         onClose={handleCloseSubscribeWindow}
-      />
+      />}
       <CookiesBar />
     </div>
   )
